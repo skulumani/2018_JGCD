@@ -30,7 +30,36 @@
 \section{Introduction}\label{sec:introduction}
 % Motivation for missions/studying asteroids
 
-% 
+\begin{enumerate}
+    \item Spacecraft missions around asteroid require long periods of mapping
+        \begin{itemize}
+            \item Several months/years are spent in a quiescent state devoted solely to mapping the surface
+            \item Depending on the mission this time spent mapping is unnecessary and resource limiting - such as impact mitigation misions
+            \item The main goal of this mapping process is to generate an accurate shape model of the asteroid and measure the surface features.
+            \item The current methods rely on sending all data to the ground in order to compute the shape. 
+            \item Furthermore this limits the abiilty  of teh spacecraft to operate without  reliable Earth communications and support
+        \end{itemize}
+    \item The surface shape is necessary in order to allow the spacecraft to operate near the surface of the a steroid
+        \begin{itemize}
+            \item The polyhedron potential model is a function of the shape and highly dependent on an accurate shape model.
+            \item It is not possible to accurately determine the shape of the asteroid from ground based measurements.
+                Due to the limitations of optical and radar measurements the typical best shape approximation prior to arrival is a coarse ellispoid shape CITE a paper.
+            \item An accurate shape model is critical for not only the gravitational model but also to enable accurate landing operations.
+                An accurate model of the surface is required for the gravity model, surface landing operations, and obstacle avoidance.
+        \end{itemize}
+    \item Due to the previous issues it is critical to be able to generate the shape of the asteroid surface accurately and quickly.
+        \begin{itemize}
+            \item This work develops a method to efficiently determine the shape of the an asteroid given LIDAR range measurements of the surface.
+            \item The shape is updated in near real time (QUANTIFY THIS IN SOME MEANINGFUL FASHION) to  enable:
+                \begin{itemize}
+                    \item Updated gravity/dynamic model 
+                    \item Utilize this updated dynamic model in the spacecraft controller
+                    \item Allow for simulataenous shape reconstruction and spacecraft control
+                \end{itemize}
+            \item This alleviates teh need for a long term mapping campaign
+        \end{itemize}
+\end{enumerate}
+
 \section{Problem Formulation}\label{sec:problem}
 In this paper, we consider the landing of a dumbbell model of an under actuated spacecraft onto an asteroid.
 The dumbbell model is a well-known representation of a multi body spacecraft.
