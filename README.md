@@ -22,21 +22,15 @@ This is our manuscript for the [2018 AAS]() conference held August 20-24 2017 at
 Some other useful links:
 
 * [Code](https://www.github.com/fdcl-gwu/asteroid_dumbbell)
-> * [Presentation](https://github.com/fdcl-gwu/2017_AAS_fall_presentation)
-> * [Blog Post](https://shankarkulumani.com/2017/08/2017AAS-FALL.html)
+* [Presentation]()
+* [Blog Post]()
 
-> ## Bibtex
+## Bibtex
 
-> If you use these results in your work, it would be much appreciated if you could cite our work using the following.
+If you use these results in your work, it would be much appreciated if you could cite our work using the following.
 
-> ~~~
-> @InProceedings{kulumani2017f,
->   author    = {Kulumani, Shankar and Takami, Kuya and Lee, Taeyoung},
->   title     = {Geometric Control for Autonomous Landing on Asteroid Itokawa using Visual Localization},
->   booktitle = {Proceedings of the AAS/AIAA Astrodynamics Specialist Conference, Stevenson, Washington},
->   year      = {2017},
-> }
-> ~~~
+~~~
+~~~
 
 ## License
 
