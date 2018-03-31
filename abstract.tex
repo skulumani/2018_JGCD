@@ -110,75 +110,14 @@ The dynamics are developed on the nonlinear manifold of rigid body motions, name
 This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
 The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
 
-\begin{enumerate}
-    \item Spacecraft missions around asteroid require long periods of mapping
-        \begin{itemize}
-            \item Several months/years are spent in a quiescent state devoted solely to mapping the surface
-            \item Depending on the mission this time spent mapping is unnecessary and resource limiting - such as impact mitigation misions
-            \item The main goal of this mapping process is to generate an accurate shape model of the asteroid and measure the surface features.
-            \item The current methods rely on sending all data to the ground in order to compute the shape. 
-            \item Furthermore this limits the abiilty  of teh spacecraft to operate without  reliable Earth communications and support
-        \end{itemize}
-    \item The surface shape is necessary in order to allow the spacecraft to operate near the surface of the a steroid
-        \begin{itemize}
-            \item The polyhedron potential model is a function of the shape and highly dependent on an accurate shape model.
-            \item It is not possible to accurately determine the shape of the asteroid from ground based measurements.
-                Due to the limitations of optical and radar measurements the typical best shape approximation prior to arrival is a coarse ellispoid shape CITE a paper.
-            \item An accurate shape model is critical for not only the gravitational model but also to enable accurate landing operations.
-                An accurate model of the surface is required for the gravity model, surface landing operations, and obstacle avoidance.
-        \end{itemize}
-    \item Due to the previous issues it is critical to be able to generate the shape of the asteroid surface accurately and quickly.
-        \begin{itemize}
-            \item This work develops a method to efficiently determine the shape of the an asteroid given LIDAR range measurements of the surface.
-            \item The shape is updated in near real time (QUANTIFY THIS IN SOME MEANINGFUL FASHION) to  enable:
-                \begin{itemize}
-                    \item Updated gravity/dynamic model 
-                    \item Utilize this updated dynamic model in the spacecraft controller
-                    \item Allow for simulataenous shape reconstruction and spacecraft control
-                \end{itemize}
-            \item This alleviates teh need for a long term mapping campaign
-        \end{itemize}
-\end{enumerate}
-
-\section{Asteroid shape representation}
-
 
 \section{Problem Formulation}\label{sec:problem}
-In this paper, we consider the landing of a dumbbell model of an under actuated spacecraft onto an asteroid.
-The dumbbell model is a well-known representation of a multi body spacecraft.
-Furthermore, the dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics. 
-The dumbbell spacecraft consists of two masses connected by a massless rod.
-This simple model is useful to capture the main characteristics of a wide variety of spacecraft configurations.
-Typically, spacecraft have mass concentrated in a central structure, referred to as the bus, which houses the command and control system, actuators, fuel, sensors etc. 
-In addition, comparatively light-weight solar panels extend from the bus to provide electrical energy from solar radiation. 
-As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
 
-% most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
-An accurate gravitational potential model is necessary for the operation of spacecraft about asteroids.
-Additionally, a detailed shape model of the asteroid is needed for trajectories passing close to the body.
-The classic approach is to expand the gravitational potential into a harmonic series and compute the series coefficients.
-However, the harmonic expansion is always an approximation as a result of the infinite order series used in the representation.
-Additionally, the harmonic model used outside of the circumscribing sphere is not guaranteed to converge inside the sphere, which makes it unsuitable for trajectories near the surface.
-Instead, we use the polyhedron potential model to represent the shape of the asteroid and also the gravitational potential assuming a constant density~\cite{werner1994,werner1997}. 
-
-The equations of motion of the dumbbell spacecraft about an asteroid are derived using Hamilton's Principle. 
-The first step is to choose generalized coordinates \( q \) and a corresponding configuration space \( Q \).
-The Lagrangian is then formed as the difference between the kinetic and potential energy in terms of our generalized coordinates. 
-Hamilton's principle then states that the variation of the action integral
-\begin{align}
-    \mathsf{G} = \int_{t_0}^{t_f} T(\dot{q}) - V(q) dt,
-\end{align}
-is stationary with fixed endpoints. 
-From this we obtain the Euler-Lagrange equations for the system.
-Applying the Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
-
-There is a key issue that arises in applying this process for the coupled motion about an asteroid.
-The configuration space for rigid body motion is the semi-direct product, \(\SE = \R^3 \rtimes \SO \), namely the special euclidean group.
-The variations should be carefully constructed such that they respect the geometry of the configuration space.
-By expressing the motion of the dumbbell directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
-
-\subsection{Equations of Motion}
-
+In this paper, we consider the motion of a dumbbell model of spacecraft around an asteroid.
+The dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics.
+In this model, the spacecraft consists of two masses connected by a massless rod.
+The asteroid is modeled as a constant density polyhedron with constant, and known, spin about its maximum moment of inertia. 
+Without loss of generality, we define body fixed frames for both the spacecraft and asteroid which are aligned with the principle axes of each body and originate at their respective center of mass. 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \vecbf{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame \( \vecbf{e}_i\)
@@ -189,23 +128,17 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and it's motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-Using our kinematic variables we can define the kinetic and potential energy as
-\begin{align}\label{eq:kinetic_energy}
-    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} , \\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} ,
-\end{align}
+
+Assumptions used
+
+
+\subsection{Polyhedron Potential Model}
 where the polyhedron potential is defined as 
 \begin{align}
     U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f,
 \end{align}
 and \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
 The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
-The next step is to define the variations of the kinetic and potential energy to derive the equations of motion.
-The variation of the potential and kinetic energy can then be defined as
-\begin{align} 
-    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \\
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{ - \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{ \vb{\Omega}} J \vb{\Omega})} , 
-\end{align}
 Finally, applying Hamilton's principle gives the inertial equations of motion of the dumbbell spacecraft as
 \begin{align}
     \dot{\vb{x}} &= \vb{v}, \\
@@ -222,13 +155,18 @@ The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
 \begin{align}
     \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
- 
-In Reference~\citenum{kulumani2016d}, a methodology was developed to design general transfer trajectories about the asteroid 4769 Castalia.
-That previous work utilized the polyhedron potential method and a reachability analysis to allow for a spacecraft to transition  between orbits of the asteroid.
-\Cref{fig:trajectory} shows an example transfer between two planar equatorial orbits of 4769 Castalia.
-Reference~\citenum{kulumani2016d} only considered the orbital dynamics of a point mass spacecraft. 
-In this work, we incorporate the attitude dynamics and consider the coupled motion of the spacecraft.
-In addition, a desired landing trajectory is followed using nonlinear control techniques.
+
+\subsection{Shape Reconstruction}
+
+\section{Preliminary Results}
+
+Reconstruction of asteroid Castalia
+
+\section{Expected Results and Significance}
+
+\subsection{Equations of Motion}
+
+
 \subsection{Nonlinear Landing Controller}\label{sec:landing}
 
 
