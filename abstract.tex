@@ -128,18 +128,7 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and it's motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-
-Assumptions used
-
-
-\subsection{Polyhedron Potential Model}
-where the polyhedron potential is defined as 
-\begin{align}
-    U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f,
-\end{align}
-and \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
-The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
-Finally, applying Hamilton's principle gives the inertial equations of motion of the dumbbell spacecraft as
+Using Hamiltons principle gives the inertial equations of motion of the dumbbell spacecraft as
 \begin{align}
     \dot{\vb{x}} &= \vb{v}, \\
     \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
@@ -155,8 +144,35 @@ The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
 \begin{align}
     \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
+where the polyhedron potential is defined as 
+\begin{align}
+    U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f,
+\end{align}
+and \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
 
 \subsection{Shape Reconstruction}
+
+We assume that the spacecraft contains an initial estimate for the shape of the asteroid.
+This shape can be a coarse estimate computed from radar measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid.
+This model is defined as a sequence of vertices and triangular facets defined by the vertices.
+This shape model is a widely used format for defining three-dimensional shapes in computer applications and has become the standard method for representing asteroid shapes~\cite{neese2004}.
+
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid.
+This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
+Given the time total time of flight the distance can be accurately computed using \( d = \frac{t_f}{2 c} \) where \( c \) is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vb{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple t transformation
+\begin{align*}
+    \vb{p}_i = R_A^T R \vb{d}_i .
+\end{align*}
+
+Model a lidar on spacecraft which gives vector of the surface in spacecraft fixed frame. 
+
+This vector is transformed to the asteroid frame using \( R_A \).
+
+Present algorithm for mesh update
 
 \section{Preliminary Results}
 
