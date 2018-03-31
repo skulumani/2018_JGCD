@@ -154,11 +154,16 @@ The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fix
 \subsection{Shape Reconstruction}
 
 We assume that the spacecraft contains an initial estimate for the shape of the asteroid.
-This shape can be a coarse estimate computed from radar measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid.
+This shape can be a coarse estimate computed from radar measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:initial_ellipsoid} which represents the maximum axes for asteroid Castalia.
 This model is defined as a sequence of vertices and triangular facets defined by the vertices.
 This shape model is a widely used format for defining three-dimensional shapes in computer applications and has become the standard method for representing asteroid shapes~\cite{neese2004}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-golden}
+    \caption{Triaxial Ellipsoid Triangular Shape Model~\label{fig:initial_ellipsoid}}
+\end{figure}
 
-We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid.
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
 Given the time total time of flight the distance can be accurately computed using \( d = \frac{t_f}{2 c} \) where \( c \) is the constant speed of light.
 Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
@@ -167,12 +172,18 @@ Using the state of the asteroid, we can transform this measurement to the astero
 \begin{align*}
     \vb{p}_i = R_A^T R \vb{d}_i .
 \end{align*}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image-golden}
+    \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
+\end{figure}
+Given many measurements, \( \vb{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 
-Model a lidar on spacecraft which gives vector of the surface in spacecraft fixed frame. 
+Compute angle between measurement and all vertices of shape
 
-This vector is transformed to the asteroid frame using \( R_A \).
+Figure out geodesic distance
 
-Present algorithm for mesh update
+Update both radius of vertex and weight
 
 \section{Preliminary Results}
 
