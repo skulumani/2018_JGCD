@@ -155,7 +155,7 @@ The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fix
 
 We assume that the spacecraft contains an initial estimate for the shape of the asteroid.
 This shape can be a coarse estimate computed from radar measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:initial_ellipsoid} which represents the maximum axes for asteroid Castalia.
-This model is defined as a sequence of vertices and triangular facets defined by the vertices.
+This model is defined as a sequence of vertices, \( \vb{v}_i\), in the asteroid fixed frame and triangular facets, \( f_i = \bracket{\vb{v}_1, \vb{v}_2, \vb{v}_3}\), which are defined by the three vertices making up the facet.
 This shape model is a widely used format for defining three-dimensional shapes in computer applications and has become the standard method for representing asteroid shapes~\cite{neese2004}.
 \begin{figure}
     \centering
@@ -179,6 +179,36 @@ Using the state of the asteroid, we can transform this measurement to the astero
 \end{figure}
 Given many measurements, \( \vb{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 
+Our algorithm applies a Bayesian framework to radially modify each vertex \( \vb{v}_i\) of the shape estimate based on measurement \( \vb{p}_i\). 
+This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
+This assumption means that the total number of vertices of the shape model is fixed.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}.
+
+The radial distance of each vertex is assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    \norm{\vb{v}_i} \sim \mathcal{N}(r_0, w_0^2)
+\end{align*}
+where \( r_0 \) is the initial estimate of the radial distance of vertex \( \vb{v}_i\) and \( w_0 \) is the initial variance, or confidence, in the radial distance.
+The radial distance of each measurement \( \vb{p}_i\) is also assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    \norm{\vb{p}_i} \sim \mathcal{N}(r_{m,i}, w_{m,i}^2)
+\end{align*}
+where \( r_m = \norm{\vb{p}_i} \) defines the true radial distance of the surface vector measurement and \( w_m\) defines the variance of the measurement with respect to vertex \( \vb{v}_i\).
+
+The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vb{v}_i \).
+Here we use the geodesic distance to parameterize the difference, and hence  uncertainty, or associating the measurement with a given vertex.
+From spherical trigonometry the central angle between measurement \( \vb{p}_i \) and vertex \( \vb{v}_i \) of the shape estimate is
+\begin{align}
+    \Delta \sigma_i = \arctan \parenth{\frac{\norm{\vb{p}_i \times \vb{v}_i}}{\vb{p}_i \cdot \vb{v}_i }}.
+\end{align}
+The variance of measurement \( \vb{p}_i \) with respect to vertex \( \vb{v}_i \) is then defined as the arc length as
+\begin{align}
+    w_{m, i} = \norm{\vb{p}_i} \Delta \sigma .
+\end{align}
+This approach relates the uncertainty of the measurement with the distance to a given vertex.
+As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+
+From Bayes' theorem, the 
 Compute angle between measurement and all vertices of shape
 
 Figure out geodesic distance
