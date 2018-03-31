@@ -93,12 +93,22 @@ The dependency on expensive ground based shape reconstruction techniques limit t
 % we want to generate the shape in real time and then use this shape for updated and better control
 In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
 Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
+This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate instead of a global operation.
+Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
+In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
+Furthermore, instead of computationally expensive surface reconstruction methods we present a straightforward and conceptually simple method to enable real time shape updates. 
+
 
 % our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
 
-
 % Benefits and contribution of our approach
-
+In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
+Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
+This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
+This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
+This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
+The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
 
 \begin{enumerate}
     \item Spacecraft missions around asteroid require long periods of mapping
