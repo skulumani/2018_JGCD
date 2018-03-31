@@ -63,22 +63,39 @@ Due to the irregular shape, trajectories will pass within the Brillouin sphere w
 With respect to asteroid missions, the standard approach to compute the gravitational potential is the polyhedron potential model~\cite{werner1996}.
 The polyhedral potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
 The method provides the exact potential for a given faceted shape model.
-As a result, the accuracy of the gravitational potential is a function of the accuracy with which the shape modelrepresents the true surface topology.
-A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the true gravitational acceleration.
+As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape modelrepresents the true surface topology.
+A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration.
 The determination of the shape of the asteroid surface is crucial for both determining the gravitational potential as well as operations near the surface.
 
+% Challenges invovled in operation near asteroids (gravity, shpae, distance)
 % generating the shape from the ground is difficult
+Prior to the arrival of a spacecraft at an asteroid, Earth based sensors are used to characterize the body.
+Using both optical and radar sensors allows for the precise orbit of the asteorid to be determined.
+Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
+This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
+Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
+The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
+This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the minute surface features of the asteroid.
+Frequently, only a rough triaxial ellipsoid model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvouzed with the asteroid.
+As a result, on arrival the gravitional environment near the asteroid is unknown as the shape of the asteroid is poorly modelled.
 
 % on arrival spacecraft spend long periods mapping, and depending on misison this might be unallowable
+On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
+After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
+During this period, spacecraft sensors, such as onboard optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
+The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
+During this mapping phase the spacecraft must remain in a quiescent state devotes entirely to mapping the surface.
+Depending on the mission type this long period of mapping is crucial to determining an ideal landing location, such as the Asteroid Redirect Mission~\cite{gates2015}. 
+However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
+Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
+The dependency on expensive ground based shape reconstruction techniques limit the ability for spacecraft autonomously operate and land at asteroids.
 
 % we want to generate the shape in real time and then use this shape for updated and better control
-
-% Challenges invovled in operation near asteroids (gravity, shpae, distance)
-
-
-% Current approach relies on long periods of mapping to generate the shape
+In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
+Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
 
 % our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
+
 
 % Benefits and contribution of our approach
 
