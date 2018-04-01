@@ -216,25 +216,24 @@ From the properties of a Gaussian the a posterior probability given a measuremen
     \mathcal{N} \parenth{\frac{w_{m, i}^2 r_0 + w_0^2 r_{m, i}}{w_0^2 + w_{m, i}^2} , \frac{w_0^2 + w_{m, i}^2}{w_0^2 + w_{m, i}^2}} .
 \end{align}
 The a posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
-Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the vertex.
+Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the radial position of the vertex.
 Additional measurements are incoporated using a weighted average of prior belief and the measurement uncertainty.
 
 In order to improve the computational efficiency measurement updates are assumed to be local in nature.
-Instead of applying a measurement to all vertices of the mesh the measurement is only applied to the vertices which are within a specified region of the measurement. 
-
-When a measurement is far away from a given vertex, the influence of the measurement on the radial position of the vertex is diminished.
-
-Compute angle between measurement and all vertices of shape
-
-Figure out geodesic distance
-
-Update both radius of vertex and weight
+Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+We define a region of interest, \( \Delta S \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+We relate \( \Delta S \) to an equivalent angular constraint using
+\begin{align}
+    \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
+\end{align}
+where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+Only vertices which satisy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update.
 
 \section{Preliminary Results}
 
-Describe the simulation
+Initial parameters for the simulation
 
-Assume initial ellipsoid
+Show the initial ellipsoid with  vertices in red
 
 Vertices are taken from the shape model and serve to emulate measurements from a lidar
 
@@ -242,6 +241,7 @@ Each vertex is added in real time and only those within a certain area/angle are
 
 Reconstruction of asteroid Castalia
 
+Show the final result
 \section{Expected Results and Significance}
 Fast way to update mesh
 
