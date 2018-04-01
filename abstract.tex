@@ -248,7 +248,7 @@ It is possible to incorporate more vertices, for example by spliting faces into 
 The vertices of the truth model are sorted according to increasing \( x \) component and incorporated into the mesh estimate one at a time. 
 Several views of the progress of the reconstruction is shown in~\cref{fig:reconstruction}.
 The initial mesh is modified by radially moving each vertex to best match the measurements.
-\begin{figure}
+\begin{figure}[h]
     \centering
     \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[width=0.5\textwidth]{figures/partial_initial.jpg}}~
     \subcaptionbox{First vertex added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/partial_0.jpg}}
@@ -265,11 +265,13 @@ As a result, the mesh update is only considered over those vertices within \( \D
 Furthermore, regardless of the size of the shape model, or the total number of measurements the computational load will remain relatively constant and can be adjusted through \( \Delta S\).
 
 \section{Expected Results and Significance}
-Fast way to update mesh
+This work will present an efficient method of reconstructing the shape of an asteroid from range measurements. 
+The method allows for a real time approach to incrementally update a shape model of an asteroid.
+Instead of performing a global update, each measurement is only treated locally to the shape. 
+This updated shape model is then used in a polyhedron potential model to enable a more accurate dynamic model near the asteroid.
+This approach avoids the lengthy mapping phase of many spacecraft missions to asteroids and enables a more responsive mission profile which allows the spacecraft to directly transition from arrival to surface operations.
+Utilizing the updated shape model allows for real time feedback control as the dynamic model is continually updated to best match measurements of the surfac.
 
-Final paper will demonstrate how to use this updated mesh with the gravity model in the controller
-
-Also compare the gravity of  estimate and truth model
 \bibliographystyle{AAS_publication} 
 \bibliography{library}
 
