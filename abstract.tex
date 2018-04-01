@@ -230,6 +230,19 @@ where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circu
 Only vertices which satisy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update.
 
 \section{Preliminary Results}
+Here we present initial results of reconstructing the shape of asteroid 4769 Castalia.
+Castalia is a potentially  hazardous asteroid and the first asteroid which used radar imaging to generate a 3D surface shape~\cite{hudson1994}.
+In this example, we seek to incrementally build and accurate shape of Castalia from an initial coarse triaxial ellipsoid model.
+Our initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:initial_mesh}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{example-image}
+    \caption{Initial estimate for 4769 Castalia~\label{fig:initial_mesh}}
+\end{figure}
+
+Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
+The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
+The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
 
 Initial parameters for the simulation
 
