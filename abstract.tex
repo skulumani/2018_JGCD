@@ -239,22 +239,31 @@ Our initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \
     \includegraphics[width=0.5\textwidth]{example-image}
     \caption{Initial estimate for 4769 Castalia~\label{fig:initial_mesh}}
 \end{figure}
-
 Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
 The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
 The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
+The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of required vertices remains relatively constant.
+It is possible to incorporate more vertices, for example by spliting faces into numerous other faces, but this does not affect the general approach.
 
-Initial parameters for the simulation
+The vertices of the truth model are sorted according to increasing \( x \) component and incorporated into the mesh estimate one at a time. 
+Several views of the progress of the reconstruction is shown in~\cref{fig:reconstruction}.
+The initial mesh is modified by radially moving each vertex to best match the measurements.
+\begin{figure}
+    \centering
+    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[width=0.5\textwidth]{figures/partial_initial.jpg}}~
+    \subcaptionbox{First vertex added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/partial_0.jpg}}
 
-Show the initial ellipsoid with  vertices in red
+    \subcaptionbox{\SI{25}{\percent} of vertices added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_512.jpg}}~
+    \subcaptionbox{\SI{50}{\percent} of vertices added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/partial_1024.jpg}}
 
-Vertices are taken from the shape model and serve to emulate measurements from a lidar
+\subcaptionbox{\SI{75}{\percent} of vertices added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_1536.jpg}}~
+\subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/partial_2047.jpg}}
+\caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving vertices to match the true shape model.~\label{fig:reconstruction}}
+\end{figure}
+\Cref{fig:first} shows that the first measurement only affects the mesh in a small local area.
+As a result, the mesh update is only considered over those vertices within \( \Delta S \) rather than the entire mesh. 
+Furthermore, regardless of the size of the shape model, or the total number of measurements the computational load will remain relatively constant and can be adjusted through \( \Delta S\).
 
-Each vertex is added in real time and only those within a certain area/angle are considered
-
-Reconstruction of asteroid Castalia
-
-Show the final result
 \section{Expected Results and Significance}
 Fast way to update mesh
 
