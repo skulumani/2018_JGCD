@@ -211,10 +211,16 @@ From Bayes' theorem, the a posterior probability is
 \begin{align}
     p(\norm{\vb{v}_i} | \norm{\vb{p}_i}) = \frac{p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i})}{p(\norm{\vb{p}_i}} \propto p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i}).
 \end{align}
-From the properties of a Gaussian the a posterior probability is also distributed according to a Gaussian distribution
+From the properties of a Gaussian the a posterior probability given a measurement is also distributed according to a Gaussian distribution
 \begin{align}
-    Gaussian
+    \mathcal{N} \parenth{\frac{w_{m, i}^2 r_0 + w_0^2 r_{m, i}}{w_0^2 + w_{m, i}^2} , \frac{w_0^2 + w_{m, i}^2}{w_0^2 + w_{m, i}^2}} .
 \end{align}
+The a posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
+Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the vertex.
+Additional measurements are incoporated using a weighted average of prior belief and the measurement uncertainty.
+
+In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+Instead of applying a measurement to all vertices of the mesh the measurement is only applied to the vertices which are within a specified region of the measurement. 
 
 When a measurement is far away from a given vertex, the influence of the measurement on the radial position of the vertex is diminished.
 
