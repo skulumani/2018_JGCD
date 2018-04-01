@@ -207,8 +207,17 @@ The variance of measurement \( \vb{p}_i \) with respect to vertex \( \vb{v}_i \)
 \end{align}
 This approach relates the uncertainty of the measurement with the distance to a given vertex.
 As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+From Bayes' theorem, the a posterior probability is
+\begin{align}
+    p(\norm{\vb{v}_i} | \norm{\vb{p}_i}) = \frac{p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i})}{p(\norm{\vb{p}_i}} \propto p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i}).
+\end{align}
+From the properties of a Gaussian the a posterior probability is also distributed according to a Gaussian distribution
+\begin{align}
+    Gaussian
+\end{align}
 
-From Bayes' theorem, the 
+When a measurement is far away from a given vertex, the influence of the measurement on the radial position of the vertex is diminished.
+
 Compute angle between measurement and all vertices of shape
 
 Figure out geodesic distance
@@ -217,18 +226,22 @@ Update both radius of vertex and weight
 
 \section{Preliminary Results}
 
+Describe the simulation
+
+Assume initial ellipsoid
+
+Vertices are taken from the shape model and serve to emulate measurements from a lidar
+
+Each vertex is added in real time and only those within a certain area/angle are considered
+
 Reconstruction of asteroid Castalia
 
 \section{Expected Results and Significance}
+Fast way to update mesh
 
-\subsection{Equations of Motion}
+Final paper will demonstrate how to use this updated mesh with the gravity model in the controller
 
-
-\subsection{Nonlinear Landing Controller}\label{sec:landing}
-
-
-\section{Expected Results and Significance}\label{sec:expected}
-
+Also compare the gravity of  estimate and truth model
 \bibliographystyle{AAS_publication} 
 \bibliography{library}
 
