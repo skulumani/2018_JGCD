@@ -49,18 +49,18 @@ In spite of the significant interest, and the extensive research by the communit
 % dynamics are difficult around asteroids
 The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
 Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
-Furthermore, asteroids may also have a chaotic spin state due to the absorption and emmitance of solar radiation~\cite{rubincam2000}.
+Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
 As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
 In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
 Due to their small size, frequently less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
-Therefore, the dynamics model of the asteroid is relatively coarse prior to insitu measurements from a dedicated spacecraft.
-As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given insitu measurements and robustness to unmodelled forces.
+Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
+As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and robustness to unmodelled forces.
 
 Another key dynamic consideration is the coupling between rotational and translational states around the asteroid.
 The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
 The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
 For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
-References~\cite{elmasri2005} and~\cite{sanyal2004a} investigated the copuling of an elastic dumbbell spacecraft in orbit about a central body, but only considered teh case of a spherically symmetric central body.
+References~\cite{elmasri2005} and~\cite{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
 Furthermore, the spacecraft model is assumed to remain in a planar orbit.
 As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
 Reference~\cite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
@@ -68,31 +68,31 @@ However, the analysis only considered a second order spherical harmonic gravitat
 Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
 
 % Gravity model is important and dependent on shape
-An accurate gravitational potential model is critical for performing low alititude and/or surface operations around asteroids.
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
 Due to the irregular shape, trajectories will pass within the Brillouin sphere where the typical spherical harmonic model diverges from the true gravitational potential.
 With respect to asteroid missions, the standard approach to compute the gravitational potential is the polyhedron potential model~\cite{werner1996}.
 The polyhedral potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
 The method provides the exact potential for a given faceted shape model.
-As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape modelrepresents the true surface topology.
+As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface topology.
 A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration.
 The determination of the shape of the asteroid surface is crucial for both determining the gravitational potential as well as operations near the surface.
 
-% Challenges invovled in operation near asteroids (gravity, shpae, distance)
+% Challenges involved in operation near asteroids (gravity, shape, distance)
 % generating the shape from the ground is difficult
 Prior to the arrival of a spacecraft at an asteroid, Earth based sensors are used to characterize the body.
-Using both optical and radar sensors allows for the precise orbit of the asteorid to be determined.
+Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined.
 Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
 This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
 Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
 The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
 This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the minute surface features of the asteroid.
-Frequently, only a rough triaxial ellipsoid model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvouzed with the asteroid.
-As a result, on arrival the gravitional environment near the asteroid is unknown as the shape of the asteroid is poorly modelled.
+Frequently, only a rough triaxial ellipsoid model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvoused with the asteroid.
+As a result, on arrival the gravitational environment near the asteroid is unknown as the shape of the asteroid is poorly modeled.
 
-% on arrival spacecraft spend long periods mapping, and depending on misison this might be unallowable
+% on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
 On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
 After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
-During this period, spacecraft sensors, such as onboard optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
+During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
 The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
 During this mapping phase the spacecraft must remain in a quiescent state devotes entirely to mapping the surface.
 Depending on the mission type this long period of mapping is crucial to determining an ideal landing location, such as the Asteroid Redirect Mission~\cite{gates2015}. 
@@ -138,7 +138,7 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and it's motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-Using Hamiltons principle gives the inertial equations of motion of the dumbbell spacecraft as
+Using Hamilton's principle gives the inertial equations of motion of the dumbbell spacecraft as
 \begin{align}
     \dot{\vb{x}} &= \vb{v}, \\
     \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
@@ -178,7 +178,7 @@ This type of sensor measures the round-trip time for a pulse of energy to leave 
 Given the time total time of flight the distance can be accurately computed using \( d = \frac{t_f}{2 c} \) where \( c \) is the constant speed of light.
 Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
 The output of this sensor is a vector, \( \vb{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
-Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple t transformation
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
 \begin{align*}
     \vb{p}_i = R_A^T R \vb{d}_i .
 \end{align*}
@@ -217,17 +217,17 @@ The variance of measurement \( \vb{p}_i \) with respect to vertex \( \vb{v}_i \)
 \end{align}
 This approach relates the uncertainty of the measurement with the distance to a given vertex.
 As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
-From Bayes' theorem, the a posterior probability is
+From Bayes' theorem, the posterior probability is
 \begin{align}
     p(\norm{\vb{v}_i} | \norm{\vb{p}_i}) = \frac{p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i})}{p(\norm{\vb{p}_i}} \propto p(\norm{\vb{p}_i} | \norm{\vb{v}_i}) p(\norm{\vb{v}_i}).
 \end{align}
-From the properties of a Gaussian the a posterior probability given a measurement is also distributed according to a Gaussian distribution
+From the properties of a Gaussian the posterior probability given a measurement is also distributed according to a Gaussian distribution
 \begin{align}
     \mathcal{N} \parenth{\frac{w_{m, i}^2 r_0 + w_0^2 r_{m, i}}{w_0^2 + w_{m, i}^2} , \frac{w_0^2 + w_{m, i}^2}{w_0^2 + w_{m, i}^2}} .
 \end{align}
-The a posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
+The posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
 Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the radial position of the vertex.
-Additional measurements are incoporated using a weighted average of prior belief and the measurement uncertainty.
+Additional measurements are incorporated using a weighted average of prior belief and the measurement uncertainty.
 
 In order to improve the computational efficiency measurement updates are assumed to be local in nature.
 Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
@@ -237,7 +237,7 @@ We relate \( \Delta S \) to an equivalent angular constraint using
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
-Only vertices which satisy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update.
+Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update.
 
 \section{Preliminary Results}
 Here we present initial results of reconstructing the shape of asteroid 4769 Castalia.
@@ -253,7 +253,7 @@ Simulated measurements of the surface of 4769 Castalia are used to update the in
 The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
 The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
 The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of required vertices remains relatively constant.
-It is possible to incorporate more vertices, for example by spliting faces into numerous other faces, but this does not affect the general approach.
+It is possible to incorporate more vertices, for example by splitting faces into numerous other faces, but this does not affect the general approach.
 
 The vertices of the truth model are sorted according to increasing \( x \) component and incorporated into the mesh estimate one at a time. 
 Several views of the progress of the reconstruction is shown in~\cref{fig:reconstruction}.
@@ -280,7 +280,7 @@ The method allows for a real time approach to incrementally update a shape model
 Instead of performing a global update, each measurement is only treated locally to the shape. 
 This updated shape model is then used in a polyhedron potential model to enable a more accurate dynamic model near the asteroid.
 This approach avoids the lengthy mapping phase of many spacecraft missions to asteroids and enables a more responsive mission profile which allows the spacecraft to directly transition from arrival to surface operations.
-Utilizing the updated shape model allows for real time feedback control as the dynamic model is continually updated to best match measurements of the surfac.
+Utilizing the updated shape model allows for real time feedback control as the dynamic model is continually updated to best match measurements of the surface.
 
 \bibliographystyle{AAS_publication} 
 \bibliography{library}
