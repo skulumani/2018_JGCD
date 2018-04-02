@@ -24,7 +24,17 @@
 \maketitle{} 		
 
 \begin{abstract}
-    Abstract for paper
+    Knowledge of the shape of an asteroid is crucial for spacecraft operations.
+    The standard method of determining the gravitational potential, through the use of a polyhedral potential model, is dependent on the shape model.
+    Furthermore, accurate landing or low altitude operations requires an accurate knowledge of the surface topology. 
+    The typical approach to shape determination requires an extensive ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
+    Instead, we present an efficient method for estimating the shape of an asteroid in real time.
+    Range measurements of the surface are used to incrementally correct an initial shape estimate.
+    This update procedure occurs in real time and provides a more accurate model of the asteroid shape.
+    This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
+    The closed loop approach allows a spacecraft to approach and operate near an unknown asteroid while autonomously generating a surface shape model.
+    We demonstrate this approach through a dynamic simulation about asteroid 4769 Castalia.
+
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
