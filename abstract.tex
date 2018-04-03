@@ -15,7 +15,7 @@
 
 \begin{document}
 
-\title{Real Time Shape Reconstruction for Near Earth Asteroid Landing}
+\title{Real Time Adaptive Shape Reconstruction for Asteroid Landing}
 
 \author{Shankar Kulumani and Taeyoung Lee\thanks{Mechanical and Aerospace Engineering, George Washington University, 800 22nd St NW, Washington, DC 20052, Tel: 202-994-8710, Email: \href{mailto:skulumani@gwu.edu}{\{skulumani,tylee\}@gwu.edu}.}
 }
@@ -97,6 +97,7 @@ During this mapping phase the spacecraft must remain in a quiescent state devote
 Depending on the mission type this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
 However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
 Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
+Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown enviornment.
 The dependency on expensive ground based shape reconstruction techniques limit the ability of spacecraft to autonomously operate at asteroids.
 Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
 
@@ -199,11 +200,14 @@ The radial distance of each vertex, \( v_i = \norm{\vb{v}_i}\), is assumed to be
     v_i \sim \mathcal{N}(r_i, w_i^2)
 \end{align*}
 where \( r_i \) is the initial estimate of the radial distance of vertex \( \vb{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
-The radial distance of each measurement, \( p_{j,i} = \vb{p}_j\), is also assumed to be distributed according to the Gaussian distribution
+The radial distance of each measurement, \( p_{j,i} = \norm{\vb{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
 \begin{align*}
     p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
 \end{align*}
 where \( r_{j,i} = \norm{\vb{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vb{v}_i\).
+Each measurement is defined by the index \( j \) while the associated vertex is defined by \( i \). 
+As a result, the measurement \( p_{j, i} \) defines the distribution of measurement \( j \) with respect to vertex \( i \). 
+A given measurement may be used to update one or several vertices.
 
 The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vb{v}_i \).
 Here we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
@@ -221,7 +225,7 @@ From Bayes' theorem, the posterior probability is
 \begin{align}
     p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
 \end{align}
-From the properties of a Gaussian, the posterior probability given a measurement is also distributed according to a Gaussian distribution
+From the properties of a Gaussian, the posterior probability given a measurement is also distributed according to a Gaussian distribution~\cite{bishop2006} and given by
 \begin{align}\label{eq:posterior_probability}
     \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
 \end{align}
@@ -242,13 +246,13 @@ Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are c
 \section{Preliminary Results}
 \begin{figure}[h]
     \centering
-    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.2\textheight,width=0.5\textwidth,keepaspectratio]{figures/partial_initial.jpg}}~
-    \subcaptionbox{First vertex added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/partial_0.jpg}}
+    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/partial_initial.jpg}}~
+    \subcaptionbox{First measurement added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/partial_0.jpg}}
 
-    \subcaptionbox{\SI{25}{\percent} of vertices added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_512.jpg}}~
-    \subcaptionbox{\SI{50}{\percent} of vertices added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/partial_1024.jpg}}
+    \subcaptionbox{\SI{25}{\percent} of measurments added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_512.jpg}}~
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/partial_1024.jpg}}
 
-    \subcaptionbox{\SI{75}{\percent} of vertices added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_1536.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/partial_1536.jpg}}~
     \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/partial_2047.jpg}}
     \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
 \end{figure}
