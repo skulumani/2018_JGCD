@@ -26,7 +26,7 @@
 \begin{abstract}
     Knowledge of the shape of an asteroid is crucial for spacecraft operations.
     The standard method of determining the gravitational potential, through the use of a polyhedral potential model, is dependent on the shape model.
-    Furthermore, accurate landing or low altitude operations requires an accurate knowledge of the surface topology. 
+    Furthermore, accurate landing or low altitude operations requires accurate knowledge of the surface topology. 
     The typical approach to shape determination requires an extensive ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
     Instead, we present an efficient method for estimating the shape of an asteroid in real time.
     Range measurements of the surface are used to incrementally correct an initial shape estimate.
@@ -39,7 +39,7 @@
 \section{Introduction}\label{sec:introduction}
 % Motivation for missions/studying asteroids
 Small solar system bodies, such as asteroids and comets, continue to remain a focus of scientific study.
-The small size of these bodies prevents the formation of large internal pressures and temperatures which help to preserve the early chemistry of the solar system.
+The small size of these bodies prevents the formation of large internal pressures and temperatures which helps to preserve the early chemistry of the solar system.
 This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
 Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
 These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
@@ -51,7 +51,7 @@ Due to their low mass, which in turn causes a low gravitational attraction, aste
 Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
 As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
 In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
-Due to their small size, frequently less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
+Due to their small size, frequently with a maximum radius less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
 Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
 As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and remain robust to unmodelled forces.
 
@@ -70,14 +70,14 @@ Therefore, these results are only valid when far from the asteroid surface and w
 An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
 Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
 The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
-The polyhedral potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
+The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
 The method provides the exact potential at any point outside the body for a given shape model.
 As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
 A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
 
 % Challenges involved in operation near asteroids (gravity, shape, distance)
 % generating the shape from the ground is difficult
-Prior to the arrival of a spacecraft at an asteroid, Earth based sensors are used to characterize the body.
+Prior to the arrival of a spacecraft at an asteroid, Earth-based sensors are used to characterize the body.
 Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined.
 Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
 This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
@@ -94,11 +94,11 @@ After arrival, a spacecraft will generally spend months or years in a mapping mi
 During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
 The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
 During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
-Depending on the mission type this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
+Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
 However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
 Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
-Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown enviornment.
-The dependency on expensive ground based shape reconstruction techniques limit the ability of spacecraft to autonomously operate at asteroids.
+Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
+The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
 Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
 
 % we want to generate the shape in real time and then use this shape for updated and better control
@@ -107,7 +107,7 @@ Our approach is able to operate in real time and incrementally update the shape 
 This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate.
 Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
 In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
-Furthermore, instead of computationally expensive surface reconstruction methods we present a straightforward and conceptually simple method to enable real time shape updates. 
+Furthermore, instead of computationally expensive surface reconstruction methods, we present a straightforward and conceptually simple method to enable real time shape updates. 
 
 
 % our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
@@ -131,12 +131,12 @@ The asteroid is modeled as a constant density polyhedron with constant, and know
 Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
-    \item \( \vecbf{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame \( \vecbf{e}_i\)
-    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vecbf{b}_i \), to the inertial frame, \( \vecbf{e}_i \)
-    \item \( \vecbf{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame \( \vecbf{b}_i \)
+    \item \( \vecbf{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame, \( \vecbf{e}_i\),
+    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vecbf{b}_i \), to the inertial frame, \( \vecbf{e}_i \),
+    \item \( \vecbf{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vecbf{b}_i \), and
     \item \( R_A \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vecbf{f}_i \), to the inertial frame, \( \vecbf{e}_i \)
-\end{itemize}
-In this work, we assume that the asteroid is much more massive than the spacecraft and it's motion is not affected by that of the spacecraft.
+\end{itemize}.
+In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
 Using Hamilton's principle gives the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
@@ -188,7 +188,7 @@ Using the state of the asteroid, we can transform this measurement to the astero
 Given many measurements, \( \vb{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
 The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
-These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
+These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'' allows us to reconstruct the shape.
 
 Our algorithm applies a Bayesian framework to radially modify each vertex \( \vb{v}_i\) of the shape estimate based on measurement \( \vb{p}_i\). 
 This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
@@ -270,7 +270,7 @@ The initial ellipsoid is chosen to have approximately the same number of vertice
 It is possible to incorporate more vertices, for example by splitting faces into smaller faces, but this does not affect the general approach.
 
 The vertices of the truth model are sorted according to increasing \( x \) component and incorporated into the mesh estimate one at a time. 
-Several views of the progress of the reconstruction is shown in~\cref{fig:reconstruction}.
+Several views of the progress of the reconstruction are shown in~\cref{fig:reconstruction}.
 The initial mesh is modified by radially moving each vertex to best match the measurements.
 \Cref{fig:first} shows that the first measurement only affects the mesh in a small local area.
 As a result, the mesh update is only considered over those vertices within \( \Delta S \) rather than the entire mesh. 
