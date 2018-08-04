@@ -162,7 +162,11 @@ where the polyhedron potential is defined as
 and \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
 The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
 
-\subsection{Shape Reconstruction}
+\subsection{Spacecraft Dynamic Model}
+
+\subsection{Polyhedron Potential Model}
+
+\section{Shape Reconstruction}
 
 We assume that the spacecraft contains an initial estimate for the shape of the asteroid.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
@@ -242,6 +246,10 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 \end{align}
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
+
+
+
+\section{Optimal Guidance}
 
 \section{Preliminary Results}
 \begin{figure}[h]
