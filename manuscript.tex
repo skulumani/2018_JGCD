@@ -234,11 +234,11 @@ As a result, we must also implement a ray casting algorithm that will find the i
 \end{figure}
 We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
 We define a camera fixed frame, \( \vc{c}_i \in \R^3 \), which is defined with respect to the spacecraft body fixed frame, \( \vc{b}_i \).
-The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame and we define an additional vector, termed the up axis \gls{up_axis} as the vertical direction of the image plane. 
-Finally, the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
+The camera/sensor is aligned with \( \vc{c}_1 \) in the spacecraft fixed frame and we define an additional vector, termed the up axis \( \vc{c}_3 \) as the vertical direction of the image plane. 
+Finally, the standard basis is completed with \(  \vc{c}_2 = \vc{c}_1 \times \vc{c}_3 \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the laser ranging sensor as having a fixed field of view defined by the angles \( \alpha, \beta \), defining the vertical and horizontal fields of view.
 In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the small body fixed frame. 
-Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
+Given the view axis, and a chosen distance \( d  \in \R^1 \), we can define a viewing frustum associated with the sensor. 
 We can compute the vectors associated with the maximum extents of the far plane as follows.
 The half height and width of the far plane, at a distance \( d \), are computed as
 \begin{align*}
