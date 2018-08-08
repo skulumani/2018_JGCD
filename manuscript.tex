@@ -513,8 +513,8 @@ Furthermore, the additional faces are all approximately the same size and preser
 After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
-    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.49\textwidth]{figures/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.49\textwidth]{figures/remesh_cube.jpg}}
     \caption{Example of isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
@@ -529,7 +529,7 @@ The augmented model of Castalia is shown in~\cref{fig:castalia_refinement}.
 \section{Numerical Examples}\label{sec:reconstruction_examples}
 
 In this section, we demonstrate the use of the results presented in~\cref{sec:mathematical_background,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
-The incremental shape reconstruction approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
+The incremental shape reconstruction approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given LIDAR measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
 The asteroids exhibit a wide range of shapes and demonstrate the effectiveness of the mesh update approach.
 \Cref{sec:kinematic_exploration} focuses on the application of the incremental mesh update scheme of~\cref{sec:radius_update} for several different asteroids.
@@ -555,7 +555,7 @@ We ignore the dynamics of the asteroid and spacecraft and instead focus solely o
 The spacecraft is assumed to be able to arbitrarily move around the asteroid and collect measurements.
 The simulations begin with an triaxial ellipsoid mesh that is sized to match the semi-major axes of each asteroid.
 With this estimate, measurements are made of the surface and used to reconstruct the true shape following the process in~\cref{sec:radius_update}.
-\Gls{lidar} measurements are generated until the total uncertainty
+LIDAR measurements are generated until the total uncertainty
 \begin{align*}
     \sum_i w_i,
 \end{align*}
@@ -564,14 +564,14 @@ In addition, we compute the volume of the estimate shape throughout the simulati
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_1872.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/geographos/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_1872.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_3745.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_5617.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_3745.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_5617.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_7489.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/truth.jpg}}
     \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
 
@@ -606,14 +606,14 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}\\%
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_1321.jpg}}\\%
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}\\%
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_2643.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_3964.jpg}}\\%
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_5285.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/truth.jpg}}
     \caption[Asteroid Golevka incremental reconstruction]{Incremental reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
@@ -622,10 +622,10 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
 In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
 The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
 \begin{align*}
-    \dot{x} &= \ivel, \\
-    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i R_A \deriv{U}{\apos_i} + u_f, \\
-    \dot{R} &= R \iangvel, \\
-    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i R^T R_A \deriv{U}{\apos_i} + u_m. 
+    \dot{x} &= v, \\
+    \parenth{m_1 + m_2} \dot{v} &= - \sum_{i=0}^2 m_i R_A \deriv{U}{z_i} + u_f, \\
+    \dot{R} &= R \Omega, \\
+    J \dot{\Omega} + \hat{\Omega} J \Omega &= \sum_{i=0}^2 m_i \hat{\rho}_i R^T R_A \deriv{U}{z_i} + u_m. 
 \end{align*}
 The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
 The control inputs are duplicated from~\cref{sec:se3_control} as
@@ -634,7 +634,7 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
 Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
-As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states using the details provided in~\cref{sec:radius_update,sec:explore_asteroid}.
+As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states using the details provided in TODO.
 These simulations demonstrate the ability of a spacecraft to autonomously explore and maneuver around an unknown small body.
 
 We consider two simulations about asteroids \num{52760} and Castalia.
@@ -658,7 +658,7 @@ Furthermore, the state of the asteroid, namely the rotation matrix \( R_A \), is
 At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( x_0 = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
 In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \hat{e}_3)\).
-The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
+The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take LIDAR measurements of the surface at \SI{1}{\hertz}.
 Once the total uncertainty has been reduced sufficiently the spacecraft maneuvers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
 \paragraph{Asteroid 52760 Reconstruction}
@@ -673,26 +673,26 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_50}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_50}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/52760/truth.jpg}}
     \caption[Asteroid 52760 incremental reconstruction]{Incremental reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_14998.jpg}}%
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_14998.jpg}}%
     % \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.18\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
     \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
@@ -707,7 +707,7 @@ The plots show that the reconstruction  converges to an accurate shape estimate 
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{3D visualization of the trajectory\label{fig:52760_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
+    \subcaptionbox{3D visualization of the trajectory\label{fig:52760_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
 }\\%
     \subcaptionbox{Components of position\label{fig:52760_explore_components}}{\input{tikz/52760_asteroid_position.tikz}}
     \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of 52760~\label{fig:52760_trajectory}}
@@ -726,27 +726,27 @@ Within \SI{50}{\percent} of the simulation span the spacecraft is able to achiev
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:castalia_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:castalia_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/castalia/truth.jpg}}
     \caption[Asteroid Castalia incremental reconstruction]{Incremental reconstruction of asteroid Castalia~\label{fig:castalia_reconstruction}}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_weights_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_weights_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_weights_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_weights_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_weights_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_weights_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/castalia/truth.jpg}}
     \caption[Asteroid Castalia shape reconstruction with uncertainty]{Incremental reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
 \end{figure}
 
@@ -764,7 +764,7 @@ The state trajectory is visualized in the asteroid frame in~\cref{fig:castalia_e
 The component plots of the trajectory are shown in~\cref{fig:castalia_explore_components}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{3D visualization of the trajectory\label{fig:castalia_explore_trajectory}}{\includegraphics[trim={15cm 0cm 15cm 0cm},clip,keepaspectratio,width=\textwidth,height=0.5\textheight]{figures/computational_geometry/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}}\\%
+    \subcaptionbox{3D visualization of the trajectory\label{fig:castalia_explore_trajectory}}{\includegraphics[trim={15cm 0cm 15cm 0cm},clip,keepaspectratio,width=\textwidth,height=0.5\textheight]{figures/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}}\\%
     \subcaptionbox{Components of position\label{fig:castalia_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
     \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of Castalia~\label{fig:castalia_trajectory}}
 \end{figure}
@@ -778,8 +778,8 @@ The first metric is related to the surface slope which is computed using the com
 Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}}\\%
-    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}}
+    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/refine/slope.pdf}}\\%
+    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/slope_masked.pdf}}
     \caption{Surface slope of asteroid Castalia\label{fig:surface_slope_castalia_both}}
 \end{figure}
 
@@ -790,15 +790,15 @@ Landing sites which are closer will be considered preferentially over those at a
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}}\\%
-    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}\\%
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
     \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
 We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
 The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}
+    \includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
     \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
 \end{figure}
 After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
@@ -813,18 +813,18 @@ As a result, we utilize the isotropic remeshing operation described previously t
 \Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/density.pdf}}
+    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/dynamic_exploration/castalia/refine/density.pdf}}
 
-    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/density.pdf}}
+    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/dynamic_exploration/castalia/land/density.pdf}}
     \caption{Vertex density before and after refinement at asteroid Castalia\label{fig:castalia_refine_density}}
 \end{figure}
 
 The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
-\Cref{fig:castalia_refinement} shows that given \gls{lidar} measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
+\Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
-    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}~
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/dynamic_exploration/castalia_bump_est.jpg}}
     \caption{Asteroid Castalia with augmented with additional surface features~\label{fig:castalia_refinement}}
 \end{figure}
 
@@ -836,7 +836,7 @@ The landing trajectory, using the estimated shape, is visualized in the asteroid
 During the vertical descent the vehicle is able to accurately track the desired trajectory using the estimated shape to compute the gravitational potential.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
+    \includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
     \caption{Vertical descent onto 4769 Castalia~\label{fig:castalia_landing}}
 \end{figure}
 
