@@ -260,8 +260,8 @@ The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any ve
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/computational_geometry/uniform_mesh_coarse.jpg}}
-    \subcaptionbox{Fine Uniform Mesh\label{fig:fine_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/computational_geometry/uniform_mesh_fine.jpg}}
+    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/uniform_mesh_coarse.jpg}}
+    \subcaptionbox{Fine Uniform Mesh\label{fig:fine_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/uniform_mesh_fine.jpg}}
     \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
 \end{figure}
 
@@ -274,10 +274,10 @@ Furthermore, the number of vertices in the estimate can be scaled according to t
 For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
 
-We assume the spacecraft contains a range sensor, such as \gls{lidar}, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
-Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \gls{sym:c} is the constant speed of light.
-Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \gls{sym:iatt}, we can compute a direction from the spacecraft to the measurement location on the surface.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \R^{3 \times 3 } \), we can compute a direction from the spacecraft to the measurement location on the surface.
 The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
 \begin{align*}
@@ -289,7 +289,7 @@ The spacecraft measures the range between itself and the asteroid surface to sev
 These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
+    \includegraphics[width=0.75\textwidth]{figures/castalia_raycasting_plot.jpg}
     \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
 \end{figure}
 
@@ -315,7 +315,7 @@ As a result, the measurement \( p_{j, i} \) defines the distribution of measurem
 Any given measurement may be used to update one or several vertices.
 
 The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
-Here, we use the \gls{geodesic} distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+Here, we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
 From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
 \begin{align}\label{eq:geodesic_distance}
     \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
@@ -383,16 +383,16 @@ This guidance schemes enables autonomous operations around a small body.
 The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
 There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods based on the calculus of variations or direction methods based on solving a related nonlinear programming problem~\cite{kirk2012,bryson1975}.
 The difficulty lies in implementing an algorithm that can operate in real time.
-Since the \gls{lidar} will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
+Since the LIDAR will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
 Our approach solves this complexity by determining the vertex that should be measured to optimally update the shape estimate.
 
 We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimate
 \begin{align}\label{eq:explore_cost}
-    J_i (\ipos, \iatt, \aatt) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\rpos) + \alpha_c J_{c_i}(\rpos)
+    J_i (x, R, R_A) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(x_r) + \alpha_c J_{c_i}(x_r)
 \end{align}
 where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
-The cost function is defined as a function of the current inertial position, \gls{sym:ipos}, and the attitude, \gls{sym:iatt} of the spacecraft.
-Furthermore, knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( \gls{sym:rpos} = \gls{sym:aatt}[^T] \gls{sym:ipos}\).
+The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \R^{3\times3}\) of the spacecraft.
+Furthermore, knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
 
 The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
 \begin{align}\label{eq:weight_cost}
@@ -433,14 +433,14 @@ where \( u_m \) is used to normalize and scale \( J_{c_i} \).
 
 The vertex which minimizes~\cref{eq:explore_cost} 
 \begin{align*}
-    \vc{v}_{min} = \min_{i} J_i(\ipos, \iatt, \aatt),
+    \vc{v}_{min} = \min_{i} J_i(x, R, R_A),
 \end{align*}
 is determined and used to determine the optimum vertex of the shape model to measure.
 This vertex is then used to determine the required state of the spacecraft in order to collect a measurement.
 We assume that the spacecraft will maneuver to a location directly above the selected vertex, \( \vc{v}_{min} \), and point in the nadir direction to collect a measurement.
 The desired state is transformed into the inertial frame and chosen as a location above \( \vc{v}_{min} \) as
 \begin{align}
-    \ipos_d = r_d \aatt \vc{v}_{min}, 
+    x_d = r_d R_A \vc{v}_{min}, 
 \end{align}
 where \( r_d \) is again chosen to ensure a safety margin above the surface.
 The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the small body.
@@ -453,7 +453,7 @@ The desired attitude command is defined as
     \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
     R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
 \end{align}
-This form of \( R_d \) will direct the \( \bvec{1} \) axis towards the small body, and can be modified for a different camera orientation.
+This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, and can be modified for a different camera orientation.
 
 \section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
 
@@ -500,7 +500,7 @@ where the surface slope is considered a hard constraint such that any candidate 
 
 Once a suitable landing site is selected, the surrounding area is isolated and refined by adding new vertices and faces in the specified area.
 The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
-In this work, we utilize the isotropic remeshing algorithm implemented in \gls{cgal}.
+In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL).
 This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
 % TODO Think about adding PMP 6.12 image here
 
@@ -622,10 +622,10 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
 In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
 The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
 \begin{align*}
-    \dot{\ipos} &= \ivel, \\
-    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
-    \dot{\iatt} &= \iatt \iangvel, \\
-    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
+    \dot{x} &= \ivel, \\
+    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i R_A \deriv{U}{\apos_i} + u_f, \\
+    \dot{R} &= R \iangvel, \\
+    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i R^T R_A \deriv{U}{\apos_i} + u_m. 
 \end{align*}
 The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
 The control inputs are duplicated from~\cref{sec:se3_control} as
@@ -639,7 +639,7 @@ These simulations demonstrate the ability of a spacecraft to autonomously explor
 
 We consider two simulations about asteroids \num{52760} and Castalia.
 The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
-Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), is assumed to be known based on ground measurements or previous data.
+Furthermore, the state of the asteroid, namely the rotation matrix \( R_A \), is assumed to be known based on ground measurements or previous data.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lcc}
@@ -655,9 +655,9 @@ Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), 
     \end{tabular}
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
-At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
+At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( x_0 = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
-In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
+In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \hat{e}_3)\).
 The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
 Once the total uncertainty has been reduced sufficiently the spacecraft maneuvers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
