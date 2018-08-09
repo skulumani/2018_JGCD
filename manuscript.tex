@@ -132,42 +132,112 @@ The asteroid is modeled as a constant density polyhedron with constant, and know
 Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
-    \item \( \vecbf{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame, \( \vecbf{e}_i\),
-    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vecbf{b}_i \), to the inertial frame, \( \vecbf{e}_i \),
-    \item \( \vecbf{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vecbf{b}_i \), and
-    \item \( R_A \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vecbf{f}_i \), to the inertial frame, \( \vecbf{e}_i \)
-\end{itemize}.
+    \item \( \vc{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame, \( \vc{e}_i\),
+    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
+    \item \( \vc{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
+    \item \( R_A \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
+\end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-Using Hamilton's principle gives the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
+\subsection{Spacecraft Dynamic Model}
+Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
 \begin{align}
-    \dot{\vb{x}} &= \vb{v}, \\
-    \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
-    \dot{R} &= R S(\vb{\Omega}) , \\
-    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega} &= \vecbf{M}_1 + \vecbf{M}_2.
+    \dot{\vc{x}} &= \vc{v}, \\
+    \parenth{m_1 + m_2} \dot{\vc{v}} &= m_1 R_A \deriv{U}{\vc{z}_1} + m_2 R_A \deriv{U}{\vc{z}_2}, \\
+    \dot{R} &= R S(\vc{\Omega}) , \\
+    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2.
 \end{align}
-The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
+The vectors \( \vc{z}_1 \) and \( \vc{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
 \begin{align}
-    \vecbf{z}_1 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1} , \\
-    \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}.
+    \vc{z}_1 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_1} , \\
+    \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2}.
 \end{align}
-The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
+The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
 \begin{align}
-    \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
+    \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
 where the polyhedron potential is defined as 
 \begin{align}
-    U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f,
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f,
 \end{align}
-and \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+and \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
 The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
 
-\subsection{Spacecraft Dynamic Model}
 
-\subsection{Polyhedron Potential Model}
+\subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
-\section{Range Measurement Model}
+% most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
+An accurate gravitational potential model is necessary for the operation of spacecraft about asteroids.
+Additionally, a detailed shape model of the asteroid is needed for trajectories passing close to the body.
+The classic approach is to expand the gravitational potential into a harmonic series and compute the series coefficients.
+However, the harmonic expansion is always an approximation as a result of the infinite order series used in the representation.
+Additionally, the harmonic model used outside of the circumscribing sphere is not guaranteed to converge inside the sphere, which makes it unsuitable for trajectories near the surface.
+
+We represent the gravitational potential of the asteroid using a polyhedron gravitation model.
+This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the body-fixed frame.
+The vectors define vertices in the body-fixed frame as well as planar faces which compose the surface of the asteroid.
+We assume that each face is a triangle composed of three vertices and three edges.
+As a result, only two faces meet at each edge while three faces meet at each vertex.
+Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
+References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
+Here, we summarize the key developments and equations required for implementation.
+
+Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
+It is easy to define the three edges of each face as
+\begin{align}\label{eq:edges}
+    \vc{e}_{i+1,i} = \vc{v}_{i+1} - \vc{v}_i \in \R^{3 \times 1 },
+\end{align}
+where the index \( i \in \parenth{1,2,3} \) is used to permute all edges of each face.
+Since each edge is a member of two faces, there exist two edges which are defined in opposite directions between the same vertices.
+We can also define the outward normal vector to face \( f\)  as
+\begin{align}\label{eq:face_normal}
+    \hat{\vc{n}}_f &= \parenth{\vc{v}_{2} - \vc{v}_1} \times \parenth{\vc{v}_{3} - \vc{v}_2} \in \R^{3 \times 1},
+\end{align}
+and the outward facing normal vector to each edge as
+\begin{align}\label{eq:edge_normal}
+    \hat{\vc{n}}_{i+1,i}^f &= \parenth{\vc{v}_{i+1} - \vc{v}_i} \times \hat{\vc{n}}_f \in \R^{3 \times 1}.
+\end{align}
+For each face we define the face dyad \( \vc{F}_f \) as
+\begin{align}\label{eq:face_dyad}
+    \vc{F}_f &= \hat{\vc{n}}_f \hat{\vc{n}}_f \in \R^{3 \times 3}.
+\end{align}
+Each edge is a member of two faces and has an outward pointing edge normal vector, given in~\cref{eq:edge_normal}, perpendicular to both the edge and the face normal.
+For the edge connecting the vectors \( \vc{v}_1 \) and \( \vc{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
+\begin{align}\label{eq:edge_dyad}
+    \vc{E}_{12} = \hat{\vc{n}}_A \hat{\vc{n}}_{12}^A + \hat{\vc{n}}_B \hat{\vc{n}}_{21}^B \in \R^{3 \times 3}.
+\end{align}
+The edge dyad \( \vc{E}_e  \), is defined for each edge and is a function of the two adjacent faces meeting at that edge.
+The face dyad \( \vc{F}_f \), is defined for each face and is a function of the face normal vectors.
+
+Let \( \vc{r}_i \in \R^{3 \times 1} \) be the vector from the spacecraft to the vertex \( \vc{v}_i \) and it's length is given by \( r_i = \norm{\vc{r}_i} \in \R^{1} \).
+The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vc{v}_i \) and \( \vc{v}_j \), with a constant length \( e_{ij} = \norm{\vc{e}_{ij}} \in \R^1\) is
+\begin{align}\label{eq:edge_factor}
+    L_e &= \ln \frac{r_i + r_j + e_{ij}}{r_i + r_j - e_{ij}}.
+\end{align}
+For the face defined by the vertices \( \vc{v}_i, \vc{v}_j, \vc{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
+\begin{align}\label{eq:face_factor}
+    \omega_f &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{r_i r_j r_k + r_i \parenth{\vc{r}_j \cdot \vc{r}_k} + r_j \parenth{\vc{r}_k \cdot \vc{r}_i} + r_k \parenth{\vc{r}_i \cdot \vc{r}_j}} .
+\end{align}
+The gravitational potential due to a constant density polyhedron is given as
+\begin{align}\label{eq:potential}
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
+\end{align}
+where \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+Furthermore we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
+\begin{align}
+    \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
+    \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} \vc{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
+    \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
+\end{align}
+
+One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
+They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
+Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
+Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
+The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+
+\subsection{Range Measurement Model}
 
 Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
 In addition, they are a critical component for spacecraft operating near small bodies.
@@ -187,76 +257,6 @@ Measuring this round trip time of flight and using the speed of light, approxima
 \end{align}
 A main benefit of the time of flight ranging system is that a single pulse of energy is sufficient to accurately determine the distance with meter level precision in the case of spacecraft or millimeter level in industrial applications~\cite{zuber1997,cole1998,amann2001}.
 
-A pulsed time of flight laser distance device consists of a laser transmitter which emits pulses with a duration between \SIrange{5}{50}{\nano\second}~\cite{amann2001}.
-The emitted light pulse triggers a start signal in the onboard timing device and the reflected energy from the object provides the stop command.
-A block diagram of the laser range finder is shown in~\cref{fig:lidar_block_diagram}.
-A signal is generated by the transmitter and directed through the optics towards the target. 
-At the same time a pulse is sent to a high precision clock to record the outgoing transmission. 
-The energy reflects off the target and is passed through a detector which signal the stop command. 
-The time of flight is then recorded and used to compute the range.
-\begin{figure}[htbp]
-    \centering
-    \input{tikz/laser_range_finder.tikz}
-    \caption{ Block diagram of a time of flight laser range finder\label{fig:lidar_block_diagram}}
-\end{figure}
-A wide variety of lasers are used depending on the intended measurements range.
-In the spacecraft case, lasers providing peak energy in the range of \SI{15}{\mega\joule} are often required to measure distance of over \SI{50}{\kilo\meter}~\cite{berry2013}.
-
-The laser range finder is frequently equipped with angle encoders to enable the definition of the position of the measurement point with respect to the sensor. 
-Mechanical scanning is performed using a control system which  either moves the entire laser range finder or only the measuring beam.
-Focal plane scanning is another approach which reduces the mechanical complexity of a mechanical scanning system.
-The laser energy illuminates the entire field of view on the surface.
-An array of detectors are arranged to view the surface.
-Each detector only views a portion of the total field of view and the signals are analyzed in the time domain.
-Using this methodology, the system can simultaneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
-
-\paragraph{Ray casting}
-
-In the computer graphics field, a major problem is the determination of which objects are visible to the user.
-This problem arises in many computer graphics rendering algorithms, such as ray tracing.
-Ray tracing is a rendering technique for generating an image by tracing the path of light, in the form of pixels, as it travels through a virtual world, reflects off of surfaces, and eventually lands on an image plane.
-As the light strikes the virtual objects the surface properties are used to determine the amount of energy that is reflected, absorbed, or scattered from the surface to accurately render the virtual image. 
-Ray casting is a similar but noticeably simpler approach for the rendering of virtual scenes.
-In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
-The first object which intersects the ray is defined as visible while those beyond would be occluded.
-Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
-This provides a much simpler approach to virtual scene rendering but does not allow for the determination of high fidelity surface interactions of the light.
-
-Our application is adopted from the field of computational geometry and known as the ray shooting problem.
-The ray shooting problem is defined as follows: given a set of objects in \( d \) dimensional space, such as the shape model of a small body, create a data structure such that for any given query ray, e.g.\ the point of view of a camera, the initial object and its location can be determined quickly.
-Our goal is to use the true shape model of a small body and simulate the intersection of many rays with the surface.
-These rays will serve to emulate the range measurements of the surface using a LIDAR sensor.
-As a result, we must also implement a ray casting algorithm that will find the intersection of a measurement of the surface. 
-
-\begin{figure}[htbp]
-    \centering
-    \input{tikz/frustrum.tikz}
-    \caption{View frustum for spacecraft sensor modeling\label{fig:view_frustrum}}
-\end{figure}
-We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
-We define a camera fixed frame, \( \vc{c}_i \in \R^3 \), which is defined with respect to the spacecraft body fixed frame, \( \vc{b}_i \).
-The camera/sensor is aligned with \( \vc{c}_1 \) in the spacecraft fixed frame and we define an additional vector, termed the up axis \( \vc{c}_3 \) as the vertical direction of the image plane. 
-Finally, the standard basis is completed with \(  \vc{c}_2 = \vc{c}_1 \times \vc{c}_3 \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the laser ranging sensor as having a fixed field of view defined by the angles \( \alpha, \beta \), defining the vertical and horizontal fields of view.
-In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the small body fixed frame. 
-Given the view axis, and a chosen distance \( d  \in \R^1 \), we can define a viewing frustum associated with the sensor. 
-We can compute the vectors associated with the maximum extents of the far plane as follows.
-The half height and width of the far plane, at a distance \( d \), are computed as
-\begin{align*}
-    H = d \tan \frac{\alpha}{2} , \\
-    W = d \tan \frac{\beta}{2} .
-\end{align*}
-From these values, the extents of the far plane are defined by the vectors
-\begin{align*}
-    A = \vc{c}_1 + H \vc{c}_3 - W \vc{c}_2 , \\
-    B = \vc{c}_1 + H \vc{c}_3 + W \vc{c}_2, \\
-    C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
-    D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
-\end{align*}
-The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to be defined as a linear combination of the extents of the far plane.
-% tylee: not sure what "befined" means? 
-% shankar: should have been "defined"
-
 \section{Incremental Shape Reconstruction}\label{sec:radius_update}
 
 \begin{figure}[htbp]
@@ -267,7 +267,6 @@ The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any ve
 \end{figure}
 
 One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
-This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:uniform_mesh} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
@@ -299,7 +298,7 @@ These measurements provide a collection of points which lie on the surface of th
 Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
 This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
 This assumption means that the total number of vertices of the shape model is fixed.
-However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we later demonstrate in~\cref{sec:landing_refinement}.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}.
 
 The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
 \begin{align*}
@@ -356,7 +355,6 @@ Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are c
 
 The approach presented in this section allows one to update the shape of small body given a single range measurement of the surface.
 A sequential process can be used to iteratively update the shape estimate given many measurements of the surface. 
-For example,~\cref{sec:reconstruction_examples} shows the Bayesian update approach applied to several different asteroids.
 
 \section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
 
@@ -364,22 +362,6 @@ The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a
 In this section, we present an optimal approach for the guidance of the vehicle in order to update the shape estimate.
 Utilizing the nonlinear controllers developed in~\cref{sec:se3_control}, allows the spacecraft to maneuver to the best location that will update the shape estimate.
 This guidance schemes enables autonomous operations around a small body.
-% TODO talk about the basics of guidance/control for systems here and add tikz of block diagram
-
-% \gls{gnc} refers to the design of systems to control the operations of vehicles, specifically automobiles, aircraft, or spacecraft.
-% For spacecraft, many of these operations are computed ahead of time by operators and executed on board in an open loop fashion.
-% Guidance refers to the determination of the desired future states, or trajectory, that the spacecraft should follow to achieve some goals.
-% Navigation, or estimation, refers to the determination of the current state of the spacecraft given measurements.
-% Control refers to the application of forces, \( u_m, u_f \), required by the spacecraft to follow the desired trajectory while maintaining stability and other criteria. 
-% A block diagram representation of the entire \gls{gnc} system is shown in~\cref{fig:gnc}.
-% The approach presented in this section addresses the guidance and control portions of \cref{fig:gnc} but does not address the navigation. 
-% We assume that we have precise knowledge of the spacecraft state and small body rotation.
-
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=\textwidth]{example-image-golden}
-%     \caption{Block diagram of GNC system\label{fig:gnc}}
-% \end{figure}
 
 The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
 There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods based on the calculus of variations or direction methods based on solving a related nonlinear programming problem~\cite{kirk2012,bryson1975}.
@@ -514,8 +496,8 @@ Furthermore, the additional faces are all approximately the same size and preser
 After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.49\textwidth]{figures/original_cube.jpg}}~
-    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.49\textwidth]{figures/remesh_cube.jpg}}
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.25\textwidth]{figures/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.25\textwidth]{figures/remesh_cube.jpg}}
     \caption{Example of isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
@@ -529,111 +511,12 @@ The augmented model of Castalia is shown in~\cref{fig:castalia_refinement}.
 
 \section{Numerical Examples}\label{sec:reconstruction_examples}
 
-In this section, we demonstrate the use of the results presented in~\cref{sec:mathematical_background,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
-The incremental shape reconstruction approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given LIDAR measurements.
-We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
-The asteroids exhibit a wide range of shapes and demonstrate the effectiveness of the mesh update approach.
-\Cref{sec:kinematic_exploration} focuses on the application of the incremental mesh update scheme of~\cref{sec:radius_update} for several different asteroids.
-\Cref{sec:dynamic_exploration} incorporates the full dynamic model on \( \SE \) of a dumbbell spacecraft given in~\cref{sec:inertial_dumbbell_eoms}, the polyhedron potential model from~\cref{sec:polyhedron_potential}, and the mesh update and guidance scheme presented in~\cref{sec:radius_update}.
+In this section, we demonstrate the use of the incremental shape reconstruction algorithm.
+The approach is used to iteratively reconstruct the shape of several asteroid given LIDAR measurements.
+We utilize radar shape models of asteroids \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\).
+The examples demonstrate the full dynamic simulation of a rigid spacecraft with an autonomous closed loop control scheme to both reconstruct the asteroid shape.
 
-\subsection{Shape Reconstruction}\label{sec:kinematic_exploration}
-
-The results in this section utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
-We ignore the dynamics of the asteroid and spacecraft and instead focus solely on the shape reconstruction.
-\Cref{tab:kinematic_asteroids} lists the true shape model parameters of asteroids Geographos and Golevka.
-\begin{table}[htbp]
-    \centering
-    \begin{tabular}{lccc}
-        \toprule
-        Asteroid & Semi-major axes (\si{\kilo\meter}) & Vertices & Faces\\
-        \midrule
-        \num{1620} Geographos & \( 2.5 \times 1.0 \times 1.05 \) & \num{8192} & \num{16380}  \\
-        \num{6489} Golevka & \( 0.53 \times 0.53 \times 0.53 \)  & \num{2048} & \num{4092} \\
-        \bottomrule
-    \end{tabular} 
-    \caption{Asteroid properties for kinematic only exploration~\label{tab:kinematic_asteroids}}
-\end{table}
-The spacecraft is assumed to be able to arbitrarily move around the asteroid and collect measurements.
-The simulations begin with an triaxial ellipsoid mesh that is sized to match the semi-major axes of each asteroid.
-With this estimate, measurements are made of the surface and used to reconstruct the true shape following the process in~\cref{sec:radius_update}.
-LIDAR measurements are generated until the total uncertainty
-\begin{align*}
-    \sum_i w_i,
-\end{align*}
-is sufficiently small.
-In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{sec:polyhedron_volume}.
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/geographos/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_1872.jpg}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_3745.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_5617.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_7489.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/truth.jpg}}
-    \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
-\end{figure}
-
-\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
-Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
-
-\begin{figure}[htbp]
-    \centering
-    \input{tikz/geographos_metrics.tikz}
-    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
-\end{figure}
-
-\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
-Discovered in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
-Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-
-\begin{figure}[htbp]
-    \centering
-    \input{tikz/golevka_metrics.tikz}
-    \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
-\end{figure}
-
-The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
-It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
-This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_1321.jpg}}\\%
-
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_2643.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_3964.jpg}}\\%
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/partial_5285.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/golevka/truth.jpg}}
-    \caption[Asteroid Golevka incremental reconstruction]{Incremental reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
-\end{figure}
-
-\subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
-
-In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
-The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
-\begin{align*}
-    \dot{x} &= v, \\
-    \parenth{m_1 + m_2} \dot{v} &= - \sum_{i=0}^2 m_i R_A \deriv{U}{z_i} + u_f, \\
-    \dot{R} &= R \Omega, \\
-    J \dot{\Omega} + \hat{\Omega} J \Omega &= \sum_{i=0}^2 m_i \hat{\rho}_i R^T R_A \deriv{U}{z_i} + u_m. 
-\end{align*}
-The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
-The control inputs are duplicated from~\cref{sec:se3_control} as
-\begin{align*}
-    \vc{u}_f &= -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d . \\
-    \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
-\end{align*}
+The nonlinear controllers described previously are used to control both the translational and rotational states of the vehicle.
 Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
 As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states using the details provided in TODO.
 These simulations demonstrate the ability of a spacecraft to autonomously explore and maneuver around an unknown small body.
@@ -674,45 +557,18 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_3749.jpg}}%
+    \subcaptionbox{\SI{50}{\percent} of measurements\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_7499.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_50}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_11249.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/dynamic_exploration/52760/partial_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 incremental reconstruction]{Incremental reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_3749.jpg}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_11249.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_14998.jpg}}%
-    % \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.18\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \subcaptionbox{\SI{75}{\percent} of measurements\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_11249.jpg}}%
+    \subcaptionbox{\SI{100}{\percent} of measurements\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.25\textheight,width=0.3\textwidth,keepaspectratio]{figures/mesh_update/52760/truth.jpg}}
     \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
+
 \Cref{fig:52760_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
-
-\begin{figure}[htbp]
-    \centering
-    \input{tikz/52760_metrics.tikz}
-    \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{3D visualization of the trajectory\label{fig:52760_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
-}\\%
-    \subcaptionbox{Components of position\label{fig:52760_explore_components}}{\input{tikz/52760_asteroid_position.tikz}}
-    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of 52760~\label{fig:52760_trajectory}}
-\end{figure}
 
 \paragraph{Asteroid 4769 Castalia Reconstruction}
 
@@ -727,27 +583,13 @@ Within \SI{50}{\percent} of the simulation span the spacecraft is able to achiev
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_weights_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_weights_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_3749.jpg}}%
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_weights_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_7499.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_11249.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:castalia_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/castalia/truth.jpg}}
-    \caption[Asteroid Castalia incremental reconstruction]{Incremental reconstruction of asteroid Castalia~\label{fig:castalia_reconstruction}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_weights_0}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_weights_25}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_3749.jpg}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:castalia_partial_weights_50}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_7499.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_11249.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/castalia/truth.jpg}}
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_11249.jpg}}%
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/partial_weights_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{figures/mesh_update/castalia/truth.jpg}}
     \caption[Asteroid Castalia shape reconstruction with uncertainty]{Incremental reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
 \end{figure}
 
@@ -759,16 +601,7 @@ In addition, the volume estimate is initially a much larger value but quickly co
     \input{tikz/castalia_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
-
 The spacecraft autonomously navigates around asteroid Castalia to best minimize the cost function in~\cref{eq:control_cost}.
-The state trajectory is visualized in the asteroid frame in~\cref{fig:castalia_explore_trajectory}.
-The component plots of the trajectory are shown in~\cref{fig:castalia_explore_components}.
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{3D visualization of the trajectory\label{fig:castalia_explore_trajectory}}{\includegraphics[trim={15cm 0cm 15cm 0cm},clip,keepaspectratio,width=\textwidth,height=0.5\textheight]{figures/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}}\\%
-    \subcaptionbox{Components of position\label{fig:castalia_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
-    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of Castalia~\label{fig:castalia_trajectory}}
-\end{figure}
 
 \paragraph{Castalia Landing Site Selection}
 
@@ -779,8 +612,8 @@ The first metric is related to the surface slope which is computed using the com
 Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/refine/slope.pdf}}\\%
-    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/slope_masked.pdf}}
+    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/slope.pdf}}%
+    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/slope_masked.pdf}}
     \caption{Surface slope of asteroid Castalia\label{fig:surface_slope_castalia_both}}
 \end{figure}
 
@@ -791,15 +624,15 @@ Landing sites which are closer will be considered preferentially over those at a
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}\\%
-    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}%
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
     \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
 We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
 The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
+    \includegraphics[width=0.75\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
     \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
 \end{figure}
 After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
@@ -814,9 +647,8 @@ As a result, we utilize the isotropic remeshing operation described previously t
 \Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/dynamic_exploration/castalia/refine/density.pdf}}
-
-    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/dynamic_exploration/castalia/land/density.pdf}}
+    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/density.pdf}}%
+    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/land/density.pdf}}
     \caption{Vertex density before and after refinement at asteroid Castalia\label{fig:castalia_refine_density}}
 \end{figure}
 
@@ -824,8 +656,8 @@ The increased number of faces and vertices in the landing area allows for the ca
 \Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}~
-    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/dynamic_exploration/castalia_bump_est.jpg}}
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}%
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_est.jpg}}
     \caption{Asteroid Castalia with augmented with additional surface features~\label{fig:castalia_refinement}}
 \end{figure}
 
@@ -837,7 +669,7 @@ The landing trajectory, using the estimated shape, is visualized in the asteroid
 During the vertical descent the vehicle is able to accurately track the desired trajectory using the estimated shape to compute the gravitational potential.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{figures/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
+    \includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
     \caption{Vertical descent onto 4769 Castalia~\label{fig:castalia_landing}}
 \end{figure}
 
