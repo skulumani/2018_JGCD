@@ -184,20 +184,6 @@ References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of
 Here, we summarize the key developments and equations required for implementation.
 
 Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
-It is easy to define the three edges of each face as
-\begin{align}\label{eq:edges}
-    \vc{e}_{i+1,i} = \vc{v}_{i+1} - \vc{v}_i \in \R^{3 \times 1 },
-\end{align}
-where the index \( i \in \parenth{1,2,3} \) is used to permute all edges of each face.
-Since each edge is a member of two faces, there exist two edges which are defined in opposite directions between the same vertices.
-We can also define the outward normal vector to face \( f\)  as
-\begin{align}\label{eq:face_normal}
-    \hat{\vc{n}}_f &= \parenth{\vc{v}_{2} - \vc{v}_1} \times \parenth{\vc{v}_{3} - \vc{v}_2} \in \R^{3 \times 1},
-\end{align}
-and the outward facing normal vector to each edge as
-\begin{align}\label{eq:edge_normal}
-    \hat{\vc{n}}_{i+1,i}^f &= \parenth{\vc{v}_{i+1} - \vc{v}_i} \times \hat{\vc{n}}_f \in \R^{3 \times 1}.
-\end{align}
 For each face we define the face dyad \( \vc{F}_f \) as
 \begin{align}\label{eq:face_dyad}
     \vc{F}_f &= \hat{\vc{n}}_f \hat{\vc{n}}_f \in \R^{3 \times 3}.
@@ -237,42 +223,13 @@ Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:ed
 Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
 
-\subsection{Range Measurement Model}
-
-Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
-In addition, they are a critical component for spacecraft operating near small bodies.
-Activate ranging devices allow for precise measurements of the surface shape and enable accurate and safe surface landing~\cite{berry2013}.
-
-The basic principle for all active range-finding devices is to transmit a signal onto an object and process the returned signal to determine the distance~\cite{amann2001}.
-The transmitted signal can fall into one of three categories: radio, ultrasonic, or optical.
-The benefit of an optical signal is that they can be highly focused to enable high resolution distance measurements.
-Optical distance measurement, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, time of flight, or triangulation.
-In this section, we'll briefly summarize the principles of operation of optical distance measurement devices and highlight their specific uses with respect to spacecraft missions to asteroids.
-
-Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
-The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
-Measuring this round trip time of flight and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
-\begin{align}
-    \rho = \frac{t_d}{2 c}. 
-\end{align}
-A main benefit of the time of flight ranging system is that a single pulse of energy is sufficient to accurately determine the distance with meter level precision in the case of spacecraft or millimeter level in industrial applications~\cite{zuber1997,cole1998,amann2001}.
-
 \section{Incremental Shape Reconstruction}\label{sec:radius_update}
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/uniform_mesh_coarse.jpg}}
-    \subcaptionbox{Fine Uniform Mesh\label{fig:fine_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/uniform_mesh_fine.jpg}}
-    \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
-\end{figure}
 
 One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:uniform_mesh} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
 Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
-For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
-A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
 
 We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
@@ -358,16 +315,10 @@ A sequential process can be used to iteratively update the shape estimate given 
 
 \section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
 
-The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
+The mesh update algorithm presented does not offer a method to determine which portion of the surface needs to be updated. 
 In this section, we present an optimal approach for the guidance of the vehicle in order to update the shape estimate.
-Utilizing the nonlinear controllers developed in~\cref{sec:se3_control}, allows the spacecraft to maneuver to the best location that will update the shape estimate.
+A nonlinear geometric controller is utilized which allows the spacecraft to maneuver to the best location that will update the shape estimate~\cite{kulumani2017b}.
 This guidance schemes enables autonomous operations around a small body.
-
-The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
-There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods based on the calculus of variations or direction methods based on solving a related nonlinear programming problem~\cite{kirk2012,bryson1975}.
-The difficulty lies in implementing an algorithm that can operate in real time.
-Since the LIDAR will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
-Our approach solves this complexity by determining the vertex that should be measured to optimally update the shape estimate.
 
 We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimate
 \begin{align}\label{eq:explore_cost}
@@ -440,7 +391,7 @@ This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, an
 
 \section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
 
-The shape update approach presented in~\cref{sec:radius_update} is designed with autonomous operations in mind. 
+The shape update approach presented is designed with autonomous operations in mind. 
 It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
 Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
 However, these small features are critical for surface operations and safe landings.
@@ -448,7 +399,7 @@ In addition, it would be computationally prohibitive to have a uniformly high re
 In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
 
 Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
-As shown in~\cite{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
 The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
 As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
@@ -457,7 +408,7 @@ The selection of a landing site will typically require a vast quantity of data a
 In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
 This approach allows for a spacecraft to autonomously select and land on small body.
 
-The surface slope is computed according to the method developed in~\cite{scheeres1996}.
+The surface slope is computed according to the method developed in Reference~\cite{scheeres1996}.
 Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
 At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
 \begin{align}\label{eq:surface_force}
@@ -472,7 +423,7 @@ where \( \phi \in \R^1 \) is the surface slope defines the angle between the sur
 If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
 
 Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
-Finally, we also assign a random science value to the surface in the form of two dimensional Gaussian.
+Finally, we also assign a random science value to the surface in the form of a two dimensional Gaussian.
 Utilizing these metric, a landing site is chosen to minimize the surface cost given as
 \begin{align}\label{eq:surface_cost}
     J_l =  J_{\text{distance}} - J_{\text{science}},
@@ -504,7 +455,7 @@ After the isotropic remeshing operation the number of vertices has increased fro
 In order to demonstrate the multi resolution surface refinement we require a true shape model that contains small scale surface features.
 In this dissertation, we utilize the true radar shape model of asteroid 4769 Castalia.
 However, the shape model is not highly detailed as it does not contain small craters or surface features.
-In order to apply the landing refinement process we augment a small portion of the mesh with some additional features and utilize the mesh update scheme in~\cref{sec:radius_update} to measure the surface.
+In order to apply the landing refinement process we augment a small portion of the mesh with some additional features and utilize the mesh update scheme shown previously to update the surface.
 The augmented model of Castalia is shown in~\cref{fig:castalia_refinement}.
 \Cref{fig:castalia_refinement} shows that the increased resolution is required in order to reconstruct these small surface details.
 
@@ -550,7 +501,7 @@ Once the total uncertainty has been reduced sufficiently the spacecraft maneuver
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
 The initial shape estimate is assumed to be spherical with approximately the same number of vertices as the truth model.
-\Cref{fig:52760_reconstruction,fig:52760_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
+\Cref{fig:52760_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
 Due to the roughly spherical shape of the asteroid large portions of the surface are quickly modified to match the measurements.
 In addition~\cref{fig:52760_weights_reconstruction} displays the vertex uncertainty \( w_i \) as a colormap on the surface. 
 Areas of high uncertainty are denoted in yellow while areas of low uncertainty are in purple/blue.
@@ -567,16 +518,13 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
     \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
 
-\Cref{fig:52760_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
-The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
-
 \paragraph{Asteroid 4769 Castalia Reconstruction}
 
 Asteroid 4769 Castalia is a small near Earth asteroid of the Apollo group.
 In addition, it is classified as a potentially hazardous object with a closed approach distance of less than \SI{0.05}{\astronomicalunit}.
 Castalia was discovered in \num{1989} and is the first asteroid to be modeled using radar imagery~\cite{hudson1994}.
 Castalia is composed of two distinct lobes suggesting that it is a contact binary of two smaller objects held together by their mutual gravity.
-\Cref{fig:castalia_reconstruction,fig:castalia_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
+\Cref{fig:castalia_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
 In addition~\cref{fig:castalia_weights_reconstruction} displays the vertex uncertainty \( w_i \) as a colormap on the surface. 
 Areas of high uncertainty are denoted in yellow while areas of low uncertainty are in purple/blue.
 Within \SI{50}{\percent} of the simulation span the spacecraft is able to achieve an accurate estimate of the true shape of Castalia.
@@ -653,7 +601,7 @@ As a result, we utilize the isotropic remeshing operation described previously t
 \end{figure}
 
 The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
-\Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
+\Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the shape reconstruction algorithm that the small features are effectively estimated.
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}%
@@ -664,7 +612,7 @@ The increased number of faces and vertices in the landing area allows for the ca
 \paragraph{Castalia Vertical Descent}
 
 The final phase of the simulation is to utilize the mixed resolution model and vertically descend to the desired landing site. 
-This is accomplished using the closed loop control of~\cref{sec:se3_control} and a trajectory which transitions from the home position to the surface over \SI{3600}{\second}.
+This is accomplished using the closed loop control of the vehicle and a trajectory which transitions from the home position to the surface over \SI{3600}{\second}.
 The landing trajectory, using the estimated shape, is visualized in the asteroid frame in~\cref{fig:castalia_landing}.
 During the vertical descent the vehicle is able to accurately track the desired trajectory using the estimated shape to compute the gravitational potential.
 \begin{figure}[htbp]
@@ -675,8 +623,7 @@ During the vertical descent the vehicle is able to accurately track the desired 
 
 \section{Conclusions}
 
-The developments of this chapter, when combined with the details of~\cref{sec:mathematical_background,sec:lowthrust_transfers,sec:se3_control}, provide a complete approach for the operation of a spacecraft around a small body.
-This chapter developed a Bayesian update scheme to reconstruct the shape of a small body from range measurements. 
+This paper developed a Bayesian update scheme to reconstruct the shape of a small body from range measurements. 
 The approach allows for a local update operation that is able to reconstruct the shape in real time. 
 This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require signification computational resources.
 Next, an optimal guidance scheme is derived which determines the desired state to best update the shape estimate. 
