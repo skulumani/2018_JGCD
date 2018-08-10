@@ -29,8 +29,8 @@
     Furthermore, accurate landing or low altitude operations requires accurate knowledge of the surface topology. 
     The typical approach to shape determination requires an extensive ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
     Instead, we present an efficient method for estimating the shape of an asteroid in real time.
-    Range measurements of the surface are used to incrementally correct an initial shape estimate.
-    This update procedure occurs in real time and provides a more accurate model of the asteroid shape.
+    Range measurements of the surface are used to incrementally correct an initial shape estimate according to Bayesian framework. 
+    Then, an optimal guidance scheme is proposed to control the vantage point of the range sensor to construct a more accurate model of the asteroid shape. 
     This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
     Finally, a multi resolution approach is presented which enables for a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
     This approach enables for an accurate shape determination around a potential landing site.
@@ -188,6 +188,7 @@ For each face we define the face dyad \( \vc{F}_f \) as
 \begin{align}\label{eq:face_dyad}
     \vc{F}_f &= \hat{\vc{n}}_f \hat{\vc{n}}_f \in \R^{3 \times 3}.
 \end{align}
+% // TL: equation eq:edge_normal is not resolved
 Each edge is a member of two faces and has an outward pointing edge normal vector, given in~\cref{eq:edge_normal}, perpendicular to both the edge and the face normal.
 For the edge connecting the vectors \( \vc{v}_1 \) and \( \vc{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
 \begin{align}\label{eq:edge_dyad}
@@ -228,6 +229,7 @@ The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determin
 One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:uniform_mesh} which represents the maximum axes for asteroid Castalia.
+% // TL: fig:uniform_mesh is missing
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
 Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
 
@@ -352,11 +354,13 @@ where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{
 \Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
 The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characteristics of safety concerns.
 For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
+% TL: eq:translational_control undefined 
 The translational controller presented in~\cref{eq:translational_control} is used to determine the control input to follow \( x_d\).
 We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
 \begin{align}\label{eq:tracking_control_cost}
     u_f(\theta) = -F_{ext}(x_d(\theta)), 
 \end{align}
+% TL: eq:inertial_velocity_dynamics undefined
 where the external force is defined by the polyhedron potential model given in~\cref{eq:inertial_velocity_dynamics}.
 The control cost is then defined as the integral over the desired trajectory~\cref{eq:spherical_waypoint} between the current state and the desired vertex as
 \begin{align}\label{eq:control_cost}
@@ -470,6 +474,7 @@ The examples demonstrate the full dynamic simulation of a rigid spacecraft with 
 The nonlinear controllers described previously are used to control both the translational and rotational states of the vehicle.
 Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
 As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states using the details provided in TODO.
+% // TL: TODO is missing. We don't have to provide the details in this paper.
 These simulations demonstrate the ability of a spacecraft to autonomously explore and maneuver around an unknown small body.
 
 We consider two simulations about asteroids \num{52760} and Castalia.
