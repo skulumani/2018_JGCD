@@ -1,0 +1,25 @@
+sudo: false
+language: generic
+matrix:
+  include:
+  - os: linux
+cache:
+  directories:
+  - "/tmp/texlive"
+  - "$HOME/.texlive"
+  timeout: 3600
+before_install:
+- travis_wait 45 bash ./utilities/travis_setup.sh
+- export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
+script:
+- latexmk -pdf -interaction=nonstopmode -halt-on-error manuscript.tex
+after_success: 
+deploy:
+  provider: releases
+  api_key:
+    secure: qvpOv76ui9COs76dIP6FV1USyJ8n+V+Av7uHhkI8mBVtgItFJOEIJmEdLjzBTZj8+1MoUGCcO6FZRyJt6MTYRWTK17Kc/jGLowOllrveIQBJ6pYYCbfgGk1MdoHtGyqegsgjUuaKywEOo7mNv9z3LygKFh3/M/BrVixSqyRPySZhxZP6lf977AXXoXgoHmSrtW7n+1xYTwYZzQcqmgl2LZo47gBFRSlbBz+W/diPZRKmQ62ch1fKB+LPyIpftohj+Udt6HDzbbg7k73b7GSJrgHeewwoBq+y+jDbP0aukG+v58b6wToI7JT0Gep7u9agFt5s9EUBcKRdOAeBDaW3zYOsv9XXxCJhSlHcbkQGdbGb36fDlT+nMCHQ1DUXeTwceVmjkub/wjIrrTc9PDgbVkBab4zgZMsqzSyb6y1BZChrJTcQImdmJc0cUzQfsP93N4xG0WoY6ClV7ejXywxhwonwgXxOuFly/6MLSoBR3iNtKeFb7RkRIjd1S3Pyh3HY8jugAAmwQ7jJfVpZtdcyT6AyGyRRet4SdEc/eMu+bDXXg7teAEhTTJ+PPe1Osg1lhufFjBnX7FFlAd7OVfiE3Z7JYpPhL6oJE5OoMXzu6BMn7F1esoLTQZzR1enoBPkxRueM8Aj1zL6rVWCPYW20Qy5GTcOYcxDbBqWymrYdSMA=
+  file: manuscript.pdf
+  skip_cleanup: true
+  on:
+    repo: skulumani/2018_JGCD
+    tags: true
