@@ -165,46 +165,255 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-
-\section{General Guidelines}
-
-The following section outlines general (nonformatting) guidelines to follow. These guidelines are applicable to all authors and include information on the policies and practices relevant to the publication of your manuscript.
-
-\subsection{Publication by AIAA}
-Your manuscript cannot be published by AIAA if:
-\begin{enumerate}
-\item The work is classified or has not been cleared for public release.
-\item The work contains copyright-infringing material.
-\item The work has been published or is currently under consideration for publication or presentation elsewhere. (Exception: Papers presented at AIAA conferences may be submitted to AIAA journals for possible publication.)
-\end{enumerate}
-
-You will be asked to provide the publication or presentation history of your paper (or any similar paper) if it has \emph{ever} been submitted for publication or presentation previously to an AIAA journal or conference. Please include the following, if applicable: the full name of the publication or conference, the entire paper number, dates the conference took place, review history, final disposition of manuscript, etc.
-
-
-\subsection{Copyright}
-
-Before AIAA can publish any paper, the copyright information must be completed in ScholarOne. Failure to complete the form correctly could result in your paper not being published. You must select one copyright assignment statement (select A, B, C, or D) and once a statement is picked, changes cannot be made during the proofs stage. Read the copyright statements carefully. AIAA requires a copyright transfer from the author(s) to AIAA or a license to print your material; government authors can assert that the work is in the public domain. Because you will be completing this form online, you do not need to fill out a hard-copy form. Do not include a copyright statement anywhere on your paper. The correct statement will be included automatically at the time of processing. (If your paper was presented at an AIAA conference, then the copyright statement chosen for the journal article should be the same as for your conference paper.)
-
-\subsection{Publication Charges for Open Access}
-
-Publication charges are voluntary, and nonpayment has no influence on the review process of the time from acceptance to publication. Publication charge payments help defray production costs and keep journal subscription prices low. 
-
-The article publication charge for Open Access is available in ScholarOne and on the AIAA website; the fee is the same regardless of article type. There is a fee for Open Access immediately upon publication in AIAA’s electronic library, Aerospace Research Central (ARC) and a fee for Open Access 12 months after publication in ARC.
+\subsection{Spacecraft Dynamic Model}
+Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
+\begin{align}
+    \dot{\vc{x}} &= \vc{v}, \\
+    \parenth{m_1 + m_2} \dot{\vc{v}} &= m_1 R_A \deriv{U}{\vc{z}_1} + m_2 R_A \deriv{U}{\vc{z}_2}, \\
+    \dot{R} &= R S(\vc{\Omega}) , \\
+    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2.
+\end{align}
+The vectors \( \vc{z}_1 \) and \( \vc{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
+\begin{align}
+    \vc{z}_1 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_1} , \\
+    \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2}.
+\end{align}
+The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
+\begin{align}
+    \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
+\end{align}
+where the polyhedron potential is defined as 
+\begin{align}
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f,
+\end{align}
+and \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
 
 
-\section{Instructions}
+\subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
-If you are using the AIAA Journals \LaTeX{} Template file to prepare your manuscript, you can simply type your own text over sections of this document, or cut and paste from another document and use the available markup styles. If you choose to cut and paste, select the text from your original document and choose Edit>Copy. (Do not select your title and author information, since the document spacing may be affected. It is a simple task to reenter your title and author information in the template.) Open the Journals Template. Place your cursor in the text area of the template and select Edit>Paste. Please note that special formatting (e.g., subscripts, superscripts, italics) may be lost when you copy your text into the template.
+% most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
+An accurate gravitational potential model is necessary for the operation of spacecraft about asteroids.
+Additionally, a detailed shape model of the asteroid is needed for trajectories passing close to the body.
+The classic approach is to expand the gravitational potential into a harmonic series and compute the series coefficients.
+However, the harmonic expansion is always an approximation as a result of the infinite order series used in the representation.
+Additionally, the harmonic model used outside of the circumscribing sphere is not guaranteed to converge inside the sphere, which makes it unsuitable for trajectories near the surface.
 
-To apply the AIAA Journals formatting, use the standard \LaTeX{} commands for sections and subsection, etc; all the styles you will need to format your document are available as standard \LaTeX{} commands. The style will automatically adjust your fonts and line spacing. Repeat this process to apply formatting to all elements of your paper. \emph{Do not change the font sizes, line spacing, or margins. Do not manually hyphenate your document.} Use italics for emphasis; do not underline. 
+We represent the gravitational potential of the asteroid using a polyhedron gravitation model.
+This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the body-fixed frame.
+The vectors define vertices in the body-fixed frame as well as planar faces which compose the surface of the asteroid.
+We assume that each face is a triangle composed of three vertices and three edges.
+As a result, only two faces meet at each edge while three faces meet at each vertex.
+Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
+References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
+Here, we summarize the key developments and equations required for implementation.
 
-Use the Print option under the File tab to view Page Layout and see the most accurate representation of how your final paper will appear. Once formatting is complete, be sure to double space all sections of your manuscript.
+Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
+For each face we define the face dyad \( \vc{F}_f \) as
+\begin{align}\label{eq:face_dyad}
+    \vc{F}_f &= \hat{\vc{n}}_f \hat{\vc{n}}_f \in \R^{3 \times 3}.
+\end{align}
+Each edge is a member of two faces and has an outward pointing edge normal vector, perpendicular to both the edge and the face normal.
+For the edge connecting the vectors \( \vc{v}_1 \) and \( \vc{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
+\begin{align}\label{eq:edge_dyad}
+    \vc{E}_{12} = \hat{\vc{n}}_A \hat{\vc{n}}_{12}^A + \hat{\vc{n}}_B \hat{\vc{n}}_{21}^B \in \R^{3 \times 3}.
+\end{align}
+The edge dyad \( \vc{E}_e  \), is defined for each edge and is a function of the two adjacent faces meeting at that edge.
+The face dyad \( \vc{F}_f \), is defined for each face and is a function of the face normal vectors.
+
+Let \( \vc{r}_i \in \R^{3 \times 1} \) be the vector from the spacecraft to the vertex \( \vc{v}_i \) and it's length is given by \( r_i = \norm{\vc{r}_i} \in \R^{1} \).
+The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vc{v}_i \) and \( \vc{v}_j \), with a constant length \( e_{ij} = \norm{\vc{e}_{ij}} \in \R^1\) is
+\begin{align}\label{eq:edge_factor}
+    L_e &= \ln \frac{r_i + r_j + e_{ij}}{r_i + r_j - e_{ij}}.
+\end{align}
+For the face defined by the vertices \( \vc{v}_i, \vc{v}_j, \vc{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
+\begin{align}\label{eq:face_factor}
+    \omega_f &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{r_i r_j r_k + r_i \parenth{\vc{r}_j \cdot \vc{r}_k} + r_j \parenth{\vc{r}_k \cdot \vc{r}_i} + r_k \parenth{\vc{r}_i \cdot \vc{r}_j}} .
+\end{align}
+The gravitational potential due to a constant density polyhedron is given as
+\begin{align}\label{eq:potential}
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
+\end{align}
+where \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+Furthermore we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
+\begin{align}
+    \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
+    \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} \vc{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
+    \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
+\end{align}
+
+One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
+They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
+Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
+Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
+The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+
+\section{Incremental Shape Reconstruction}\label{sec:radius_update}
+
+One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
+We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
+This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid.
+Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
+Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
+
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \R^{3 \times 3 } \), we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
+\begin{align*}
+    \vc{p}_i = R_A^T R \vc{d}_i .
+\end{align*}
+Given many measurements, \( \vc{p}_i \in \R^3 \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
+\Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
+The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
+These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/castalia_raycasting_plot.jpg}
+    \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
+\end{figure}
+
+\paragraph{Bayesian Shape Update}
+
+Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
+This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
+This assumption means that the total number of vertices of the shape model is fixed.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}.
+
+The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    v_i \sim \mathcal{N}(r_i, w_i^2)
+\end{align*}
+where \( r_i \) is the initial estimate of the radial distance of vertex \( \vc{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
+The radial distance of each measurement, \( p_{j,i} = \norm{\vc{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
+\end{align*}
+where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
+Each measurement is defined by the index \( j \) while the associated vertex is defined by \( i \). 
+As a result, the measurement \( p_{j, i} \) defines the distribution of measurement \( j \) with respect to vertex \( i \). 
+Any given measurement may be used to update one or several vertices.
+
+The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
+Here, we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
+\begin{align}\label{eq:geodesic_distance}
+    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
+\end{align}
+The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined by the geodesic distance as
+\begin{align}
+    w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
+\end{align}
+This approach relates the uncertainty of the measurement \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
+As a result, measurements which are far from a vertex, i.e.\ \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
+The main benefit of a correlation based approach, in contrast to feature extraction is the relative simplicity of implementation.
+However, the resulting correlation values do not posses any physical significance and do not represent the noise or uncertainty characteristics of the sensor.
+
+From Bayes' theorem, the posterior probability is defined as
+\begin{align}
+    p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
+\end{align}
+From the properties of a Gaussian, the posterior probability given a measurement is also distributed according to a Gaussian distribution~\cite{bishop2006} and given by
+\begin{align}\label{eq:posterior_probability}
+    \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
+\end{align}
+From~\cref{eq:posterior_probability}, the posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
+Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the radial position of the vertex.
+Additional measurements are incorporated using a weighted average of prior belief and the measurement uncertainty.
+
+In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+We define a region of interest, \( \Delta S \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+We relate \( \Delta S \) to an equivalent angular constraint using
+\begin{align}\label{eq:region_of_interest}
+    \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
+\end{align}
+% shankar: brillouin is correct. https://arc.aiaa.org/doi/10.2514/6.2014-4302
+where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
+
+The approach presented in this section allows one to update the shape of small body given a single range measurement of the surface.
+A sequential process can be used to iteratively update the shape estimate given many measurements of the surface. 
+
+\section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
+
+The mesh update algorithm presented does not offer a method to determine which portion of the surface needs to be updated. 
+In this section, we present an optimal approach for the guidance of the vehicle in order to update the shape estimate.
+A nonlinear geometric controller is utilized which allows the spacecraft to maneuver to the best location that will update the shape estimate~\cite{kulumani2017b}.
+This guidance schemes enables autonomous operations around a small body.
+
+We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimate
+\begin{align}\label{eq:explore_cost}
+    J_i (x, R, R_A) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(x_r) + \alpha_c J_{c_i}(x_r)
+\end{align}
+where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
+The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \R^{3\times3}\) of the spacecraft.
+Furthermore, knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
+
+The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
+\begin{align}\label{eq:weight_cost}
+    J_{w_i} &= - \frac{w_i}{w_m}
+\end{align}
+where \( w_i \) is the uncertainty of vertex \( i \) and \( w_m \) is a maximum uncertainty used to scale the values.
+The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
+\begin{align}\label{eq:distance_cost}
+    J_{d_i}(\rpos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\rpos \times \vc{v}_i}}{\rpos \cdot \vc{v}_i}}.
+\end{align}
+
+Finally, a control component is included in the cost function which penalizes vertices that are difficult to reach.
+Consider, the current position of the spacecraft in the small body fixed frame as \( \rpos\) and a desired vertex \( \vc{v}_i \) of the shape estimate.
+We can define a normal vector to the plane spanned by \( \rpos, \vc{v}_i \) as
+\begin{align}\label{eq:normal_to_plane}
+    \vc{n}_i = \frac{\rpos \times \vc{v}_i}{\norm{\rpos} \norm{\vc{v}_i}}.
+\end{align}
+Then a trajectory \( x_d(\theta) \) as
+\begin{align}\label{eq:spherical_waypoint}
+    x_d(\theta) = r_d \exp{\parenth{\theta \hat{\vc{n}_i}} } \frac{\rpos}{\norm{\rpos}},
+\end{align}
+where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
+\Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
+The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characteristics of safety concerns.
+For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
+We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
+\begin{align}\label{eq:tracking_control_cost}
+    u_f(\theta) = -F_{ext}(x_d(\theta)), 
+\end{align}
+where the external force is defined by the polyhedron potential model given in~\cref{eq:attraction}.
+The control cost is then defined as the integral over the desired trajectory~\cref{eq:spherical_waypoint} between the current state and the desired vertex as
+\begin{align}\label{eq:control_cost}
+    J_{c_i}(\rpos) = \frac{1}{u_m} \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta,
+\end{align}
+where \( u_m \) is used to normalize and scale \( J_{c_i} \).
+\Cref{eq:control_cost} is numerically integrated over the trajectory \( x_d(t) \) and used to penalize vertices which have a larger cost.
+
+The vertex which minimizes~\cref{eq:explore_cost} 
+\begin{align*}
+    \vc{v}_{min} = \min_{i} J_i(x, R, R_A),
+\end{align*}
+is determined and used to determine the optimum vertex of the shape model to measure.
+This vertex is then used to determine the required state of the spacecraft in order to collect a measurement.
+We assume that the spacecraft will maneuver to a location directly above the selected vertex, \( \vc{v}_{min} \), and point in the nadir direction to collect a measurement.
+The desired state is transformed into the inertial frame and chosen as a location above \( \vc{v}_{min} \) as
+\begin{align}
+    x_d = r_d R_A \vc{v}_{min}, 
+\end{align}
+where \( r_d \) is again chosen to ensure a safety margin above the surface.
+The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the small body.
+It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
+The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
+The desired attitude command is defined as
+\begin{align}
+    \vc{b}_{1d} &= - \frac{\vc{x}}{\norm{\vc{x}}} , \\
+    \vc{b}_{3d} &= \frac{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}{\norm{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}}, \\
+    \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
+    R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
+\end{align}
+This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, and can be modified for a different camera orientation.
 
 
-\subsection{Document Text}
-The default font for the Template is Times New Roman, 10-point size. The first line of every paragraph should be indented, and all lines should be double-spaced. Default margins are 1 in. on all sides. In the electronic version of this template, all margins and other formatting are preset. There should be no additional (blank) lines between paragraphs.
-
-\emph{NOTE:} If you are using the Template to format your manuscript, the required spacing and formatting will be applied automatically.
 
 
 \subsection{Headings}
