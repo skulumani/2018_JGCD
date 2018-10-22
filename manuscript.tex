@@ -147,13 +147,24 @@ This updated shape model is then used to in a nonlinear controller to track a de
 The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
 This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
 The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
-\section{Procedure for Paper Submission}
 
-All manuscripts are to be submitted online at \url{https://mc.manuscriptcentral.com/aiaa}. Select either “Log In” if you have an existing account or “Create an Account” if this is your first time submitting to one of AIAA’s journals. If it’s the latter, please follow the instructions ScholarOne provides. Once you have logged into ScholarOne, select “Author Center” then scroll down. Under “Author Resources”, select the star beside “Click here to submit a new manuscript”. The site will take you step-by-step through the submission process. Once you submit your manuscript, you will receive an email containing your manuscript ID number as well as a link to view the status of your manuscript. 
+\section{Problem Formulation}\label{sec:problem}
 
-After entering all required submission data, you must use the “Upload Manuscript” feature of the Author Center to upload your submission. Remember that your document must be in single-column, double-spaced format (as this template) before you upload it. Please be sure that the name of the file you upload for processing is short and simple (i.e., “SmithJPP.pdf”) with no spaces, tildes, symbols, or other special characters. Authors are encouraged to upload .pdf files, which are less likely to have conversion errors on upload. Failure to meet these requirements could result in a processing error that would require you to re-upload your manuscript. Once you have uploaded your manuscript, please inspect the file for accuracy. This step is required to complete your submission. If you experience difficulties with the upload and/or conversion of your manuscript, please contact ScholarOne Manuscripts Support (\url{https://mchelp.manuscriptcentral.com/gethelpnow/} or +1-888-503-1050) for additional assistance. 
+In this paper, we consider the motion of a dumbbell model of spacecraft around an asteroid.
+The dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics.
+In this model, the spacecraft consists of two masses connected by a massless rod.
+The asteroid is modeled as a constant density polyhedron with constant, and known, spin about its maximum moment of inertia. 
+Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
+The kinematics of the dumbbell and asteroid are described in the inertial frame by
+\begin{itemize}
+    \item \( \vc{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame, \( \vc{e}_i\),
+    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
+    \item \( \vc{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
+    \item \( R_A \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
+\end{itemize}
+In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
+This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-\emph{Attention Asian Authors: If you are uploading a .pdf file, please remove Asian fonts from your file, under File>Properties.}
 
 \section{General Guidelines}
 
