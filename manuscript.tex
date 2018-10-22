@@ -9,21 +9,27 @@
 \usepackage{longtable,tabularx}
 \setlength\LTleft{0pt} 
 
-\title{Preparation of Papers for AIAA Technical Journals}
+\title{Real Time Adaptive Shape Reconstruction for Asteroid Landing}
 
-\author{First A. Author \footnote{Insert Job Title, Department Name, Address/Mail Stop, and AIAA Member Grade (if any) for first author.} and Second B. Author Jr.\footnote{Insert Job Title, Department Name, Address/Mail Stop, and AIAA Member Grade (if any) for second author.}}
-\affil{Business or Academic Affiliation 1, City, State, Zip Code}
-\author{Third C. Author\footnote{Insert Job Title, Department Name, Address/Mail Stop, and AIAA Member Grade (if any) for third author.}}
-\affil{Business or Academic Affiliation 2, City, Province, Zip Code, Country}
-\author{Fourth D. Author\footnote{Insert Job Title, Department Name, Address/Mail Stop, and AIAA Member Grade (if any) for fourth author (etc.).}}
-\affil{Business or Academic Affiliation 2, City, State, Zip Code}
+\author{Shankar Kulumani \footnote{PhD, Mechanical and Aerospace Engineering, Address/Mail Stop, and AIAA Member Grade (if any) for first author.} and Taeyoung Lee \footnote{Associate Professor, Department Name, Address/Mail Stop, and AIAA Member Grade (if any) for second author.}}
+\affil{Goerge Washington University, Washington, DC, 20052}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-These instructions give you guidelines for preparing papers for AIAA Technical Journals using \LaTeX{}. If you previously prepared an AIAA Conference Paper using the Papers Template, you may submit using the Papers Template so long as the text is double-spaced.  Carefully follow the journal paper submission process in Sec.~II of this document. Keep in mind that the electronic file you submit will be formatted further at AIAA. This first paragraph is formatted in the abstract style. Abstracts are required for regular, full-length papers and express articles. Be sure to define all symbols used in the abstract, and do not cite references in this section. The footnote on the first page should list the Job Title and AIAA Member Grade (if applicable) for each author.
+    Knowledge of the shape of an asteroid is crucial for spacecraft operations.
+    The standard method of determining the gravitational potential, through the use of a polyhedron potential model, is dependent on the shape model.
+    Furthermore, accurate landing or low altitude operations requires accurate knowledge of the surface topology. 
+    The typical approach to shape determination requires an extensive ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
+    Instead, we present an efficient method for estimating the shape of an asteroid in real time.
+    Range measurements of the surface are used to incrementally correct an initial shape estimate according to Bayesian framework. 
+    Then, an optimal guidance scheme is proposed to control the vantage point of the range sensor to construct a more accurate model of the asteroid shape. 
+    This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
+    % Finally, a multi resolution approach is presented which enables for a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
+    This approach enables for an accurate shape determination around a potential landing site.
+    We demonstrate this approach using several radar shape models of asteroids and provide a full dynamic simulation about asteroid 4769 Castalia.
 \end{abstract}
 
 \section*{Nomenclature}
@@ -58,11 +64,89 @@ iso	& waypoint index
 
 
 \section{Introduction}
-\lettrine{T}{his} document is a \LaTeX{} template for preparation of papers for AIAA Technical Journals. If you are reading a hard-copy or .pdf version of this document, download the electronic file, new-aiaa.cls, and use it to prepare your manuscript.
+% Motivation for missions/studying asteroids
+Small solar system bodies, such as asteroids and comets, continue to remain a focus of scientific study.
+The small size of these bodies prevents the formation of large internal pressures and temperatures which helps to preserve the early chemistry of the solar system.
+This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
+Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
+These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
+In spite of the significant interest, and the extensive research by the community, the operation of spacecraft near small bodies remains a challenging problem.
 
-Authors using \url{https://www.overleaf.com} may simply open the AIAA template from the Overleaf gallery to work online; no local installation of any files is required. Authors using a local \LaTeX{} installation will need to open the template in Overleaf and use the ``Download as zip'' option from the project menu to download a local copy of the template files. To create your formatted manuscript, type your own text over sections of the template, or cut and paste from another document and then use the available markup styles. Note that special formatting such as subscripts, superscripts, and italics may be lost when you copy your text into the template from a Word Processing program such as Microsoft Word. See Sec. IV for more detailed formatting guidelines.
+% dynamics are difficult around asteroids
+The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
+Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
+Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
+As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
+In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
+Due to their small size, frequently with a maximum radius less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
+Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
+As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and remain robust to unmodelled forces.
+
+Another key dynamic consideration is the coupling between rotational and translational states around the asteroid.
+The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
+The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
+For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
+References~\citenum{elmasri2005} and~\citenum{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+Furthermore, the spacecraft model is assumed to remain in a planar orbit.
+As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
+Reference~\citenum{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
+However, the analysis only considered a second order spherical harmonic gravitational potential model. 
+Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
+
+% Gravity model is important and dependent on shape
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
+Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
+The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
+The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
+The method provides the exact potential at any point outside the body for a given shape model.
+As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
+A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
+
+% Challenges involved in operation near asteroids (gravity, shape, distance)
+% generating the shape from the ground is difficult
+Prior to the arrival of a spacecraft at an asteroid, Earth-based sensors are used to characterize the body.
+Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined.
+Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
+This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
+Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
+The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
+This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the small surface features of the asteroid.
+Frequently, only a coarse model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvoused with the asteroid.
+As a result, upon arrival the gravitational environment near the asteroid is poorly modeled as the shape of the asteroid is not accurate.
+Therefore, the polyhedron potential model is not appropriate immediately upon arrival but rather only after the shape has been determined.
+
+% on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
+On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
+After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
+During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
+The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
+During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
+Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
+However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
+Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
+Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
+The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
+Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
+
+% we want to generate the shape in real time and then use this shape for updated and better control
+In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
+Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
+This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate.
+Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
+In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
+Furthermore, instead of computationally expensive surface reconstruction methods, we present a straightforward and conceptually simple method to enable real time shape updates. 
 
 
+% our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
+
+% Benefits and contribution of our approach
+In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
+Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
+This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
+This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
+This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
+The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
 \section{Procedure for Paper Submission}
 
 All manuscripts are to be submitted online at \url{https://mc.manuscriptcentral.com/aiaa}. Select either “Log In” if you have an existing account or “Create an Account” if this is your first time submitting to one of AIAA’s journals. If it’s the latter, please follow the instructions ScholarOne provides. Once you have logged into ScholarOne, select “Author Center” then scroll down. Under “Author Resources”, select the star beside “Click here to submit a new manuscript”. The site will take you step-by-step through the submission process. Once you submit your manuscript, you will receive an email containing your manuscript ID number as well as a link to view the status of your manuscript. 
