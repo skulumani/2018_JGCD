@@ -412,75 +412,75 @@ The desired attitude command is defined as
 This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, and can be modified for a different camera orientation.
 
 
-% \section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
+\section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
 
-% The shape update approach presented is designed with autonomous operations in mind. 
-% It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
-% Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
-% However, these small features are critical for surface operations and safe landings.
-% In addition, it would be computationally prohibitive to have a uniformly high resolution mesh.
-% In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
+The shape update approach presented is designed with autonomous operations in mind. 
+It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
+Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
+However, these small features are critical for surface operations and safe landings.
+In addition, it would be computationally prohibitive to have a uniformly high resolution mesh.
+In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
 
-% Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
-% As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
-% The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
-% As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
-% However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
+Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
+As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
+As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
+However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
 
-% The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
-% In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
-% This approach allows for a spacecraft to autonomously select and land on small body.
+The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
+In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
+This approach allows for a spacecraft to autonomously select and land on small body.
 
-% The surface slope is computed according to the method developed in Reference~\cite{scheeres1996}.
-% Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
-% At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
-% \begin{align}\label{eq:surface_force}
-%     U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
-% \end{align}
-% where \( \omega \in \R^1 \) is the angular velocity of the asteroid and \( U_i \) is computed from~\cref{eq:attraction}.
-% Then the surface slope can be computed from
-% \begin{align}\label{eq:surface_slope}
-%     \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
-% \end{align}
-% where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
-% If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
+The surface slope is computed according to the method developed in Reference~\cite{scheeres1996}.
+Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
+At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
+\begin{align}\label{eq:surface_force}
+    U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
+\end{align}
+where \( \omega \in \R^1 \) is the angular velocity of the asteroid and \( U_i \) is computed from~\cref{eq:attraction}.
+Then the surface slope can be computed from
+\begin{align}\label{eq:surface_slope}
+    \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
+\end{align}
+where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
+If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
 
-% Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
-% Finally, we also assign a random science value to the surface in the form of a two dimensional Gaussian.
-% Utilizing these metric, a landing site is chosen to minimize the surface cost given as
-% \begin{align}\label{eq:surface_cost}
-%     J_l =  J_{\text{distance}} - J_{\text{science}},
-% \end{align}
-% where the surface slope is considered a hard constraint such that any candidate landing site must satisfy \( \phi \leq \phi_m \).
+Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
+Finally, we also assign a random science value to the surface in the form of a two dimensional Gaussian.
+Utilizing these metric, a landing site is chosen to minimize the surface cost given as
+\begin{align}\label{eq:surface_cost}
+    J_l =  J_{\text{distance}} - J_{\text{science}},
+\end{align}
+where the surface slope is considered a hard constraint such that any candidate landing site must satisfy \( \phi \leq \phi_m \).
 
-% \paragraph{Mesh Refinement}\label{sec:refinement}
+\paragraph{Mesh Refinement}\label{sec:refinement}
 
-% Once a suitable landing site is selected, the surrounding area is isolated and refined by adding new vertices and faces in the specified area.
-% The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
-% In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL).
-% This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
-% % TODO Think about adding PMP 6.12 image here
+Once a suitable landing site is selected, the surrounding area is isolated and refined by adding new vertices and faces in the specified area.
+The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
+In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL).
+This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
+% TODO Think about adding PMP 6.12 image here
 
-% For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a unit cube.
-% The original unit cube is composed of \num{8} vertices and \num{12} faces.
-% The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{fig:cube_original_mesh}.
-% A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
-% The two large triangular faces are divided into a number of smaller triangular faces.
-% Furthermore, the additional faces are all approximately the same size and preserve the original surface of the cube.
-% After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
-% \begin{figure}[htbp]
-%     \centering
-%     \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.25\textwidth]{figures/original_cube.jpg}}~
-%     \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.25\textwidth]{figures/remesh_cube.jpg}}
-%     \caption{Example of isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
-% \end{figure}
+For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a unit cube.
+The original unit cube is composed of \num{8} vertices and \num{12} faces.
+The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{fig:cube_original_mesh}.
+A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
+The two large triangular faces are divided into a number of smaller triangular faces.
+Furthermore, the additional faces are all approximately the same size and preserve the original surface of the cube.
+After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.25\textwidth]{figures/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.25\textwidth]{figures/remesh_cube.jpg}}
+    \caption{Example of isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
+\end{figure}
 
-% In order to demonstrate the multi resolution surface refinement we require a true shape model that contains small scale surface features.
-% In this dissertation, we utilize the true radar shape model of asteroid 4769 Castalia.
-% However, the shape model is not highly detailed as it does not contain small craters or surface features.
-% In order to apply the landing refinement process we augment a small portion of the mesh with some additional features and utilize the mesh update scheme shown previously to update the surface.
-% The augmented model of Castalia is shown in~\cref{fig:castalia_refinement}.
-% \Cref{fig:castalia_refinement} shows that the increased resolution is required in order to reconstruct these small surface details.
+In order to demonstrate the multi resolution surface refinement we require a true shape model that contains small scale surface features.
+In this dissertation, we utilize the true radar shape model of asteroid 4769 Castalia.
+However, the shape model is not highly detailed as it does not contain small craters or surface features.
+In order to apply the landing refinement process we augment a small portion of the mesh with some additional features and utilize the mesh update scheme shown previously to update the surface.
+The augmented model of Castalia is shown in~\cref{fig:castalia_refinement}.
+\Cref{fig:castalia_refinement} shows that the increased resolution is required in order to reconstruct these small surface details.
 
 
 \section{Numerical Examples}\label{sec:reconstruction_examples}
