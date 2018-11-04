@@ -525,6 +525,87 @@ In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \
 The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take LIDAR measurements of the surface at \SI{1}{\hertz}.
 Once the total uncertainty has been reduced sufficiently the spacecraft maneuvers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
+\subsection{Shape Reconstruction}\label{sec:kinematic_exploration}
+
+The results in this section utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
+We ignore the dynamics of the asteroid and spacecraft and instead focus solely on the shape reconstruction.
+\Cref{tab:kinematic_asteroids} lists the true shape model parameters of asteroids Geographos and Golevka.
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        Asteroid & Semi-major axes (\si{\kilo\meter}) & Vertices & Faces\\
+        \midrule
+        \num{1620} Geographos & \( 2.5 \times 1.0 \times 1.05 \) & \num{8192} & \num{16380}  \\
+        \num{6489} Golevka & \( 0.53 \times 0.53 \times 0.53 \)  & \num{2048} & \num{4092} \\
+        \bottomrule
+    \end{tabular} 
+    \caption{Asteroid properties for kinematic only exploration~\label{tab:kinematic_asteroids}}
+\end{table}
+The spacecraft is assumed to be able to arbitrarily move around the asteroid and collect measurements.
+The simulations begin with an triaxial ellipsoid mesh that is sized to match the semi-major axes of each asteroid.
+With this estimate, measurements are made of the surface and used to reconstruct the true shape following the process in~\cref{sec:radius_update}.
+\Gls{lidar} measurements are generated until the total uncertainty
+\begin{align*}
+    \sum_i w_i,
+\end{align*}
+is sufficiently small.
+In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{sec:polyhedron_volume}.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_1872.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_3745.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_5617.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
+    \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
+\end{figure}
+
+\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
+Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
+
+\begin{figure}[htbp]
+    \centering
+    \input{tikz/geographos_metrics.tikz}
+    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
+\end{figure}
+
+\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
+Discovered in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
+Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+
+\begin{figure}[htbp]
+    \centering
+    \input{tikz/golevka_metrics.tikz}
+    \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
+\end{figure}
+
+The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
+It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
+This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}\\%
+
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}\\%
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \caption[Asteroid Golevka incremental reconstruction]{Incremental reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
+\end{figure}
 \paragraph{Asteroid 52760 Reconstruction}
 
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
@@ -580,63 +661,63 @@ In addition, the volume estimate is initially a much larger value but quickly co
 \end{figure}
 The spacecraft autonomously navigates around asteroid Castalia to best minimize the cost function in~\cref{eq:control_cost}.
 
-% \paragraph{Castalia Landing Site Selection}
+\paragraph{Castalia Landing Site Selection}
 
-% With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
-% Based on the shape estimate we seek to determine the best location to land. 
-% In reality, any landing site selection would be based on a wide variety of factors and constraints, however we highlight a few which can be determined autonomously and from the shape estimate.
-% The first metric is related to the surface slope which is computed using the completed shape estimate and~\cref{eq:surface_slope}.
-% Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
-% \begin{figure}[htbp]
-%     \centering
-%     \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/slope.pdf}}%
-%     \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/slope_masked.pdf}}
-%     \caption{Surface slope of asteroid Castalia\label{fig:surface_slope_castalia_both}}
-% \end{figure}
+With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
+Based on the shape estimate we seek to determine the best location to land. 
+In reality, any landing site selection would be based on a wide variety of factors and constraints, however we highlight a few which can be determined autonomously and from the shape estimate.
+The first metric is related to the surface slope which is computed using the completed shape estimate and~\cref{eq:surface_slope}.
+Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/slope.pdf}}%
+    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/slope_masked.pdf}}
+    \caption{Surface slope of asteroid Castalia\label{fig:surface_slope_castalia_both}}
+\end{figure}
 
-% The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
-% We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
-% Landing sites which are closer will be considered preferentially over those at a larger distance.
-% \Cref{fig:distance_castalia_both} shows a surface plot of the distance to the surface. 
-% The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
-% \begin{figure}[htbp]
-%     \centering
-%     \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}%
-%     \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
-%     \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
-% \end{figure}
-% We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
-% The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.75\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
-%     \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
-% \end{figure}
-% After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
+The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
+We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
+Landing sites which are closer will be considered preferentially over those at a larger distance.
+\Cref{fig:distance_castalia_both} shows a surface plot of the distance to the surface. 
+The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}%
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
+\end{figure}
+We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
+The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
+    \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
+\end{figure}
+After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
 
-% \paragraph{Castalia Landing Site Refinement}
-% One key benefit of an in-situ spacecraft is the ability to measure surface features at a much higher resolution than is possible from the ground. 
-% This detail provides a much higher fidelity data source than ground based measurements. 
-% In order to emulate this in the simulation we augment the shape model of Castalia with several small craters and outcroppings as shown in~\cref{fig:castalia_refinement}.
-% However, these small features would be difficult to capture with the current low resolution shape model of approximately \num{4000} faces.
-% The lower number of faces is useful for the evaluation of the polyhedron potential model, it is not ideal for the capture of minute surface features. 
-% As a result, we utilize the isotropic remeshing operation described previously to selectively increase the fidelity in the region about the desired landing site.
-% \Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
-% \begin{figure}[htbp]
-%     \centering
-%     \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/density.pdf}}%
-%     \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/land/density.pdf}}
-%     \caption{Vertex density before and after refinement at asteroid Castalia\label{fig:castalia_refine_density}}
-% \end{figure}
+\paragraph{Castalia Landing Site Refinement}
+One key benefit of an in-situ spacecraft is the ability to measure surface features at a much higher resolution than is possible from the ground. 
+This detail provides a much higher fidelity data source than ground based measurements. 
+In order to emulate this in the simulation we augment the shape model of Castalia with several small craters and outcroppings as shown in~\cref{fig:castalia_refinement}.
+However, these small features would be difficult to capture with the current low resolution shape model of approximately \num{4000} faces.
+The lower number of faces is useful for the evaluation of the polyhedron potential model, it is not ideal for the capture of minute surface features. 
+As a result, we utilize the isotropic remeshing operation described previously to selectively increase the fidelity in the region about the desired landing site.
+\Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/density.pdf}}%
+    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/land/density.pdf}}
+    \caption{Vertex density before and after refinement at asteroid Castalia\label{fig:castalia_refine_density}}
+\end{figure}
 
-% The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
-% \Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the shape reconstruction algorithm that the small features are effectively estimated.
-% \begin{figure}[htbp]
-%     \centering
-%     \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}%
-%     \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_est.jpg}}
-%     \caption{Asteroid Castalia with augmented with additional surface features~\label{fig:castalia_refinement}}
-% \end{figure}
+The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
+\Cref{fig:castalia_refinement} shows that given LIDAR measurements alone and the shape reconstruction algorithm that the small features are effectively estimated.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_true.jpg}}%
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,height=0.2\textheight,width=0.5\textwidth]{figures/dynamic_exploration/castalia_bump_est.jpg}}
+    \caption{Asteroid Castalia with augmented with additional surface features~\label{fig:castalia_refinement}}
+\end{figure}
 
 \paragraph{Castalia Vertical Descent}
 
