@@ -13,22 +13,23 @@
 \author{Shankar Kulumani \footnote{PhD, Mechanical and Aerospace Engineering, \href{mailto:skulumani@gwu.edu}{skulumani@gwu.edu}}
 and
 Taeyoung Lee \footnote{Associate Professor, Mechanical and Aerospace Engineering, \href{mailto:tylee@gwu.edu}{tylee@gwu.edu}}}
-\affil{George Washington University, Washington, DC, 20052}
+\affil{The George Washington University, Washington, DC, 20052}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-    Knowledge of the shape of an asteroid is crucial for spacecraft operations.
-    The standard method of determining the gravitational potential, through the use of a polyhedron potential model, is dependent on the shape model.
-    Furthermore, accurate landing or low altitude operations requires accurate knowledge of the surface topology. 
-    The typical approach to shape determination requires an extensive ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
-    Instead, we present an efficient method for estimating the shape of an asteroid in real time.
-    Range measurements of the surface are used to incrementally correct an initial shape estimate according to Bayesian framework. 
-    Then, an optimal guidance scheme is proposed to control the vantage point of the range sensor to construct a more accurate model of the asteroid shape. 
+    Constructing of the precise shape of an asteroid is critical for spacecraft operations, as the gravitational potential is determined by spatial mass distribution.
+    For example, the standard method of determining the gravitational potential of an asteroid, through the use of a polyhedron potential model, is directly dependent on the shape model.
+    Furthermore, safe landing or close-proximity operations requires accurate knowledge of the surface topology. 
+    The typical approach to shape determination requires a prolonged ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
+    This paper presents a set of approaches to explore an unknown asteroid with onboard calculations, and to land on its surface area selected in an optimal fashion. 
+    The main motivation is to avoid the extended period of mapping phase or preliminary ground observations that are commonly required in spacecraft mission around asteroids. 
+    First, range measurements from spacecraft to the surface are used to incrementally correct an initial shape estimate according to the Bayesian framework. 
+    Then, an optimal guidance scheme is proposed to control the vantage point of the range sensor to construct a complete 3D model of the asteroid shape. 
     This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
-    Finally, a multi resolution approach is presented which enables for a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
+    Finally, a multi resolution approach is presented to construct a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
     This approach enables for an accurate shape determination around a potential landing site.
     We demonstrate this approach using several radar shape models of asteroids and provide a full dynamic simulation about asteroid 4769 Castalia.
 \end{abstract}
@@ -130,13 +131,29 @@ The dependency on expensive ground-based shape reconstruction techniques limits 
 Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
 
 % we want to generate the shape in real time and then use this shape for updated and better control
-In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
+This paper presents three techniques to explore an asteroid without need for an extended period of mapping phase or ground based measurements. 
+First, we develop a method to compute the surface shape of an asteroid from onborad range measurements.
+Assuming that a meshed model of an initial estimate, such as an ellipsoidal shape, is available, the radius of any vertex in the measured area is adjusted according to the measurements. 
+This is completed in a stochastic fashion where the degree of confidence in the current shape is compared with the level of measurement noise. 
 Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
 This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate.
-Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
-In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
-Furthermore, instead of computationally expensive surface reconstruction methods, we present a straightforward and conceptually simple method to enable real time shape updates. 
+This technique is verified by numerical examples of shape construction for asteroids Geographos and Golevka. 
 
+Next, we present an optimal guidance scheme to construct a complete and accurate shape model of an asteroid. 
+The motivation is to actively control the relative position of the spacecraft such that the range sensor covers the surface area from every perspective. 
+Utilizing the stochastic formulation of the above shape construction method, this is addressed by an optimization to find the pose of the spacecraft that minimizes the degree of uncertainties in the shape model. 
+
+Finally, we consider the scenario of landing on the surface of an asteroid. 
+Once a complete shape model is constructed, we study a landing site selection problem. 
+For safety concern, the area with higher slope is excluded. 
+Within the low slope region, a landing site is selected to minimize a control cost subtracted by a measure of scientific interests. 
+Once the landing site is selected, the nearby area is mapped with a higher resolution to create a detailed topological map.  
+The proposed multi resolution mapping yields a high fidelity map without the computational burden of a uniformly high resolution mesh.  
+
+The optimal guidance and multi resolution mapping schemes are illustrated by dynamic simulation of landing on the asteroid Castalia. 
+During this simulation, This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special Euclidean group.
+This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
 
 % our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
 
@@ -144,10 +161,6 @@ Furthermore, instead of computationally expensive surface reconstruction methods
 In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
 Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
 This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
-This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
-The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
-This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
-The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
 
 \section{Problem Formulation}\label{sec:problem}
 
