@@ -765,13 +765,12 @@ Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, betwee
 Finally, we also assign a random science value to the surface in the form of a two dimensional Gaussian.
 This can be modified depending on the specific objective of the mission. 
 
-Utilizing these metric, a landing site is chosen to minimize the surface cost given as
+Utilizing these metrics, a landing site is chosen to minimize the surface cost given as
 \begin{align}\label{eq:surface_cost}
-    J_l =  J_{\text{distance}} - J_{\text{science}},
+    \min_{v_i} J_l(x, v_i) =  J_{\text{distance}}(x, v_i) - J_{\text{science}}(v_i),
 \end{align}
 subject to a hard inequality constraint requiring that the surface slope is less than a threshold, i.e., \( \phi \leq \phi_m \).
 
-\todo{rewrite the above equation as a function of a candidate landing site location; we also need to describe how many points are considered for minimization; is it just the set of vertices}
 
 \subsection{High-Resolution Mapping}\label{sec:refinement}
 
