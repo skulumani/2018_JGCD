@@ -307,7 +307,7 @@ Using the state of the asteroid, we can transform this measurement to the astero
     \vc{p}_i = R_A^T (x+R \vc{d}_i), 
 \end{align*}
 which is the vector from the origin of the asteroid fixed frame to the surface point of the measurement.
-\todo{check the above}
+
 Given many measurements, \( \vc{p}_i \in \R^3 \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
 The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
@@ -327,23 +327,15 @@ This approach alleviates much of complexity of incorporating new vertices or sur
 This implies that the total number of vertices of the shape model is fixed.
 However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which is discussed in the subsequent section for multi resolution mapping.
 
-The proposed scheme follows the Bayesian estimation, where the degree of confident in the current estimate is compared with that of new measurements. 
+The proposed scheme follows a Bayesian estimation scheme, where the degree of confidence in the current estimate is compared with that of new measurements. 
 More specifically, the radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
 \begin{align*}
     v_i \sim \mathcal{N}(r_i, w_i^2)
 \end{align*}
 where \( r_i \) is the initial estimate of the radial distance of vertex \( \vc{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
 
-Suppose the $j$-th measurement, namely $p_j\in\Re^3$ is available. 
-As illustrated in \Cref{fig:lidar_example}, the angular resolution of range measurements is assumed to be coarser than the mesh grid of the initial estimate. 
-Consequently, the measurement may not be aligned to any vertex in general. 
-In order to improve the computational efficiency measurement updates are assumed to be local in nature.
-Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
-From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_j \) and vertex \( \vc{v}_i \) of the shape estimate is given by
-\begin{align}\label{eq:geodesic_distance}
-    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
-\end{align}
-We define a area of interest, \( \Delta S\in\Re \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+In order to reduce the computational demands, which are typical in point cloud applications, we do not update the complete shape model for each measurement.
+Instead we define an area of interest, \( \Delta S\in\Re \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
 We relate \( \Delta S \) to an equivalent angular constraint using
 \begin{align}\label{eq:region_of_interest}
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
@@ -364,13 +356,24 @@ The variance for each measurement vector is assumed to be related to the ``dista
 Here, we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
 More explicitly, the variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined by the geodesic distance as
 \begin{align}
-    w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
+    w_{j, i} = c \norm{\vc{p}_j} \Delta \sigma_{j,i} ,
 \end{align}
+where \( c \) is an additional scaling constant.
 This approach relates the uncertainty of the measurement \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
 As a result, measurements which are far from a vertex, i.e.\ \( \Delta \sigma \) is large, will tend to have a larger variance and hence more uncertainty. 
 This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
 The main benefit of a correlation based approach, in contrast to feature extraction is the relative simplicity of implementation.
 However, the resulting correlation values do not precisely represent the noise or uncertainty characteristics of the sensor in a quantitative manner.
+
+Suppose the $j$-th measurement, namely $p_j\in\Re^3$ is available. 
+As illustrated in \Cref{fig:lidar_example}, the angular resolution of range measurements is assumed to be coarser than the mesh grid of the initial estimate. 
+Consequently, the measurement may not be aligned to any vertex in general. 
+In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_j \) and vertex \( \vc{v}_i \) of the shape estimate is given by
+\begin{align}\label{eq:geodesic_distance}
+    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
+\end{align}
 
 From Bayes' theorem, the a posterior probability of the vertex radius is given by
 \begin{align}
