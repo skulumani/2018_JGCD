@@ -409,17 +409,17 @@ There properties are listed at \Cref{tab:kinematic_asteroids}.
 
 The results in this section utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
 We ignore the dynamics of the asteroid and spacecraft and instead focus solely on the shape reconstruction, and the spacecraft is assumed to be able to arbitrarily move around the asteroid and collect measurements.
+The spacecraft remains at a fixed orbital radius defined as twice the maximum semi-major axis of the asteroid.
 The simulations begin with an triaxial ellipsoid mesh that is sized to match the semi-major axes of each asteroid.
 With this estimate, measurements are made of the surface and used to reconstruct the true shape following the process in~\cref{sec:radius_update}.
-LIDAR measurements are generated until the total uncertainty
+LIDAR measurements are generated until the total uncertainty of the model
 \begin{align*}
     \sum_i w_i,
 \end{align*}
 is sufficiently small.
-In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented here. 
-% TODO Add polyhedron volume algorithm
-
-\todo{explain how the location of spacecraft is selected. cite the reference for the shape model, clarify the above meaning of small uncertainty}
+This uncertainty metric is the summation of the uncertainty of each vertex of the shape estimate.
+As a result, a small total uncertainty is used to indicate that additional measurements would not substantially modify the shape.
+In addition, we compute the volume of the estimated shape and compare against the volume of the truth shape model~\cite{neese2004}.
 
 \begin{figure}[htbp]
     \centering
