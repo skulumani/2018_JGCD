@@ -782,8 +782,7 @@ However, utilizing a mixed resolution approach allows for a high fidelity in a s
 
 Once a suitable landing site is selected, the surrounding area is isolated and refined by adding new vertices and faces in the specified area.
 The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
-In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL).
-\todo{add reference to CGAL}
+In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL)~\cite{cgalproject2018}.
 This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
 % TODO Think about adding PMP 6.12 image here
 
