@@ -204,8 +204,6 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
 
-\todo{Add the schematic of dumbbell that you created for the dissertation?}
-
 \subsection{Spacecraft Dynamic Model}
 
 \todo{Define every variable, $m_1,m_2,\rho_1,\ldots$. }
@@ -213,15 +211,17 @@ This assumption allows us to treat the motion of the vehicle independently from 
 Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
 \begin{align}
     \dot{\vc{x}} &= \vc{v}, \\
-    \parenth{m_1 + m_2} \dot{\vc{v}} &= m_1 R_A \deriv{U}{\vc{z}_1} + m_2 R_A \deriv{U}{\vc{z}_2},\label{eq:v_dot} \\
+    \parenth{m_1 + m_2} \dot{\vc{v}} &= m_1 R_A \deriv{U}{\vc{z}_1} + m_2 R_A \deriv{U}{\vc{z}_2} + u_f,\label{eq:v_dot} \\
     \dot{R} &= R S(\vc{\Omega}) , \\
-    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2.
+    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2 + u_m.
 \end{align}
 The vectors \( \vc{z}_1 \) and \( \vc{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
 \begin{align}
     \vc{z}_1 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_1} , \\
-    \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2}.
+    \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2},
 \end{align}
+where \( \rho_i \) defines the position of each mass in the spacecraft fixed body frame.
+The control inputs to the spacecraft are defined by \( u_f, u_m \in \Re^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively.
 The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
 \begin{align}
     \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
