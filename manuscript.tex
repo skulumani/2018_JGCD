@@ -136,6 +136,7 @@ Similarly, during landing the spacecraft will require the ability to sense and m
 The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
 Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
 
+% TODO Reduce some of these paragraphs since they're wordy
 % we want to generate the shape in real time and then use this shape for updated and better control
 This paper presents three techniques to explore an asteroid without need for an extended period of mapping phase or ground based measurements. 
 First, we develop a method to compute the surface shape of an asteroid from onborad range measurements.
@@ -172,18 +173,33 @@ This type of approach allows for the spacecraft to maneuver and land on the aste
 
 In this paper, we consider the motion of a dumbbell model of spacecraft around an asteroid.
 The dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics.
-In this model, the spacecraft consists of two masses connected by a massless rod.
-The asteroid is modeled as a constant density polyhedron with constant, and known, spin about its maximum moment of inertia. 
+The dumbbell is defined by two spherical masses of radius \( r_1, r_2 \in \R \) with masses \( m_1, m_2 \in  \R\).
+The masses are separated by a massless rod of length \( l \) and attached to the centers of each mass.
+\Cref{fig:dumbbell_sc} shows the model and associated parameters.
+\begin{figure}[htbp]
+    \centering
+    \input{tikz/dumbbell.tikz}
+    \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
+\end{figure}
 Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
-The axes of the body fixed frame for the spacecraft are denoted by $\{b_1,b_2,b_3\}$, and those for the asteroid are denoted by $\{f_1,f_2,f_3\}$. 
+The spacecraft body fixed frame is centered at the center of mass of the vehicle.
+The \( b_1 \)  axis is aligned with the connecting rod and directed along the axis of symmetry.
+The \( b_2, b_3 \) axes span the plane orthogonal to the axis of symmetry of the dumbbell.
+The distance from the center of mass to each spherical mass is defined as
+\begin{align}\label{eq:dumbbell_mass_distances}
+    l_1 &= \frac{m_2}{m_1 + m_2} l, \\
+    l_2 &= l - l_1.
+\end{align}
+The asteroid is modeled as a constant density polyhedron with constant, and known, spin about its maximum moment of inertia. 
+The axes of the body fixed frame for the asteroid are denoted by $\{f_1,f_2,f_3\}$. 
 We also define the inertial frame, whose axes are denoted by $\{e_1,e_2,e_3\}$. 
 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \vc{x}\in\Re^3 \) - the position of the center of mass of the  spacecraft represented in the inertial frame, \( \vc{e}_i\),
     \item \( R\in\SO \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
-    \item \( \vc{\Omega}\in\Re \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
-    \item \( R_A\in SO \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
+    \item \( \vc{\Omega}\in\Re^3 \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
+    \item \( R_A\in \SO \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
