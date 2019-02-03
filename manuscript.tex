@@ -272,49 +272,21 @@ We assume that each face is a triangle composed of three vertices and three edge
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
-Here, we summarize the key developments and equations required for implementation.
+Here, we summarize the key equations required for implementation.
 
-Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
-For each face we define the face dyad \( \vc{F}_f \) as
-\begin{align}\label{eq:face_dyad}
-    \vc{F}_f &= \hat{\vc{n}}_f \hat{\vc{n}}_f \in \R^{3 \times 3}.
-\end{align}
-Each edge is a member of two faces and has an outward pointing edge normal vector, perpendicular to both the edge and the face normal.
-For the edge connecting the vectors \( \vc{v}_1 \) and \( \vc{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
-\begin{align}\label{eq:edge_dyad}
-    \vc{E}_{12} = \hat{\vc{n}}_A \hat{\vc{n}}_{12}^A + \hat{\vc{n}}_B \hat{\vc{n}}_{21}^B \in \R^{3 \times 3}.
-\end{align}
-The edge dyad \( \vc{E}_e  \), is defined for each edge and is a function of the two adjacent faces meeting at that edge.
-The face dyad \( \vc{F}_f \), is defined for each face and is a function of the face normal vectors.
-
-Let \( \vc{r}_i \in \R^{3 \times 1} \) be the vector from the spacecraft to the vertex \( \vc{v}_i \) and it's length is given by \( r_i = \norm{\vc{r}_i} \in \R^{1} \).
-The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vc{v}_i \) and \( \vc{v}_j \), with a constant length \( e_{ij} = \norm{\vc{e}_{ij}} \in \R^1\) is
-\begin{align}\label{eq:edge_factor}
-    L_e &= \ln \frac{r_i + r_j + e_{ij}}{r_i + r_j - e_{ij}}.
-\end{align}
-For the face defined by the vertices \( \vc{v}_i, \vc{v}_j, \vc{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
-\begin{align}\label{eq:face_factor}
-    \omega_f &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{r_i r_j r_k + r_i \parenth{\vc{r}_j \cdot \vc{r}_k} + r_j \parenth{\vc{r}_k \cdot \vc{r}_i} + r_k \parenth{\vc{r}_i \cdot \vc{r}_j}} .
-\end{align}
-The gravitational potential due to a constant density polyhedron is given as
-\begin{align}\label{eq:potential}
-    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
-\end{align}
-where \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
-Furthermore we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
+We define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
     \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} \vc{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
     \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
 \end{align}
-
 One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
 They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
 Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
 Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
 
-\section{Incremental Shape Reconstruction}\label{sec:radius_update}
+\section{Bayesian Shape Reconstruction}\label{sec:radius_update}
 
 One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
