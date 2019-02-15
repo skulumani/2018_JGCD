@@ -40,10 +40,10 @@ Taeyoung Lee \footnote{Associate Professor, Mechanical and Aerospace Engineering
     We demonstrate this approach using several radar shape models of asteroids and provide a full dynamic simulation about asteroid 4769 Castalia.
 \end{abstract}
 
-\section*{Nomenclature}
+% \section*{Nomenclature}
 
-\noindent(Nomenclature entries should have the units identified)
-\noindent{Add elements}
+% \noindent(Nomenclature entries should have the units identified)
+% \noindent{Add elements}
 % {\renewcommand\arraystretch{1.0}
 % \noindent\begin{longtable*}{@{}l @{\quad=\quad} l@{}}
 % $A$  & amplitude of oscillation \\
@@ -206,8 +206,6 @@ This assumption allows us to treat the motion of the vehicle independently from 
 
 \subsection{Spacecraft Dynamic Model}
 
-\todo{Define every variable, $m_1,m_2,\rho_1,\ldots$. }
-
 Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
 \begin{align}
     \dot{\vc{x}} &= \vc{v}, \\
@@ -273,17 +271,12 @@ As a result, only two faces meet at each edge while three faces meet at each ver
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
 Here, we summarize the key equations required for implementation.
-
 We define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
     \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} \vc{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
     \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
 \end{align}
-One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
-They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
-Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
-Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
 
 \section{Bayesian Shape Reconstruction}\label{sec:radius_update}
@@ -586,9 +579,9 @@ Then the following properties hold:
         h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
 	\end{align*}
 \end{enumerate}
-The proof of these properties is available~\cref{proof:attitude_configuration_error}.
+The proof of these properties is available~\cite{kulumani2017a}.
 
-With the appropriate attitude configuration error we now present the error dynamics in~\cref{prop:attractive_error_dynamics}, which are used in the subsequent development of the nonlinear control system.
+With the appropriate attitude configuration error we now present the error dynamics, which are used in the subsequent development of the nonlinear control system.
 The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
 \begin{gather}
     \diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eq:A_dot} \\
@@ -597,17 +590,17 @@ The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
 \end{gather}
 where the matrix \(E(R,R_d)\in \R^{3\times3} \) is given by
 \begin{align}
-    E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eq:E} \\
+    E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eq:E}
 \end{align}
-The proof is show in~\Cref{proof:attractive_error_dynamics}
-With the appropriate attitude configuration error we now present an attitude controller for attitude stabilization and tracking of the inertial attitude dynamics given in~\cref{eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics}.
+The proof is available in~\cite{kulumani2017a}.
 
+Using these properties we can now define an attitude control input to allow the vehicle to track attitude errors.
 Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
 \begin{gather}
     u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}. \label{eqn:nodist_control}
 \end{gather}
 Then the zero equilibrium of the attitude error is asymptotically stable.
-The proof is show in~\cref{proof:attitude_controller}.
+The proof is show in~\cite{kulumani2017a}.
 
 The required translational control are defined in terms of the position and velocity tracking errors.
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
@@ -635,7 +628,7 @@ A control input, \( u_f \), is derived to ensure asymptotic trajectory tracking 
     \end{align}
     then the zero equilibrium of the error vectors~\cref{eq:translation_error_variables} is stable in the sense of Lyapunov.
     Furthermore, \( e_x, e_v \to 0 \) as \( t \to \infty\).
-The proof is shown in~\cref{proof:translational_control}.
+    The proof is shown in~\cite{kulumani2017a}.
 
 The control gains are chosen based on the desired closed-loop system response. 
 A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
