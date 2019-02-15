@@ -208,10 +208,10 @@ This assumption allows us to treat the motion of the vehicle independently from 
 
 Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
 \begin{align}
-    \dot{\vc{x}} &= \vc{v}, \\
+    \dot{\vc{x}} &= \vc{v}, \label{eq:x_dot}\\
     \parenth{m_1 + m_2} \dot{\vc{v}} &= m_1 R_A \deriv{U}{\vc{z}_1} + m_2 R_A \deriv{U}{\vc{z}_2} + u_f,\label{eq:v_dot} \\
-    \dot{R} &= R S(\vc{\Omega}) , \\
-    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2 + u_m.
+    \dot{R} &= R S(\vc{\Omega}) , \label{eq:R_dot}\\
+    J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2 + u_m. \label{eq:omega_dot}
 \end{align}
 The vectors \( \vc{z}_1 \) and \( \vc{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
 \begin{align}
@@ -632,8 +632,7 @@ A control input, \( u_f \), is derived to ensure asymptotic trajectory tracking 
 
 The control gains are chosen based on the desired closed-loop system response. 
 A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
-We use the control inputs defined in~\cref{eq:translational_control,eqn:adaptive_control} and substitute them into the dynamic equations of motion in~\cref{eq:inertial_position_dynamics,eq:inertial_velocity_dynamics,eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics}.
-\todo{add description of control}
+We use the control inputs defined in~\cref{eq:translational_control,eqn:nodist_control} and substitute them into the dynamic equations of motion in~\cref{eq:x_dot,eq:v_dot,eq:R_dot,eq:omega_dot}.
 
 \subsection{Numerical Examples}
 
@@ -902,248 +901,248 @@ Throughout this paper, it is considered that the position of the spacecraft rela
 Future works include integrating a localization technique with the proposed shape reconstruction scheme such that the relative location and the shape model are estimated simultaneously.
 
 
-\section*{Appendix}
+%\section*{Appendix}
 
-\subsection*{Proof of Attitude Configuration Error}\label{proof:attitude_configuration_error}
-To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
-The infinitesimal variation of a rotation matrix is defined as
-\begin{align*}
-    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta}.
-\end{align*}
-Using this, the variation of~\cref{eq:A} is taken with respect to \( R \) as
-\begin{align*}
-	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
-%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
-\end{align*}
-where we used~\cref{eqn:hat1} to achieve the simplified form.
-\Cref{eq:dirDiff_A} also proves~\cref{item:prop_eRA}.
-Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( A \).
-Next, the second derivative of \( A \) is computed as
-\begin{align*}
-    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
-    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
-    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
-    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
-\end{align*}
-where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
-Evaluating the Hessian at \( R = R_d \)
-\begin{align}\label{eq:A_hessian}
-    \Hess(A)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} \parenth{\tr{G}I -  G} \eta 
-\end{align}
-shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cref{item:prop_A_psd}.
+%\subsection*{Proof of Attitude Configuration Error}\label{proof:attitude_configuration_error}
+%To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
+%The infinitesimal variation of a rotation matrix is defined as
+%\begin{align*}
+%    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta}.
+%\end{align*}
+%Using this, the variation of~\cref{eq:A} is taken with respect to \( R \) as
+%\begin{align*}
+%	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+%%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
+%\end{align*}
+%where we used~\cref{eqn:hat1} to achieve the simplified form.
+%\Cref{eq:dirDiff_A} also proves~\cref{item:prop_eRA}.
+%Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( A \).
+%Next, the second derivative of \( A \) is computed as
+%\begin{align*}
+%    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
+%    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
+%    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
+%    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
+%\end{align*}
+%where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+%Evaluating the Hessian at \( R = R_d \)
+%\begin{align}\label{eq:A_hessian}
+%    \Hess(A)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} \parenth{\tr{G}I -  G} \eta 
+%\end{align}
+%shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cref{item:prop_A_psd}.
 
-To prove~\cref{item:prop_A_critical_points} we must first determine the critical points of~\cref{eq:eRA}.
-The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
-We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:eRA} as
-\begin{align*}
-    e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
-            &= \frac{1}{2} \parenth{%
-            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
-            \begin{bmatrix} q_{11} & q_{12} & q_{13} \\ q_{21} & q_{22} & q_{23} \\ q_{31} & q_{32} & q_{33}\end{bmatrix}
-            -
-            \begin{bmatrix} q_{11} & q_{21} & q_{31} \\ q_{12} & q_{22} & q_{32} \\ q_{13} & q_{23} & q_{33}\end{bmatrix}
-            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
-            }^\vee , \\
-            &= \frac{1}{2} \begin{bmatrix} g_3 q_{32} - g_2 q_{23} \\ g_1 q_{13} - g_3 q_{31} \\ g_2 q_{21} - g_1 q_{12}\end{bmatrix}
-\end{align*}
-At a critical point, the following equations must be satisfied
-\begin{subequations}\label{eq:erA_critical_conditons}
-    \begin{align}
-        g_3q_{32} &= g_2 q_{23}, \\
-        g_1 q_{13} &= g_3 q_{31}, \\
-        g_2 q_{21} &= g_1 q_{12}.
-    \end{align}
-\end{subequations}     
-Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude error \( Q \) becomes
-\begin{align}\label{eq:relative_attitude_error}
-    Q = R_d^T R_e =
-    \begin{bmatrix} 
-        q_{11} & q_{12} & q_{13} \\ 
-        \frac{g_1}{g_2} q_{12} & q_{22} & q_{23} \\
-        \frac{g_1}{g_3} q_{13} & \frac{g_2}{g_3} q_{23} & q_{33}
-    \end{bmatrix}
-    \in \SO
-\end{align}
-Since, \( Q = R_d^T R \) is orthonormal the main diagonal of \( QQ^T \) is equal to \num{1} and each column of \( Q \) is unit length.
-\begin{align*}
-    Q Q^T &= I, \\
-          &= \begin{bmatrix}
-    Q_{11} & Q_{12} & Q_{13} \\ 
-    Q_{21} & Q_{22} & Q_{23} \\ 
-    Q_{31} & Q_{32} & Q_{33} 
-\end{bmatrix}, 
-\end{align*}
-where
-\begin{align*}
-    Q_{11} &= q_{11}^2 + q_{12}^2 + q_{13}^2 ,\\
-    Q_{12} &= q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} ,\\
-    Q_{13} &= q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33},\\
-    Q_{21} &= q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} ,\\
-    Q_{22} &= \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 ,\\
-    Q_{23} &= \frac{g_1^2}{g_2g_3} q_{12}q_{13} + \frac{g_2}{g_3}q_{23}q_{22} + q_{23}q_{33},\\
-    Q_{31} &= \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13},\\
-    Q_{32} &= \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23},\\
-    Q_{33} &= \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2.
-\end{align*}
-As a result the following \num{6} conditions must be satisfied when \( e_{R_A} = 0 \):
-\begin{align}
-    q_{11}^2 + q_{12}^2 + q_{13}^2 &= 1,\label{eq:orthogonal_1} \\
-    \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 &= 1, \label{eq:orthogonal_2}\\
-    \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2 &= 1, \label{eq:orthogonal_3}\\
-    q_{11}^2 + \frac{g_1^2}{g_2^2}q_{12}^2 + \frac{g_1^2}{g_3^2}q_{13}^2 &= 1, \label{eq:unit_norm_1}\\
-    q_{12} + q_{22}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 &= 1, \label{eq:unit_norm_2}\\
-    q_{13}^2 + q_{23}^2 + q_{33}^2 &= 1.\label{eq:unit_norm_3}
-\end{align}
-We can further simplify these relationships by rewriting~\cref{eq:orthogonal_1,eq:orthogonal_2,eq:orthogonal_3} as
-\begin{align}
-    q_{11}^2 &= 1 - q_{12}^2 - q_{13}^2 , \\
-    q_{22}^2 &= 1 - \frac{g_1^2}{g_2^2} q_{12}^2 - q_{23}^2, \\
-    q_{33}^2 &= 1 - \frac{g_1^2}{g_3^2}q_{13}^2 - \frac{g_2^2}{g_3^2}q_{23}^2 
-\end{align}
-and substituting these relationships into~\cref{eq:unit_norm_1,eq:unit_norm_2,eq:unit_norm_3} to arrive at
-\begin{subequations}\label{eq:era_critical_point_conditions}
-\begin{align}
-    \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 + \parenth{1 - \frac{g_1^2}{g_3^2}}q_{13}^2 &= 0 , \label{eq:era_condition_1}\\
-    \parenth{1 - \frac{g_1^2}{g_2^2}} q_{12}^2 - \parenth{1 - \frac{g_2^2}{g_3^2}}q_{23}^2 &= 0 , \label{eq:era_condition_2}\\
-    \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 + \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23}^2 &= 0.\label{eq:era_condition_3}
-\end{align}
-\end{subequations}     
-The relationships in~\cref{eq:era_critical_point_conditions} are equivalent to the statement that \( e_{R_A} = 0 \) and must also be satisfied at each critical point.
-Since each \( g_i \) is distinct and greater than zero, the solution to~\cref{eq:erA_critical_conditons}, or equivalently \( e_{R_A} = 0 \), must satisfy one of two possible conditions:
-\begin{enumerate}[label=(\roman*)]
-    \item \label{item:condition_1} \( q_{12} = q_{13} = q_{23} =0\)
-    \item \label{item:condition_2} \( q_{ij} \neq 0 \; \forall \; i \neq j \)
-\end{enumerate}
-These conditions can be determined by noticing that~\cref{item:condition_1} is the trivial solution.
-For~\cref{item:condition_2}, consider the situation that \( q_{12} \neq 0 \) then from the fact that \( g_i \) are distinct yields the fact that \( \parenth{1 - \frac{g_1^2}{g_2^2} } \neq 0 \) and \( \parenth{1 - \frac{g_1^2}{g_3^2} } \neq 0 \) which means that \( q_{13}^2 \neq 0 \) since the terms must add to zero.
-Similar arguments can be made for the other relations in~\cref{eq:era_critical_point_conditions} which means that the solutions must satisfy either~\cref{item:condition_1} or~\cref{item:condition_2}.
+%To prove~\cref{item:prop_A_critical_points} we must first determine the critical points of~\cref{eq:eRA}.
+%The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
+%We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:eRA} as
+%\begin{align*}
+%    e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
+%            &= \frac{1}{2} \parenth{%
+%            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+%            \begin{bmatrix} q_{11} & q_{12} & q_{13} \\ q_{21} & q_{22} & q_{23} \\ q_{31} & q_{32} & q_{33}\end{bmatrix}
+%            -
+%            \begin{bmatrix} q_{11} & q_{21} & q_{31} \\ q_{12} & q_{22} & q_{32} \\ q_{13} & q_{23} & q_{33}\end{bmatrix}
+%            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+%            }^\vee , \\
+%            &= \frac{1}{2} \begin{bmatrix} g_3 q_{32} - g_2 q_{23} \\ g_1 q_{13} - g_3 q_{31} \\ g_2 q_{21} - g_1 q_{12}\end{bmatrix}
+%\end{align*}
+%At a critical point, the following equations must be satisfied
+%\begin{subequations}\label{eq:erA_critical_conditons}
+%    \begin{align}
+%        g_3q_{32} &= g_2 q_{23}, \\
+%        g_1 q_{13} &= g_3 q_{31}, \\
+%        g_2 q_{21} &= g_1 q_{12}.
+%    \end{align}
+%\end{subequations}     
+%Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude error \( Q \) becomes
+%\begin{align}\label{eq:relative_attitude_error}
+%    Q = R_d^T R_e =
+%    \begin{bmatrix} 
+%        q_{11} & q_{12} & q_{13} \\ 
+%        \frac{g_1}{g_2} q_{12} & q_{22} & q_{23} \\
+%        \frac{g_1}{g_3} q_{13} & \frac{g_2}{g_3} q_{23} & q_{33}
+%    \end{bmatrix}
+%    \in \SO
+%\end{align}
+%Since, \( Q = R_d^T R \) is orthonormal the main diagonal of \( QQ^T \) is equal to \num{1} and each column of \( Q \) is unit length.
+%\begin{align*}
+%    Q Q^T &= I, \\
+%          &= \begin{bmatrix}
+%    Q_{11} & Q_{12} & Q_{13} \\ 
+%    Q_{21} & Q_{22} & Q_{23} \\ 
+%    Q_{31} & Q_{32} & Q_{33} 
+%\end{bmatrix}, 
+%\end{align*}
+%where
+%\begin{align*}
+%    Q_{11} &= q_{11}^2 + q_{12}^2 + q_{13}^2 ,\\
+%    Q_{12} &= q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} ,\\
+%    Q_{13} &= q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33},\\
+%    Q_{21} &= q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} ,\\
+%    Q_{22} &= \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 ,\\
+%    Q_{23} &= \frac{g_1^2}{g_2g_3} q_{12}q_{13} + \frac{g_2}{g_3}q_{23}q_{22} + q_{23}q_{33},\\
+%    Q_{31} &= \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13},\\
+%    Q_{32} &= \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23},\\
+%    Q_{33} &= \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2.
+%\end{align*}
+%As a result the following \num{6} conditions must be satisfied when \( e_{R_A} = 0 \):
+%\begin{align}
+%    q_{11}^2 + q_{12}^2 + q_{13}^2 &= 1,\label{eq:orthogonal_1} \\
+%    \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 &= 1, \label{eq:orthogonal_2}\\
+%    \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2 &= 1, \label{eq:orthogonal_3}\\
+%    q_{11}^2 + \frac{g_1^2}{g_2^2}q_{12}^2 + \frac{g_1^2}{g_3^2}q_{13}^2 &= 1, \label{eq:unit_norm_1}\\
+%    q_{12} + q_{22}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 &= 1, \label{eq:unit_norm_2}\\
+%    q_{13}^2 + q_{23}^2 + q_{33}^2 &= 1.\label{eq:unit_norm_3}
+%\end{align}
+%We can further simplify these relationships by rewriting~\cref{eq:orthogonal_1,eq:orthogonal_2,eq:orthogonal_3} as
+%\begin{align}
+%    q_{11}^2 &= 1 - q_{12}^2 - q_{13}^2 , \\
+%    q_{22}^2 &= 1 - \frac{g_1^2}{g_2^2} q_{12}^2 - q_{23}^2, \\
+%    q_{33}^2 &= 1 - \frac{g_1^2}{g_3^2}q_{13}^2 - \frac{g_2^2}{g_3^2}q_{23}^2 
+%\end{align}
+%and substituting these relationships into~\cref{eq:unit_norm_1,eq:unit_norm_2,eq:unit_norm_3} to arrive at
+%\begin{subequations}\label{eq:era_critical_point_conditions}
+%\begin{align}
+%    \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 + \parenth{1 - \frac{g_1^2}{g_3^2}}q_{13}^2 &= 0 , \label{eq:era_condition_1}\\
+%    \parenth{1 - \frac{g_1^2}{g_2^2}} q_{12}^2 - \parenth{1 - \frac{g_2^2}{g_3^2}}q_{23}^2 &= 0 , \label{eq:era_condition_2}\\
+%    \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 + \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23}^2 &= 0.\label{eq:era_condition_3}
+%\end{align}
+%\end{subequations}     
+%The relationships in~\cref{eq:era_critical_point_conditions} are equivalent to the statement that \( e_{R_A} = 0 \) and must also be satisfied at each critical point.
+%Since each \( g_i \) is distinct and greater than zero, the solution to~\cref{eq:erA_critical_conditons}, or equivalently \( e_{R_A} = 0 \), must satisfy one of two possible conditions:
+%\begin{enumerate}[label=(\roman*)]
+%    \item \label{item:condition_1} \( q_{12} = q_{13} = q_{23} =0\)
+%    \item \label{item:condition_2} \( q_{ij} \neq 0 \; \forall \; i \neq j \)
+%\end{enumerate}
+%These conditions can be determined by noticing that~\cref{item:condition_1} is the trivial solution.
+%For~\cref{item:condition_2}, consider the situation that \( q_{12} \neq 0 \) then from the fact that \( g_i \) are distinct yields the fact that \( \parenth{1 - \frac{g_1^2}{g_2^2} } \neq 0 \) and \( \parenth{1 - \frac{g_1^2}{g_3^2} } \neq 0 \) which means that \( q_{13}^2 \neq 0 \) since the terms must add to zero.
+%Similar arguments can be made for the other relations in~\cref{eq:era_critical_point_conditions} which means that the solutions must satisfy either~\cref{item:condition_1} or~\cref{item:condition_2}.
 
-Now consider~\cref{item:condition_2} and assume that \( g_2 > g_1 \) and \( q_{12}, q_{13}, q_{23} \neq 0 \).
-From~\cref{eq:era_condition_1} this implies that \( \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 > 0\) since \( q_{12}^2 > 0\).
-Therefore, in order for~\cref{eq:era_condition_1} to be satisfied means that \( \parenth{1 - \frac{g_1^2}{g_3^2} } q_{13}^2 < 0 \) which further implies that \( g_1 > g_3 \).
-As a result, \( g_2 > g_1 > g_3 \).
-Using this inequality in~\cref{eq:era_condition_3} implies that
-\begin{align*}
-    \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23} < 0, \quad \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 < 0.
-\end{align*}
-Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a contradiction.
-Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
-Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
-Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_A_critical_points}.
-These critical points correspond to additional rotations of \SI{180}{\degree} about each axes, or more explicitly \( R_e = \braces{R_d, R_\alpha, R_\beta, R_\gamma} \) where
-\begin{align}
-    R_\alpha &= R_d \begin{bmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{bmatrix} , \\
-    R_\beta &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix} , \\
-    R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix}.
-\end{align}
+%Now consider~\cref{item:condition_2} and assume that \( g_2 > g_1 \) and \( q_{12}, q_{13}, q_{23} \neq 0 \).
+%From~\cref{eq:era_condition_1} this implies that \( \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 > 0\) since \( q_{12}^2 > 0\).
+%Therefore, in order for~\cref{eq:era_condition_1} to be satisfied means that \( \parenth{1 - \frac{g_1^2}{g_3^2} } q_{13}^2 < 0 \) which further implies that \( g_1 > g_3 \).
+%As a result, \( g_2 > g_1 > g_3 \).
+%Using this inequality in~\cref{eq:era_condition_3} implies that
+%\begin{align*}
+%    \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23} < 0, \quad \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 < 0.
+%\end{align*}
+%Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a contradiction.
+%Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
+%Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
+%Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_A_critical_points}.
+%These critical points correspond to additional rotations of \SI{180}{\degree} about each axes, or more explicitly \( R_e = \braces{R_d, R_\alpha, R_\beta, R_\gamma} \) where
+%\begin{align}
+%    R_\alpha &= R_d \begin{bmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{bmatrix} , \\
+%    R_\beta &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix} , \\
+%    R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix}.
+%\end{align}
 
 
-The original proof for~\cref{item:prop_psi_quadratic} is presented in~\cite{lee2011a} and summarized in this section.
-Define \( Q = R_d^T R = \exp \hat{\vc{x}} \in \SO \) for any \( \vc{x} \in \R^3 \) from Rodrigues' formula
-\begin{align}\label{eq:rodrigues_formula}
-    Q = \exp{\theta \hat{\vc{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
-\end{align}
-Using a symbolic computation tool one can then find
-\begin{align}\label{eq:psi_rodrigues}
-    A &= \frac{1 - \cos \norm \vc{x}}{2\norm{\vc{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
-    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vc{x}}^2} }{4 \norm{\vc{x}}^4}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vc{x}}}{4 \norm{\vc{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
-\end{align}
-where \( \mathcal{C} = \braces{ \parenth{1, 2, 3} , \parenth{2, 3, 1} , \parenth{3, 1, 2} } \).
-Using~\cref{eq:psi_rodrigues} one can show
-\begin{align}
-    \frac{\norm{e_{R_A}}^2}{A} \leq \frac{h_2 + h_3}{h_1} , \quad \frac{A}{\norm{e_{R_A}}^2} \leq \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi} } ,
-\end{align}
-which proves~\cref{item:prop_A_quadratic}.
+%The original proof for~\cref{item:prop_psi_quadratic} is presented in~\cite{lee2011a} and summarized in this section.
+%Define \( Q = R_d^T R = \exp \hat{\vc{x}} \in \SO \) for any \( \vc{x} \in \R^3 \) from Rodrigues' formula
+%\begin{align}\label{eq:rodrigues_formula}
+%    Q = \exp{\theta \hat{\vc{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
+%\end{align}
+%Using a symbolic computation tool one can then find
+%\begin{align}\label{eq:psi_rodrigues}
+%    A &= \frac{1 - \cos \norm \vc{x}}{2\norm{\vc{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
+%    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vc{x}}^2} }{4 \norm{\vc{x}}^4}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vc{x}}}{4 \norm{\vc{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
+%\end{align}
+%where \( \mathcal{C} = \braces{ \parenth{1, 2, 3} , \parenth{2, 3, 1} , \parenth{3, 1, 2} } \).
+%Using~\cref{eq:psi_rodrigues} one can show
+%\begin{align}
+%    \frac{\norm{e_{R_A}}^2}{A} \leq \frac{h_2 + h_3}{h_1} , \quad \frac{A}{\norm{e_{R_A}}^2} \leq \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi} } ,
+%\end{align}
+%which proves~\cref{item:prop_A_quadratic}.
 
-\section{Proof of~\Cref{prop:attractive_error_dynamics}}\label{proof:attractive_error_dynamics}
-From the kinematics \( \dot{R} = R \hat{\Omega}\), and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
-\begin{gather*}
-	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega.
-\end{gather*}
-Applying this to the time derivative of~\cref{eq:A} gives
-\begin{gather*}
-	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega}.
-\end{gather*}
-Applying~\cref{eqn:hat1} into this shows~\cref{eq:A_dot}.
+%\section{Proof of~\Cref{prop:attractive_error_dynamics}}\label{proof:attractive_error_dynamics}
+%From the kinematics \( \dot{R} = R \hat{\Omega}\), and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+%\begin{gather*}
+%	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega.
+%\end{gather*}
+%Applying this to the time derivative of~\cref{eq:A} gives
+%\begin{gather*}
+%	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega}.
+%\end{gather*}
+%Applying~\cref{eqn:hat1} into this shows~\cref{eq:A_dot}.
 
-The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
-\begin{gather*}
-	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee.
-\end{gather*}
-Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eq:eRA_dot,eq:E}.
+%The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
+%\begin{gather*}
+%	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee.
+%\end{gather*}
+%Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eq:eRA_dot,eq:E}.
 
-% TODO Add link to dynamics that includes both external force and a disturbance
-We show~\cref{eq:eW_dot} by rearranging~\cref{eq:Wdot} as 
-\begin{align*}
-    \diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta +M_{ext}}.
-\end{align*}
+%% TODO Add link to dynamics that includes both external force and a disturbance
+%We show~\cref{eq:eW_dot} by rearranging~\cref{eq:Wdot} as 
+%\begin{align*}
+%    \diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta +M_{ext}}.
+%\end{align*}
 
-\subsection*{Proof of Attitude Controller}\label{proof:attitude_controller}
-Consider the following Lyapunov function:
-\begin{gather*}%\label{eqn:v_nodist}
-	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d). 
-\end{gather*}
-From~\cref{item:prop_psi_psd} of~\Cref{prop:attitude_control_configuration_error}, \(\mathcal{V} \geq 0 \).
-Using~\cref{eq:eW_dot,eq:A_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
-\begin{align*}%\label{eqn:vdot_nodist}
-	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2. 
-%	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
-\end{align*}
-Since \( \mathcal{V} \) is positive definite and \( \dot{\mathcal{V}} \) is negative semi-definite, the zero equilibrium point \( e_R, e_\Omega \) is stable in the sense of Lyapunov. 
-This also implies \( \lim_{t\to\infty} \norm{e_\Omega} = 0 \) and \( \norm{e_{R_A}} \) is uniformly bounded, as the Lyapunov function is non-increasing. From~\cref{eq:eRA_dot}, $\lim_{t\to\infty} \dot e_R =0$. 
-One can show that \( \norm{\ddot{e}_R} \) is bounded.
-From Barbalat's Lemma, it follows \( \lim_{t\to\infty}\norm{\dot{e}_R} = 0 \)~\cite[Lemma 8.2]{khalil1996}. 
-Therefore, the equilibrium is asymptotically stable. 
+%\subsection*{Proof of Attitude Controller}\label{proof:attitude_controller}
+%Consider the following Lyapunov function:
+%\begin{gather*}%\label{eqn:v_nodist}
+%	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d). 
+%\end{gather*}
+%From~\cref{item:prop_psi_psd} of~\Cref{prop:attitude_control_configuration_error}, \(\mathcal{V} \geq 0 \).
+%Using~\cref{eq:eW_dot,eq:A_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
+%\begin{align*}%\label{eqn:vdot_nodist}
+%	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2. 
+%%	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
+%\end{align*}
+%Since \( \mathcal{V} \) is positive definite and \( \dot{\mathcal{V}} \) is negative semi-definite, the zero equilibrium point \( e_R, e_\Omega \) is stable in the sense of Lyapunov. 
+%This also implies \( \lim_{t\to\infty} \norm{e_\Omega} = 0 \) and \( \norm{e_{R_A}} \) is uniformly bounded, as the Lyapunov function is non-increasing. From~\cref{eq:eRA_dot}, $\lim_{t\to\infty} \dot e_R =0$. 
+%One can show that \( \norm{\ddot{e}_R} \) is bounded.
+%From Barbalat's Lemma, it follows \( \lim_{t\to\infty}\norm{\dot{e}_R} = 0 \)~\cite[Lemma 8.2]{khalil1996}. 
+%Therefore, the equilibrium is asymptotically stable. 
 	
-Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is uniformly bounded which implies 
-\begin{align*}
-	A(R(t)) \leq \mathcal{V}(t) \leq \mathcal{V}(0).
-\end{align*}
+%Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is uniformly bounded which implies 
+%\begin{align*}
+%	A(R(t)) \leq \mathcal{V}(t) \leq \mathcal{V}(0).
+%\end{align*}
 
-An Appendix, if needed, appears \textbf{before} research funding information and other acknowledgments.
+%An Appendix, if needed, appears \textbf{before} research funding information and other acknowledgments.
 
-\subsection*{Proof of Translational Control}\label{proof:translational_control}
+%\subsection*{Proof of Translational Control}\label{proof:translational_control}
 
-The translational dynamics can be defined as
-\begin{align}\label{eq:translation_dynamics_simple}
-    \dot{x} &= v , \\
-    m \dot{v} &= F_{ext} + u_f ,
-\end{align}
-where \( m \in \R \) is defined as the total mass of the vehicle while \( F_{ext} \) is the total external force.
+%The translational dynamics can be defined as
+%\begin{align}\label{eq:translation_dynamics_simple}
+%    \dot{x} &= v , \\
+%    m \dot{v} &= F_{ext} + u_f ,
+%\end{align}
+%where \( m \in \R \) is defined as the total mass of the vehicle while \( F_{ext} \) is the total external force.
 
-Consider the Lyapunov function
-\begin{align}\label{eq:translational_lyapunov}
-    V = \frac{1}{2} k_x e_x^T e_x + \frac{1}{2} m e_v^T e_v + c e_x^T e_x.
-\end{align}
-\Cref{eq:translational_lyapunov} is also equivalent to
-\begin{align}\label{eq:translational_lyapunov_matrix}
-    V = z^T W_1 z , 
-\end{align}
-where \( z = \begin{bmatrix} \norm{e_x} & \norm{e_v} \end{bmatrix}^T \) and \( W_1\in \R^2\) is defined as
-\begin{align}\label{eq:translational_lyapunov_W}
-    W_1 = \begin{bmatrix}
-        \frac{1}{2} k_x & \frac{1}{2} c \\
-        \frac{1}{2} c & \frac{1}{2} m 
-    \end{bmatrix}.
-\end{align}
-The time derivative of~\cref{eq:translational_lyapunov} can then be defined as
-\begin{align}\label{eq:translation_lyapunov_derivative}
-    \dot{\mathcal{V} } = - \parenth{k_v - c} e_v^T e_v - \frac{k_x c}{m} e_x^T e_x - \frac{k_v c}{m} e_x^T e_v, 
-\end{align}
-where we used~\cref{eq:translational_control,eq:translation_error_variables,eq:translation_error_dynamics}.
-\Cref{eq:translation_lyapunov_derivative} can also be redefined as
-\begin{align}\label{eq:translational_lyapunov_derivative_matrix}
-    \dot{\mathcal{V}} = - z^T W_2 z, 
-\end{align}
-where \( W_2 \in \R^2 \) is defined as
-\begin{align}\label{eq:translational_lyapunov_W2}
-    W_2 = \begin{bmatrix}
-        \frac{k_x c}{m} & \frac{k_v^2 c^2}{2 m^2} \\
-        \frac{k_v c}{2 m} & k_v - c
-    \end{bmatrix}.
-\end{align}
-If \( c \) is chosen such that~\cref{eq:translational_control_gain_bound} is satisfied then \( W_1, W_2 \) will be positive definite.
-As a result, this shows that \( \mathcal{V} > 0 , \dot{ \mathcal{V}} < 0 \) and that the zero equilibrium of the error variables, namely \( x_d, \dot{x}_d \) is asymptotically stable~\cite{khalil1996}.
+%Consider the Lyapunov function
+%\begin{align}\label{eq:translational_lyapunov}
+%    V = \frac{1}{2} k_x e_x^T e_x + \frac{1}{2} m e_v^T e_v + c e_x^T e_x.
+%\end{align}
+%\Cref{eq:translational_lyapunov} is also equivalent to
+%\begin{align}\label{eq:translational_lyapunov_matrix}
+%    V = z^T W_1 z , 
+%\end{align}
+%where \( z = \begin{bmatrix} \norm{e_x} & \norm{e_v} \end{bmatrix}^T \) and \( W_1\in \R^2\) is defined as
+%\begin{align}\label{eq:translational_lyapunov_W}
+%    W_1 = \begin{bmatrix}
+%        \frac{1}{2} k_x & \frac{1}{2} c \\
+%        \frac{1}{2} c & \frac{1}{2} m 
+%    \end{bmatrix}.
+%\end{align}
+%The time derivative of~\cref{eq:translational_lyapunov} can then be defined as
+%\begin{align}\label{eq:translation_lyapunov_derivative}
+%    \dot{\mathcal{V} } = - \parenth{k_v - c} e_v^T e_v - \frac{k_x c}{m} e_x^T e_x - \frac{k_v c}{m} e_x^T e_v, 
+%\end{align}
+%where we used~\cref{eq:translational_control,eq:translation_error_variables,eq:translation_error_dynamics}.
+%\Cref{eq:translation_lyapunov_derivative} can also be redefined as
+%\begin{align}\label{eq:translational_lyapunov_derivative_matrix}
+%    \dot{\mathcal{V}} = - z^T W_2 z, 
+%\end{align}
+%where \( W_2 \in \R^2 \) is defined as
+%\begin{align}\label{eq:translational_lyapunov_W2}
+%    W_2 = \begin{bmatrix}
+%        \frac{k_x c}{m} & \frac{k_v^2 c^2}{2 m^2} \\
+%        \frac{k_v c}{2 m} & k_v - c
+%    \end{bmatrix}.
+%\end{align}
+%If \( c \) is chosen such that~\cref{eq:translational_control_gain_bound} is satisfied then \( W_1, W_2 \) will be positive definite.
+%As a result, this shows that \( \mathcal{V} > 0 , \dot{ \mathcal{V}} < 0 \) and that the zero equilibrium of the error variables, namely \( x_d, \dot{x}_d \) is asymptotically stable~\cite{khalil1996}.
 %\section*{Funding Sources}
 
 %Sponsorship information and acknowledgments of financial support should be included here. \textbf{Authors are responsible for accurately reporting funding data relevant to their research.} Please confirm that you have correctly entered \textbf{all sources} of funding and grant/award numbers \textbf{for all authors} in this section of your article. You will also be asked to select the appropriate funding organization from a drop-down menu in ScholarOne when you submit your manuscript. Be careful to choose the correct funder name, as organization names can be similar, and also be mindful to select sub-organizations within the registry hierarchy that are the actual funding sources, as appropriate, rather than choosing the name of the parent organization. Information provided in your manuscript must match the funding data entered in ScholarOne.
