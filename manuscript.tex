@@ -190,19 +190,19 @@ The distance from the center of mass to each spherical mass is defined as
     l_1 &= \frac{m_2}{m_1 + m_2} l, \\
     l_2 &= l - l_1.
 \end{align}
-The asteroid is modeled as a constant density polyhedron with constant, and known, spin about its maximum moment of inertia. 
+The asteroid is modeled as a constant density polyhedron with constant, and known, spin about the axis of its maximum moment of inertia. 
 The axes of the body fixed frame for the asteroid are denoted by $\{f_1,f_2,f_3\}$. 
 We also define the inertial frame, whose axes are denoted by $\{e_1,e_2,e_3\}$. 
 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \vc{x}\in\Re^3 \) - the position of the center of mass of the  spacecraft represented in the inertial frame, \( \vc{e}_i\),
-    \item \( R\in\SO \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
+    \item \( R\in\SO \) - the rotation matrix which transforms the representation of vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
     \item \( \vc{\Omega}\in\Re^3 \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
-    \item \( R_A\in \SO \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
+    \item \( R_A\in \SO \) - the rotation matrix which transforms the representation of vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
-This assumption allows us to treat the motion of the vehicle independently from that of the asteroid. 
+This assumption allows us to treat the motion of the vehicle independently from the dynamics of the asteroid, which is assumed to spin at a fixed rate.  
 
 \subsection{Spacecraft Dynamic Model}
 
@@ -213,12 +213,12 @@ Using Hamilton's principle one can derive the inertial equations of motion of th
     \dot{R} &= R S(\vc{\Omega}) , \label{eq:R_dot}\\
     J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2 + u_m. \label{eq:omega_dot}
 \end{align}
-The vectors \( \vc{z}_1 \) and \( \vc{z}_2\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
+The vectors \( \vc{z}_1 \) and \( \vc{z}_2\in\Re^3\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
 \begin{align}
     \vc{z}_1 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_1} , \\
     \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2},
 \end{align}
-where \( \rho_i \) defines the position of each mass in the spacecraft fixed body frame.
+where \( \rho_i \in\Re^3 \) defines the position of each mass in the spacecraft fixed body frame.
 The control inputs to the spacecraft are defined by \( u_f, u_m \in \Re^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively.
 The standard moment of inertia of the dumbbell model is 
 \begin{align}\label{eq:dumbbell_moment_of_inertia}
@@ -244,7 +244,7 @@ The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
 \begin{align}
     \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
-In the above equations, the gravitational potential is denoted by $U$, which is computed by a polyhedron model as described in the subsequent section. 
+In the above equations, the gravitational potential is denoted by $U\in\Re$, which is computed by a polyhedron model as described in the subsequent section. 
 
 %where the polyhedron potential is defined as 
 %\begin{align}
@@ -270,7 +270,13 @@ We assume that each face is a triangle composed of three vertices and three edge
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
+
 Here, we summarize the key equations required for implementation.
+The polyhedron potential is defined as 
+\begin{align}
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f,
+\end{align}
+and \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\in\Re\) is the universal gravitational constant, and \( \sigma\in\Re \) is the constant density of the asteroid.
 We define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
@@ -278,6 +284,7 @@ We define the attraction, gravity gradient matrix, and Laplacian as
     \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
 \end{align}
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+These equations are utilized to compute the gravitational potential of  the presented dumbbell spacecraft model.
 
 \section{Bayesian Shape Reconstruction}\label{sec:radius_update}
 
@@ -286,7 +293,7 @@ We assume that upon arrival at a target body, the spacecraft contains an initial
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
 Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
-In this section, we present a stochastic formulation to update the initial estimate of the shape incrementally based on range measurements from spacecraft. 
+In this section, we present a stochastic formulation to update the initial estimate of the shape incrementally based on range measurements from spacecraft in real time. 
 
 \subsection{Range Measurements}
 
@@ -325,7 +332,7 @@ More specifically, the radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\
 \begin{align*}
     v_i \sim \mathcal{N}(r_i, w_i^2)
 \end{align*}
-where \( r_i \) is the initial estimate of the radial distance of vertex \( \vc{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
+where \( r_i\in\Re \) is the initial estimate of the radial distance of the $i$-th vertex \( \vc{v}_i\in\Re\), and \( w_i\in\Re \) is the initial variance, or confidence, in the radial distance.
 
 In order to reduce the computational demands, which are typical in point cloud applications, we do not update the complete shape model for each measurement.
 Instead we define an area of interest, \( \Delta S\in\Re \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
@@ -358,11 +365,12 @@ This approach can be considered as a form of a correlation based sensor model~\c
 The main benefit of a correlation based approach, in contrast to feature extraction is the relative simplicity of implementation.
 However, the resulting correlation values do not precisely represent the noise or uncertainty characteristics of the sensor in a quantitative manner.
 
-Suppose the $j$-th measurement, namely $p_j\in\Re^3$ is available. 
-As illustrated in \Cref{fig:lidar_example}, the angular resolution of range measurements is assumed to be coarser than the mesh grid of the initial estimate. 
-Consequently, the measurement may not be aligned to any vertex in general. 
-In order to improve the computational efficiency measurement updates are assumed to be local in nature.
-Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+%Suppose the $j$-th measurement, namely $p_j\in\Re^3$ is available. 
+%As illustrated in \Cref{fig:lidar_example}, the angular resolution of range measurements is assumed to be coarser than the mesh grid of the initial estimate. 
+%Consequently, the measurement may not be aligned to any vertex in general. 
+%In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+%Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+
 From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_j \) and vertex \( \vc{v}_i \) of the shape estimate is given by
 \begin{align}\label{eq:geodesic_distance}
     \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
@@ -386,7 +394,8 @@ A sequential process can be used to iteratively update the shape estimate given 
 \subsection{Numerical Examples}\label{sec:kinematic_exploration}
 
 In this section, we demonstrate the use of the incremental shape reconstruction algorithm with asteroids 1620 Geographos and 6489 Golevka.
-There properties are listed at \Cref{tab:kinematic_asteroids}.
+\todo{ add references to the true shape model we are using}.
+Their properties are listed at \Cref{tab:kinematic_asteroids}.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lccc}
@@ -427,6 +436,7 @@ In addition, we compute the volume of the estimated shape and compare against th
     \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
 
+\paragraph{Asteroid \num{1620} Geographos Reconstruction} 
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
 Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
@@ -440,7 +450,8 @@ The plots show that the reconstruction achieves an accurate shape estimate with 
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 
-\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
+\paragraph{Asteroid \num{6489} Golevka Reconstruction} 
+Next, \num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
 Discovered in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
 \begin{figure}[htbp]
@@ -472,7 +483,7 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
 \section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
 
 The shape reconstruction algorithm presented in the preceding section does not offer a method to determine which portion of the surface needs to be measured. 
-In this section, we present a guidance scheme or a motion planning scheme in order to direct the spacecraft into the most uncertain region. 
+In this section, we present a guidance scheme or a motion planning scheme in order to guide the spacecraft into the most uncertain region. 
 This is to reduce the shape uncertainty in an optimal fashion while considering the control cost to change the orbital properties of the spacecraft. 
 Then, a nonlinear geometric controller is utilized which allows the spacecraft to maneuver to the optimized location that will update the shape estimate~\cite{kulumani2017b}.
 
@@ -638,6 +649,7 @@ We use the control inputs defined in~\cref{eq:translational_control,eqn:nodist_c
 
 We utilize radar shape models of asteroids \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\).
 The examples demonstrate the full dynamic simulation of a rigid spacecraft with an autonomous closed loop control scheme to both reconstruct the asteroid shape.
+The proposed optimal guidance scheme is executed in the outer-loop to generate the desired trajectory, which is followed by the nonlinear control scheme in the inner-loop. 
 More specifically, the nonlinear controllers described previously are used to control both the translational and rotational states of the vehicle, where the control inputs are computed using the current shape estimate of the asteroid. 
 As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states.
 As such, both the shape model and the gravitational potential available to the controller will be gradually refined. 
@@ -661,7 +673,7 @@ Furthermore, the state of the asteroid, namely the rotation matrix \( R_A \), is
     \end{tabular}
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
-At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( x_0 = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
+At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( x_0 = [ x_0,\, 0,\,  0 ]\, \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
 In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \hat{e}_3)\).
 The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take LIDAR measurements of the surface at \SI{1}{\hertz}.
@@ -726,7 +738,7 @@ The spacecraft autonomously navigates around asteroid Castalia to best minimize 
 
 \section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
 
-In this section, we consider a scenario of autonomous landing on the surface of asteroid, once its shape is constructed as described above.
+In this section, we consider a scenario of autonomous landing on the surface of asteroid, after its shape is constructed as described above.
 The shape reconstruction scheme is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
 Consequently, the original mesh is uniformly distributed with a relatively large mesh size and many small topological features such as rocks or small craters may not be captured accurately.
 However, these small features are critical for surface operations and safe landings.
@@ -741,7 +753,7 @@ This approach allows for a spacecraft to autonomously select and land on small b
 
 The surface slope is computed according to the method developed in Reference~\cite{scheeres1996}.
 Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
-At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
+At the center of each face, \( f_i = [ f_x,\,  f_y,\,  f_z ] \), we compute a modified surface acceleration as
 \begin{align}\label{eq:surface_force}
     U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
 \end{align}
@@ -768,6 +780,7 @@ subject to a hard inequality constraint requiring that the surface slope is less
 
 Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
 As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+\todo{ resolve the undefined reference to eq:potential}
 The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
 As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
@@ -808,7 +821,8 @@ The proposed schemes for landing site selection and refinement are applied to Ca
 
 With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
 Based on the shape estimate we seek to determine the best location to land. 
-In reality, any landing site selection would be based on a wide variety of factors and constraints, however we highlight a few which can be determined autonomously and from the shape estimate.
+In reality, any landing site selection would be based on a wide variety of factors and constraints. 
+However we highlight a few which can be determined autonomously and from the shape estimate.
 The first metric is related to the surface slope which is computed using the completed shape estimate and~\cref{eq:surface_slope}.
 Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
 \begin{figure}[htbp]
