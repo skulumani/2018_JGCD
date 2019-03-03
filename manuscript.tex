@@ -394,8 +394,8 @@ A sequential process can be used to iteratively update the shape estimate given 
 \subsection{Numerical Examples}\label{sec:kinematic_exploration}
 
 In this section, we demonstrate the use of the incremental shape reconstruction algorithm with asteroids 1620 Geographos and 6489 Golevka.
-\todo{ add references to the true shape model we are using}.
 Their properties are listed at \Cref{tab:kinematic_asteroids}.
+Truth shape models for Geographos adn Golevka are computed based on Earth based radar measurements~\cite{neese2004}.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lccc}
@@ -780,8 +780,7 @@ subject to a hard inequality constraint requiring that the surface slope is less
 
 Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
 As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
-\todo{ resolve the undefined reference to eq:potential}
-The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
+The computational cost of the polyhedron potential model, given by~\cref{eq:attraction}, is roughly proportional to the number of faces in the shape model.
 As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
 
