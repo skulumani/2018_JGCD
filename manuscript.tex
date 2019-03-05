@@ -446,7 +446,7 @@ The plots show that the reconstruction achieves an accurate shape estimate with 
 
 \begin{figure}[htbp]
     \centering
-    \input{tikz/geographos_metrics.tikz}
+    \input{geographos_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 
@@ -456,14 +456,14 @@ Discovered in \num{1995}, Golevka is a potentially hazardous asteroid which pass
 \Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/partial_1321.jpg}}\\%
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_partial_1321.jpg}}\\%
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/partial_2643.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/partial_3964.jpg}}\\%
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_partial_2643.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_partial_3964.jpg}}\\%
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/partial_5285.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{figures/mesh_update/golevka/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_partial_5285.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.25\textheight]{mesh_update_golevka_truth.jpg}}
     \caption[Asteroid Golevka incremental reconstruction]{Incremental reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
@@ -471,7 +471,7 @@ In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume 
 
 \begin{figure}[htbp]
     \centering
-    \input{tikz/golevka_metrics.tikz}
+    \input{golevka_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
 \end{figure}
 
@@ -479,7 +479,6 @@ The plots show that the reconstruction achieves an accurate shape estimate with 
 It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
 This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
 
-\clearpage\newpage
 \section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
 
 The shape reconstruction algorithm presented in the preceding section does not offer a method to determine which portion of the surface needs to be measured. 
@@ -691,14 +690,14 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_1.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_3749.jpg}}%
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements\label{fig:52760_partial_weights_25}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_3749.jpg}}%
 
-    \subcaptionbox{\SI{50}{\percent} of measurements\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_7499.jpg}}
-    \subcaptionbox{\SI{75}{\percent} of measurements\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_11249.jpg}}%
+    \subcaptionbox{\SI{50}{\percent} of measurements\label{fig:52760_partial_weights_50}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_7499.jpg}}
+    \subcaptionbox{\SI{75}{\percent} of measurements\label{fig:52760_partial_weights_75}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_11249.jpg}}%
 
-    \subcaptionbox{\SI{100}{\percent} of measurements\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/52760/partial_weights_14998.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/52760/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{mesh_update_52760_truth.jpg}}
     \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
 

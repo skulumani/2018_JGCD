@@ -1,8 +1,8 @@
-\tikzsetnextfilename{geographos_metrics}
+\tikzsetnextfilename{golevka_metrics}
 \begin{tikzpicture}[baseline]
     \begin{groupplot}[
         group style={
-            group name={geographos_metrics},
+            group name={golevka_metrics},
             group size=1 by 2,
             xlabels at=edge bottom,
             ylabels at=edge left,
@@ -15,13 +15,13 @@
         ylabel style={align=center},
     ]
     \nextgroupplot[ylabel={Normalized\\Uncertainty}]
-    \addplot [ultra thick, color=blue, mark=none] table [x=NORMALIZED_TIME, y=NORMALIZED_UNCERTAINTY, col sep=comma] {figures/mesh_update/geographos/uncertainty.csv};
+    \addplot [ultra thick, color=blue, mark=none] table [x=NORMALIZED_TIME, y=NORMALIZED_UNCERTAINTY, col sep=comma] {mesh_update_golevka_uncertainty.csv};
     \addplot [ultra thick,red, mark=none, dashed] coordinates {
         (0.0, 0.0) (1.0, 0.0) 
     };
 
     \nextgroupplot[ylabel={Volume Percent\\Error}]
-    \addplot [ultra thick, blue, mark=none] table [x=NORMALIZED_TIME, y=VOLUME_PERCENT_ERROR, col sep=comma] {figures/mesh_update/geographos/volume.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=NORMALIZED_TIME, y=VOLUME_PERCENT_ERROR, col sep=comma] {mesh_update_golevka_volume.csv};
         \addplot [ultra thick,red, mark=none, dashed] coordinates {
             (0.0, 0.0) (1.0, 0.0) 
         };
