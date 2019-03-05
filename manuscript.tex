@@ -178,7 +178,7 @@ The masses are separated by a massless rod of length \( l \) and attached to the
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
 \begin{figure}[htbp]
     \centering
-    \input{tikz/dumbbell.tikz}
+    \input{dumbbell.tikz}
     \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
 \end{figure}
 Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
@@ -314,7 +314,7 @@ The spacecraft measures the range between itself and the asteroid surface to sev
 These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called \textit{point cloud}, allows us to reconstruct the shape.
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/castalia_raycasting_plot.jpg}
+    \includegraphics[width=0.75\textwidth]{castalia_raycasting_plot.jpg}
     \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
 \end{figure}
 
@@ -425,14 +425,14 @@ In addition, we compute the volume of the estimated shape and compare against th
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/mesh_update/geographos/partial_0.jpg}}%
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_1872.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{mesh_update_geographos_partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{mesh_update_geographos_partial_1872.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_3745.jpg}}%
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_5617.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{mesh_update_geographos_partial_3745.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{mesh_update_geographos_partial_5617.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/partial_7489.jpg}}%
-    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/mesh_update/geographos/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{mesh_update_geographos_partial_7489.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{mesh_update_geographos_truth.jpg}}
     \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
 
