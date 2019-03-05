@@ -837,15 +837,15 @@ Landing sites which are closer will be considered preferentially over those at a
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/dynamic_exploration/castalia/refine/dist.pdf}}%
-    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{dynamic_exploration_castalia_refine_dist.pdf}}%
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{dynamic_exploration_castalia_refine_dist_masked.pdf}}
     \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
 We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
 The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\textwidth,keepaspectratio]{figures/dynamic_exploration/castalia/refine/cost.pdf}
+    \includegraphics[width=0.75\textwidth,keepaspectratio]{dynamic_exploration_castalia_refine_cost.pdf}
     \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
 \end{figure}
 After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
