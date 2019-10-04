@@ -1,0 +1,144 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,text={6.5in,8.6in},centering]{geometry}
+\usepackage{amssymb,amsmath,amsthm,times,url}
+\usepackage{xr,xcite,color}
+\usepackage{threeparttable,booktabs}
+\usepackage{pdfpages}
+\usepackage{algpseudocode,cases}
+
+\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
+\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
+\newcommand{\reffig}[1]{Fig. \ref{fig:#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
+\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\renewcommand{\L}{\ensuremath{\mathsf{L}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
+\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
+\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
+\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
+\newcommand{\D}{\ensuremath{\mathbf{D}}}
+\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
+\renewcommand{\S}{\Sph}
+\newcommand{\J}{\ensuremath{\mathbf{J}}}
+\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
+\newcommand{\intp}{\ensuremath{\mathbf{i}}}
+\newcommand{\extd}{\ensuremath{\mathbf{d}}}
+\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
+\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
+\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
+\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
+\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
+\newcommand{\G}{\ensuremath{\mathsf{G}}}
+\newcommand{\g}{\ensuremath{\mathfrak{g}}}
+\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
+\newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newtheorem{definition}{Definition}%[section]
+\newtheorem{lem}{Lemma}%[section]
+\newtheorem{prop}{Proposition}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{theorem}{Theorem}%[section]
+
+\newenvironment{correction}{\begin{list}{}{\setlength{\leftmargin}{1cm}\setlength{\rightmargin}{1cm}}\vspace{\parsep}\item[]``}{''\end{list}}
+\newcommand{\comment}[1]{\item \itshape #1 \normalfont}
+
+\externaldocument{manuscript}
+\externalcitedocument{manuscript}
+
+\begin{document}
+
+%\pagestyle{empty}
+
+\section*{Response to the Reviewers' Comments for  2019-03-G004445}
+
+The author would like to thank the reviewers for their thoughtful comments, which are aimed
+towards improving the quality of the paper and the clarity of the results. In accordance with the comments and suggestions, the manuscript has been revised, and the answers to all comments are addressed as follows.
+
+(In the revised manuscript, the citation numbers for equations, assumptions, propositions, and references are changed. This answer is written according to the new item numbers.)
+
+
+\subsection*{Associate Editor}
+
+\setlength{\leftmargini}{0pt}
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+
+\comment{The reviews regarding the contributions are mildly favorable, yet include some valid technical questions/issues as well as hesitations regarding the language, style, and clarity. The paper is not publishable in the current form. A revised manuscript submission does not guarantee success. To remain under consideration, all issues must be addressed in a satisfactory manner.   
+In this revision, please include 
+1) a line-by-line response (action taken, rebuttal, justification), etc.) to each of the reviewer and editor comments, along with explicitly stating any action taken in the revised manuscript, as appropriate.  Please color code the response to include different colors for the reviewer comments, author response, and action taken.  
+2) in your revised copy include a different color font for to indicate portions of the paper that have significant changes/additions compared to the previous submitted one.  please keep the original font colors from earlier revisions.
+}
+
+Thanks for the comments. All of the comments have been addressed in the response letter, and the manuscript has been revised accordingly. The detailed responses to each comment are given in the subsequent pages.  
+
+\end{itemize}
+
+\clearpage\newpage
+\subsection*{Reviewer 1}
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+    \comment{Comments by Reviewer 1: to be added}
+
+    Response to be added.
+\end{itemize}
+
+\clearpage\newpage
+\subsection*{Reviewer 2}
+
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+
+\comment{This paper discusses a method for using a range sensor to compute a 3D model of an asteroid, a guidance algorithm for designing an optimal trajectory for building such a model, and a multi-resolution approach for landing. While the paper does have a few nice contributions, it has a number of serious flaws that must be addressed before it is suitable for publication.}
+
+\comment{
+Major issues to address:
+1.      The construction of the measurement presented on pg. 8 requires that you know the asteroid attitude $R_A$. Where does the knowledge of the asteroid attitude come from? This is almost never known in the type of scenarios the authors are suggesting in this paper. By knowing $R$, $R_A$, and $x$ in the equation on pg. 8, the authors assume pose is known. Indeed, the unknown relative attitude (and, often, relative position as well) between the asteroid and the spacecraft at any point in time is one of the principal challenges that makes this problem hard---and to ignore this problem is to solve a problem of questionable relevance. A review of the literature of LIDAR-based modeling for asteroids (or other space objects) will show that much of the effort is spent simultaneously solving for the asteroid orientation (or pole and spin) and its shape (usually while assuming the spacecraft’s own inertial state is known). This essentially becomes a form of the simultaneous localization and mapping (SLAM) problem.}
+
+
+\comment{2.      If you must assume knowledge of the asteroid attitude, I suggest you consider only knowing the pole and spin (and not $R_A$ explicitly). If this is the route you choose, please discuss sensitivity of your algorithm to deterioration of knowledge in these two parameters. I expect things to fall apart pretty quickly as spin knowledge degrades as you will no longer be computing the range to the correct point on the surface.}
+
+
+
+\comment{Minor issues to address:
+1.      The authors are encouraged to conduct a more thorough literature review on image-based and LIDAR-based 3D modeling of asteroids.  Here are a few suggestions:\\
+a.      Bercovici, B., and McMahon, J., “Robust Autonomous Small-Body Shape Reconstruction and Relative Navigation Using Range Images,” Journal of Guidance, Control, and Dynamics, 2019.\\
+b.      Kirk, R.L., Kraus, E.H., and Rosiek, M., “Recent planetary topographic mapping at the USGS, Flagstaff: Moon, Mars, Venus, and beyond,” International Archives of Photogrammetry and Remote Sensing, Vol. XXXIII, Part B4. Amsterdam, 2000.\\
+c.      Gaskell, R.W., Barnouin, O.S., Scheers, D.J., Konopliv, A.S., Mukai, T., Abe, S., Saito, J., Ishiguro, M., Kubota, T., Hashimoto, T., Kawaguchi, J., Yoshikawa, M., Shirakawa, K., Kominato, T., Hirata, N., and Demura, H., “Characterizing and navigating small bodies with imaging data,” Meteoritics \& Planetary Science, Vol. 43, No. 6, 2008, pp. 1049–1061. https://doi.org/10.1111/j.1945-5100.2008.tb00692.x}
+
+\comment{2.      Page 3, line 23: It is probably more accurate to say “on board camera” than “on board telescope” in this context. Also, the word “radar” has been erroneously added into the LIDAR definition.}
+
+\comment{3.      Page 7, Eqs. 13-16: Many terms in these equations aren’t defined. The notation is very confusing without having to read Refs. [7] and [16]. Either fully define all terms or simply point the reader to the appropriate references.}
+
+\comment{4.      Section III.B: By only adjusting the height of a vertex this method assumes that each radial direction has a single-valued height. This greatly limits the variety of shapes that can be modeled. Also, by scaling the radial distance of a uniformly sampled initial mesh (e.g., a sphere or ellipsoid), the parts of the asteroid closer to the origin will tend to have a higher vertex density (resolution) than those farther away. I suppose this may be addressed by remeshing if things get too bad. Do the authors have any thoughts on addressing this issue? Has it impacted performance in any of the examples?}
+
+\comment{5.      Page 10, line 10: Your notation for $p_j$, $p_{j,i}$, and $r_{j,i}$  isn’t very clear. I suggest rewording the discussion or, perhaps, altering notation. Adding a figure may also help. }
+
+\comment{6.      Page 10, line 10: Change “variance” to “standard deviation.” Based on the equation at the top of the page, $w_{j,i}$ is the standard deviation. Its square is the variance.}
+
+\comment{7.      Page 10: A figure would be very helpful in explaining what you’re doing with Eqs. 18 and 19. I had to read through this a few times and a figure would have helped me get it the first time.}
+
+\comment{8.      The optimal guidance law appears to work by selecting the lowest cost vertex ($v_{min}$) from equation at bottom of pg. 16). Would it not be better to consider how the vertex uncertainties are improved along the entire trajectory from Eq. 26?}
+
+\comment{9.      Page 24: How are you changing the pointing of the range sensor during the descent? I would presume you would have to scan the surface during the descent to get the improved resolution you desire? Or are you suggesting that you change the mesh resolution and simply re-process the existing data set? The proposed strategy is not 100\% clear.}
+
+\comment{Editorial comments:
+1.      The notation is hard to follow and seems inconsistent in places. I suggest using font or typesetting to differentiate between matrices, vectors, and scalars. }
+
+\comment{2.      AIAA journals require papers be written in third person. This paper is written in first person.}
+\end{itemize}
+
+
+
+\end{document}
+
+
+
