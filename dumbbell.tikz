@@ -52,7 +52,7 @@ asin(min(1,max(\sinVis,-1)))}
 }
 
 \tikzsetnextfilename{dumbbell}
-\begin{tikzpicture} % "THE GLOBE" showcase
+\begin{tikzpicture}[scale=0.8] % "THE GLOBE" showcase
 
 \def\R{2} % sphere radius
 \def\angEl{35} % elevation angle

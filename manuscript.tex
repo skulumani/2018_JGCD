@@ -1,6 +1,12 @@
-\documentclass[journal]{new-aiaa}
-%\documentclass[conf]{new-aiaa} for conference papers
+%% The following three lines were added to by pass an error
+%% See https://tex.stackexchange.com/questions/108394/tex-capacity-exceeded-sorry-input-stacksize-5000
+\makeatletter
+\def\cl@chapter{}
+\makeatother
+%%
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
 \usepackage{AAS_packages}
+%\usepackage[numbers]{natbib}
 % \usepackage[utf8]{inputenc}
 
 % \usepackage[version=4]{mhchem}
@@ -15,11 +21,23 @@
 
 \title{Bayesian Shape Reconstruction and Optimal Guidance for Autonomous Landing on Asteroids}
 
-% TODO Think about adding current affiliation as a note, need to ask company
-\author{Shankar Kulumani \footnote{PhD, Mechanical and Aerospace Engineering, \href{mailto:skulumani@gwu.edu}{skulumani@gwu.edu}}
-and
-Taeyoung Lee \footnote{Associate Professor, Mechanical and Aerospace Engineering, \href{mailto:tylee@gwu.edu}{tylee@gwu.edu}}}
-\affil{The George Washington University, Washington, DC, 20052}
+\author{Shankar Kulumani         \and
+        Taeyoung Lee %etc.
+}
+
+%\authorrunning{Short form of author list} % if too long for running head
+
+% todo: we may update the affiliation and the address of Shankar 
+\institute{S. Kulumani (corresponding author) \at
+              Mechanical and Aerospace Engineering, The George Washington University, Washington DC, 20052\\
+              \email{shanks.k@gmail.com}           %  \\
+%             \emph{Present address:} of F. Author  %  if needed
+           \and
+           T. Lee,  \at
+              Mechanical and Aerospace Engineering, The George Washington University, Washington DC, 20052\\
+              \email{tylee@gwu.edu}
+}
+
 
 \begin{document}
 
@@ -27,8 +45,8 @@ Taeyoung Lee \footnote{Associate Professor, Mechanical and Aerospace Engineering
 
 \begin{abstract}
     Constructing of the precise shape of an asteroid is critical for spacecraft operations, as the gravitational potential is determined by spatial mass distribution.
-    For example, the standard method of determining the gravitational potential of an asteroid, through the use of a polyhedron potential model, is directly dependent on the shape model.
-    Furthermore, safe landing or close-proximity operations requires accurate knowledge of the surface topology. 
+    %For example, the standard method of determining the gravitational potential of an asteroid, through the use of a polyhedron potential model, is directly dependent on the shape model.
+    %Furthermore, safe landing or close-proximity operations requires accurate knowledge of the surface topology. 
     The typical approach to shape determination requires a prolonged ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
     This paper presents a set of approaches to explore an unknown asteroid with onboard calculations, and to land on its surface area selected in an optimal fashion. 
     The main motivation is to avoid the extended period of mapping phase or preliminary ground observations that are commonly required in spacecraft mission around asteroids. 
@@ -38,6 +56,7 @@ Taeyoung Lee \footnote{Associate Professor, Mechanical and Aerospace Engineering
     Finally, a multi resolution approach is presented to construct a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
     This approach enables for an accurate shape determination around a potential landing site.
     We demonstrate this approach using several radar shape models of asteroids and provide a full dynamic simulation about asteroid 4769 Castalia.
+    \keywords{Asteroids \and Shape Construction \and Guidance \and Optimization}
 \end{abstract}
 
 % \section*{Nomenclature}
@@ -94,10 +113,10 @@ Another key dynamic consideration is the coupling between rotational and transla
 The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
 The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
 For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
-\citeauthor{elmasri2005}~\cite{elmasri2005} and \citeauthor{sanyal2004a}~\cite{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+In~\cite{elmasri2005} and \cite{sanyal2004a}, the coupling of an elastic dumbbell spacecraft in orbit about a central body is considered, assuming that the central body is spherically symmetric.
 Furthermore, the spacecraft model is assumed to remain in a planar orbit.
 As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
-\citeauthor{misra2015b}~\cite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
+In~\cite{misra2015b}, the effect of coupled motion is investigated for long term trajectories around asteroids.
 However, the analysis only considered a second order spherical harmonic gravitational potential model. 
 Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
 
@@ -778,7 +797,7 @@ subject to a hard inequality constraint requiring that the surface slope is less
 \subsection{High-Resolution Mapping}\label{sec:refinement}
 
 Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
-As shown in Reference~\citenum{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+As shown in Reference~\cite{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
 The computational cost of the polyhedron potential model, given by~\cref{eq:attraction}, is roughly proportional to the number of faces in the shape model.
 As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
@@ -1159,10 +1178,12 @@ Future works include integrating a localization technique with the proposed shap
 
 %Sponsorship information and acknowledgments of financial support should be included here. \textbf{Authors are responsible for accurately reporting funding data relevant to their research.} Please confirm that you have correctly entered \textbf{all sources} of funding and grant/award numbers \textbf{for all authors} in this section of your article. You will also be asked to select the appropriate funding organization from a drop-down menu in ScholarOne when you submit your manuscript. Be careful to choose the correct funder name, as organization names can be similar, and also be mindful to select sub-organizations within the registry hierarchy that are the actual funding sources, as appropriate, rather than choosing the name of the parent organization. Information provided in your manuscript must match the funding data entered in ScholarOne.
 
-\section{Acknowledgement}
-This research is supported in part by NSF under the grant CMMI-1335008.
+%\section{Acknowledgement}
+%This research is supported in part by NSF under the grant CMMI-1335008.
 
+\bibliographystyle{IEEEtran}
 \bibliography{library}
+
 
 
 \end{document}
