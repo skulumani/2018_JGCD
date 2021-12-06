@@ -1,0 +1,227 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,text={6.5in,8.6in},centering]{geometry}
+\usepackage{amssymb,amsmath,amsthm,times,url}
+\usepackage{xr,xcite,color}
+\usepackage{threeparttable,booktabs}
+\usepackage{pdfpages}
+\usepackage{algpseudocode,cases}
+
+\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
+\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
+\newcommand{\reffig}[1]{Fig. \ref{fig:#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
+\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\renewcommand{\L}{\ensuremath{\mathsf{L}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
+\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
+\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
+\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
+\newcommand{\D}{\ensuremath{\mathbf{D}}}
+\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
+\renewcommand{\S}{\Sph}
+\newcommand{\J}{\ensuremath{\mathbf{J}}}
+\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
+\newcommand{\intp}{\ensuremath{\mathbf{i}}}
+\newcommand{\extd}{\ensuremath{\mathbf{d}}}
+\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
+\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
+\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
+\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
+\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
+\newcommand{\G}{\ensuremath{\mathsf{G}}}
+\newcommand{\g}{\ensuremath{\mathfrak{g}}}
+\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
+\newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newtheorem{definition}{Definition}%[section]
+\newtheorem{lem}{Lemma}%[section]
+\newtheorem{prop}{Proposition}%[section]
+\newtheorem{remark}{Remark}%[section]
+\newtheorem{theorem}{Theorem}%[section]
+
+\newenvironment{correction}{\begin{list}{}{\setlength{\leftmargin}{1cm}\setlength{\rightmargin}{1cm}}\vspace{\parsep}\item[]``}{''\end{list}}
+\newcommand{\comment}[1]{\item \itshape #1 \normalfont}
+
+\externaldocument{manuscript}
+\externalcitedocument{manuscript}
+
+\begin{document}
+
+%\pagestyle{empty}
+
+\section*{Response to the Reviewers' Comments for JASS-D-20-00049}
+
+The author would like to thank the reviewers for their thoughtful comments, which are aimed towards improving the quality of the paper and the clarity of the results.
+In accordance with the comments and suggestions, the manuscript has been revised, and the answers to all comments are addressed as follows.
+
+(In the revised manuscript, the citation numbers for equations, assumptions, propositions, and references are changed. This answer is written according to the new item numbers.)
+
+\subsection*{Associate Editor}
+
+\setlength{\leftmargini}{0pt}
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+
+\comment{
+    Based on the advice received, I have decided that your manuscript could be reconsidered for publication should you be prepared to incorporate major revisions. 
+    When preparing your revised manuscript, you are asked to carefully consider the reviewer comments which can be found below, and submit a list of responses to the comments. 
+    You are kindly requested to also check the website for possible reviewer attachment(s).
+}
+
+Thanks for the comments. All of the comments have been addressed in the following response letter, and the manuscript has been revised accordingly. 
+The detailed responses to each comment are given in the subsequent pages.  
+
+\end{itemize}
+
+\clearpage\newpage
+\subsection*{Reviewer 2}
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+
+    
+    \comment{The article proposes a scheme to construct the shape of an asteroid from range measurements using a LIDAR or a similar instrument. 
+        It also presents a method to further refine the shape construction by using an optimal guidance scheme to maneuver the spacecraft. 
+        It seems to me that the proposed schemes work well; the construction of shapes in the examples considered is accurate with low computational cost. 
+        The article is innovative and will be of interest to researchers working on asteroid missions.   
+
+        I have a couple of questions:
+    }
+
+
+\comment{(1) The spacecraft dynamics model considered in the article is that of a dumbbell. 
+Why was such a model chosen instead of an arbitrary rigid spacecraft?
+Is it because the RHS of equations (4) and (6) will be more complicated for a rigid spacecraft ?
+Also, equation (12) will be an integral and the shape construction scheme will be more computationally intensive.
+Some comments addressing this point in the article may be useful.}
+
+Dumbell is a decent approximation for a rigid spacecraft.
+Can easily extend from a dumbell, 2 masses to arbitary number of masses to handle more general spacecraft. 
+In the limit an arbitrary number of masses can then approximate a general rigid body.
+
+\comment{(2) In addition to range measurements for the asteroid surface, I think that inertial positions of the centers of mass of the asteroid and the spacecraft will be necessary.
+How are these obtained?}
+
+Inertial positions not required.
+
+Add relative equations of motions
+
+The formulation presented assumes that the inertial orentation of the asteroid is available.
+
+\end{itemize}
+
+
+\clearpage\newpage
+\subsection*{Reviewer 4}
+
+\begin{itemize}\setlength{\itemsep}{2\parsep}
+
+\comment{    Dear authors,
+This paper is very well written and discusses an important topic in the spacecraft exploration of small bodies - how can we simplify current approaches and proximity operations, and also not rely as much on ground in the loop support? The techniques are well described and the presentation is easy to follow.
+My first concern is the lack of references to recent missions such as Rosetta, Hayabusa2, and Osiris-Rex, and the discussion or comparison to approaches taken in these missions for going from approach to landing. Although the techniques presented in this paper are very interesting and seem to simplify proximity operations at small bodies, it is difficult to clearly see the benefits since there is no comparisons to the recent techniques implemented in the more recent missions than those referenced.
+My second concern is the impact of spacecraft state uncertainties and non-gravitational accelerations on the results presented. Although the authors seem to include this as future work, it would be best to include this discussion in this paper to some extend, as these inputs usually drive uncertainties in determining shape modeling and defining landing areas.  
+Finally, the authors should augment the paper discussing onboard requirements to allow implementation of the techniques presented, since portability can also be a challenge.
+
+Specific comments:
+}
+
+\comment{A few possible typos:
+- I would write "dynamical" instead of dynamic at a number of places, but this might be a writing style: Intro line 25 \& 30, page 19 line 31.
+}
+
+\comment{
+Page 3, line 33-34, the citations of Hayabusa1 and NEAR seem mis-used. Hayabusa stayed 3 months at Itokawa and the mission operations team did not report requiring a polyhedron potential model for landing (if so, a reference would be needed). NEAR did orbit about 1 year from orbit insertion to landing.
+There could be references to more recent missions highlighting the specifics of the proximity operation implementations and their lacks.
+}
+
+\comment{
+Page 3 line 41-42 with reference 13, The asteroid redirect mission has been canceled, and so this reference seems somewhat irrelevant when trying to highlight long delays in implementing operations that would require mapping and a better defined potential. A reference to OREx would be more appropriate. The specifics of how the techniques proposed in the paper could have changed the proximity operations of OREx need to be included and described better.
+}
+
+\comment{
+Page 3, line 48-49, saying "The dependency on expensive ground-based shape reconstruction technique limits the ability of spacecraft to autonomously operate at asteroids." seems misleading. What does "expensive" mean or refer to? The ability of spacecraft to autonomously operate at asteroids is limited by the lack of portable solutions and/or opportunities to test those portable solutions, rather than being able to use ground-based techniques.
+}
+
+Add additional detail on limitations. 
+Ground based sensors are also limited in number, in disrepair and over taxed (cite a reference on the DSN/Arecibo collapsing)
+
+\comment{
+Page 4 line 7, "onboard" as opposed to "onborad".
+}
+
+\comment{
+Page 4, line 37, "During this simulation, this update shape model is then used in a nonlinear controller...". The second "this" should not have a capital "T", and should be "used in" as opposed to "used to in" .
+}
+
+\comment{
+Page 8, line 1-2, the authors should augment the statement made citing reference 7 with one or two sentences for the unfamiliar reader.  
+}
+
+\comment{
+In 3.1, the authors should discuss range measurements done with recent missions, what was successful and what was not, to distinguish their approach more efficiently. 
+References 17 and 18 seem outdated. References to more recent work or missions are needed.
+}
+
+Find more recent references
+
+\comment{
+Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta TOF)/(2c)". I would assume the equation is correct in the code but the authors should check.
+}
+
+Good catch. 
+Don't actually simulate time of flight of a sensor. 
+instead utilizing ray intersection algorithms to determine distance. 
+This equation used to relate distance in simulation to a time of flight as would be measured in reality.
+
+\comment{
+In 3.2, it is unclear how the boundaries of areas being updated are being treated, whereas it seems discontinuity could easily be seen in results but would need to be addressed to some extend? It may be good to add a few sentences about boundary conditions and how these are treated.
+}
+
+\comment{
+In 3.3, the authors should discuss the impact of spacecraft state errors and non-gravitational accelerations on the results of this technique. Is this assumed to be a task left for ground operations?
+I also noticed this seems to be part of future work. It may be good to mention in the text also.
+}
+
+\comment{
+In 4.3, references should be added for the shape models used for this work.
+In 4.3, line 45 - 47, "asteroids" should have no "s". Also, mentioning "initially unknown asteroid" is contradicting earlier statements and the following paragraph since a simple shape model is required for this technique.
+In 4.3, page 20, statement starting on line 17, do the asteroid size and rotation period have no impact on the reconstruction time required? What amount of data does this mean? it is difficult to gauge what is needed for this onboard processing to be possible, or if this would be readily feasible.
+As for my comment for 3.3, it would be best to describe the impact of spacecraft uncertainties on these results.
+The spacecraft orbit seems to resemble that of Hayabusa - this is inferred from using the "home position" nomenclature. Is the technique best used with this kind of approach as opposed to following some orbits like what was done with the OREx mission? A discussion might be required here.
+How does this translate in terms of fuel consumption? or delta-V imparted to the spacecraft?  
+}
+
+\comment{
+Fig 7 \& 8, what causes some areas to remain with high uncertainties? This would need to be discussed for both ML14 and Castalia.
+}
+
+\comment{
+As part of section 5, the authors should discuss impacts of more complex criteria for landing or surface sampling, for instance, types of material on the surface, poles versus equatorial areas, etc. It may be good to look at sampling requirements and criteria of recent missions to see how they would affect the technique described.
+}
+
+\comment{
+Conclusion:
+Page 30, line 45, "significant" instead of "signification".
+}
+
+\comment{
+The future works mentioned are definitely of interest!
+}
+
+\end{itemize}
+
+
+
+\end{document}
+
+
+
