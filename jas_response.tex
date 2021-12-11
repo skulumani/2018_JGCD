@@ -5,6 +5,8 @@
 \usepackage{threeparttable,booktabs}
 \usepackage{pdfpages}
 \usepackage{algpseudocode,cases}
+\usepackage{siunitx}
+\usepackage{cleveref}
 
 \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
 \newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
@@ -221,39 +223,147 @@ The equation has been corrected and is copied below.
 
 
 \comment{
-In 3.2, it is unclear how the boundaries of areas being updated are being treated, whereas it seems discontinuity could easily be seen in results but would need to be addressed to some extend? It may be good to add a few sentences about boundary conditions and how these are treated.
+In 3.2, it is unclear how the boundaries of areas being updated are being treated, whereas it seems discontinuity could easily be seen in results but would need to be addressed to some extend? 
+It may be good to add a few sentences about boundary conditions and how these are treated.
 }
 
+Each measurement is used to only update vertices which lie within some user defined angular constraint, \( \Delta \sigma_{max} \).
+In this approach only the radial distance of each vertex is changed as a function of the measurements. 
+As a result the topology of the polyhedron shape does not vary and the model remains watertight and closed.
+In addition, the correlation based sensor model used in this approach ensures that vertices further from the measurement have a higher variance and therefore reduced displacement for a given measurement. 
+The scaling factor \( c \) and the angular constraint \( \Delta \sigma_{max} \) can also be used to adjust the region of impact of a given measurement. 
+Adjusting these scalars, in addition to the a priori probability of the initial shape model can be utilized to ensure that steep gradients on the surface are not artificially introduced during the mapping process.
+Additional detail has been added to the manuscript and is shown below.
+
+\begin{correction}
+    The parameters \( c \) and \( \Delta \sigma_{max} \) are used to define the region of impact of each measurement. 
+    The angular constraint \( \Delta \sigma_{max} \) sets a hard constraint on the vertices which need to be updated for a given measurement.
+    The scalar \( c \) may then be used to adjust the variance \( w_{j,i} \) as a function of the distance between measurement \( j \) and vertex \( i \).
+    These two parameters may be used to minimize steep gradients that may occur during the shape reconstruction process.
+\end{correction}
+
 \comment{
-In 3.3, the authors should discuss the impact of spacecraft state errors and non-gravitational accelerations on the results of this technique. Is this assumed to be a task left for ground operations?
+In 3.3, the authors should discuss the impact of spacecraft state errors and non-gravitational accelerations on the results of this technique. 
+Is this assumed to be a task left for ground operations?
 I also noticed this seems to be part of future work. It may be good to mention in the text also.
 }
 
+Additional detail regarding the impact of spacecraft state uncertainty and non-gravitational accelerations have been included in the manuscript and are shown below.
+
+\begin{correction}
+    In this numerical example we have assumed perfect state knowledge of the spacecraft.
+    This is a strong assumption that would not exist in any realistic situation. 
+    However, the measurement model defined in the previous section may be extended to consider the uncertainty in both the state \( x \) and the range measurement \( d \) rather than combining them into a single random variable \( p \).
+    In addition, the dynamics defined by~\crefrange{eq:x_dot}{eq:omega_dot} do not consider any non-gravitational accelerations such as solar radiation pressure on the vehicle.
+    In general, these types of external forces will primarily serve to increase state uncertainty and cause large errors in the closed loop control system.
+    Adaptive control techniques have been demonstrated in the past to address both fixed and time varying disturbances of this kind~\cite{kulumani2017a}.
+    The authors will relax these assumptions in future work.
+\end{correction}
+
 \comment{
-In 4.3, references should be added for the shape models used for this work.
-In 4.3, line 45 - 47, "asteroids" should have no "s". Also, mentioning "initially unknown asteroid" is contradicting earlier statements and the following paragraph since a simple shape model is required for this technique.
-In 4.3, page 20, statement starting on line 17, do the asteroid size and rotation period have no impact on the reconstruction time required? What amount of data does this mean? it is difficult to gauge what is needed for this onboard processing to be possible, or if this would be readily feasible.
+In 4.3, references should be added for the shape models used for this work.}
+
+A reference for the radar shape models has been added.
+
+\begin{correction}
+We utilize radar shape models of asteroid \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\)~\cite{neese2004}.
+\end{correction}
+
+\comment{
+In 4.3, line 45 - 47, "asteroids" should have no "s". 
+}
+
+The ''s`` has been removed and the corrected sentence is shown in the previous response.
+
+\comment{
+Also, mentioning "initially unknown asteroid" is contradicting earlier statements and the following paragraph since a simple shape model is required for this technique.
+}
+
+The sentence has been reworded to more accurately reflect the level of knowledge required.
+It is copied here as:
+
+\begin{correction}
+These demonstrate the ability of a spacecraft to autonomously explore and maneuver around an initially poorly modeled asteroid while incrementally updating the shape model.
+\end{correction}
+
+\comment{
+In 4.3, page 20, statement starting on line 17, do the asteroid size and rotation period have no impact on the reconstruction time required? 
+What amount of data does this mean? 
+it is difficult to gauge what is needed for this onboard processing to be possible, or if this would be readily feasible.
+}
+
+The shape refinement process defined in~\cref{sec:radius_update} is by definition a local refinement process.
+Rather than operating on the entire shape model only the region defined by the angular constraint \( \Delta \sigma_{max}\) is considered in each measurement update. 
+The user can adjust this parameter to ensure a constant number of vertices are considered for each measurement update and therefore maintain a constant number of computations based on processor capabilities. 
+In addition, the refinement process introduced in~\cref{sec:landing_refinement} can be utilized to allow for higher fidelity in a small region.
+An appropriate choice of \( \Delta \sigma_{max} \) is again crucial to maintain constant computational requirements.
+Additional discussion has been added to the manuscript discussing this feature of our approach and is copied below.
+
+\begin{correction}
+    The angular constraint \( \Delta \sigma_{max} \) may be used to adjust the computational requirements of the shape refinement process.
+    Larger values of \( \Delta \sigma_{max} \) result in a greater computational demand as a given measurement ray is used to update a larger number of vertices.
+    \Cref{sec:landing_refinement} presents an approach to allow for a higher resolution mesh in certain regions to capture finer surface details without excessive resources. 
+\end{correction}
+
+\comment{
 As for my comment for 3.3, it would be best to describe the impact of spacecraft uncertainties on these results.
-The spacecraft orbit seems to resemble that of Hayabusa - this is inferred from using the "home position" nomenclature. Is the technique best used with this kind of approach as opposed to following some orbits like what was done with the OREx mission? A discussion might be required here.
+The spacecraft orbit seems to resemble that of Hayabusa - this is inferred from using the "home position" nomenclature. 
+Is the technique best used with this kind of approach as opposed to following some orbits like what was done with the OREx mission? A discussion might be required here.
 How does this translate in terms of fuel consumption? or delta-V imparted to the spacecraft?  
 }
+
+The guidance scheme presented in~\cref{sec:explore_asteroid} will drive the vehicle towards states which will best reduce the total uncertainty of the shape model.
+As a result the vehicle in general may take an arbitrary trajectory about the body and utilize much larger control effort compared to utilizing the natural dynamics of the system. 
+We do not duplicate the motion of Hayabusa but did utilize the ''home position`` term to describe the numerical example.
+Our shape refinement approach is not limited to our guidance scheme but rather is an example of combining closed loop control with our shape refinement method.
+We will consider incorporating control effort constraints in our optimal guidance scheme in a future work.
 
 \comment{
 Fig 7 \& 8, what causes some areas to remain with high uncertainties? This would need to be discussed for both ML14 and Castalia.
 }
 
+These figures show the shape model uncertainty during the refinement process.
+Areas that have not been measured by the vehicle will have large uncertainties compared to those areas already surveyed. 
+Only after the vehicle has measured the entire surface will the shape model have a near constant uncertainty defined by 
+\begin{align*}
+    \sum_i w_i.
+\end{align*}
+An additional comment has been added to the figure captions and is shown below.
+
+\begin{correction}
+    Areas of high uncertainty are in yellow while areas of low uncertainty are in purple.
+    The guidance scheme continually selects regions of high uncertainty until the total shape uncertainty is sufficiently small.
+\end{correction}
+
 \comment{
-As part of section 5, the authors should discuss impacts of more complex criteria for landing or surface sampling, for instance, types of material on the surface, poles versus equatorial areas, etc. It may be good to look at sampling requirements and criteria of recent missions to see how they would affect the technique described.
+As part of section 5, the authors should discuss impacts of more complex criteria for landing or surface sampling, for instance, types of material on the surface, poles versus equatorial areas, etc. 
+It may be good to look at sampling requirements and criteria of recent missions to see how they would affect the technique described.
 }
+Our landing site selection algorithm is relatively simple as it is a direct function of the shape model.
+The approach was chosen as an example to demonstrate how a vehicle can autonomously model the shape of the asteroid, then utilize that shape model to chose a landing site. 
+Additional costs such as surface material or location on the body can be added as additional criteria in~\cref{eq:surface_cost}.
+We have added additional discussion concerning the landing site selection approach.
+
+\begin{correction}
+    The surface cost described here is relatively simple and chosen to be solely a function of the current spacecraft position and shape model.
+    Additional scientific criteria such as surface material or location on the body, e.g. equatorial vs. polar regions, can be utilized instead of a random science value as presented here.
+\end{correction}
 
 \comment{
 Conclusion:
 Page 30, line 45, "significant" instead of "signification".
 }
+The typo has been corrected and is shown below.
+
+\begin{correction}
+This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require significant computational resources.
+\end{correction}
 
 \comment{
 The future works mentioned are definitely of interest!
 }
+
+Thank you and we look forward to future work in this area.
 
 \end{itemize}
 
