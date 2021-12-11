@@ -104,18 +104,23 @@ Is it because the RHS of equations (4) and (6) will be more complicated for a ri
 Also, equation (12) will be an integral and the shape construction scheme will be more computationally intensive.
 Some comments addressing this point in the article may be useful.}
 
-Dumbell is a decent approximation for a rigid spacecraft.
+The use of the dumbbell approximation allows use to avoid having to evaluate the integral over the extended body in the equations of motion.
+The dumbbell model allows us to approximate an extended body with a miminimum of additional complexity.
+Additional comments have been added to the manuscript explaining this decision and copied here.
+
+The dumbbell is in some sense the simplest approximation of an extended rigid body.
+It allows for simple analytical solution for the moment of inertia and greatly simplifies the equations of motion.
+Dumbell is an approximation for a rigid spacecraft and is used widely 
 Can easily extend from a dumbell, 2 masses to arbitary number of masses to handle more general spacecraft. 
 In the limit an arbitrary number of masses can then approximate a general rigid body.
 
 \comment{(2) In addition to range measurements for the asteroid surface, I think that inertial positions of the centers of mass of the asteroid and the spacecraft will be necessary.
 How are these obtained?}
 
-Inertial positions not required.
-
-Add relative equations of motions
-
-The formulation presented assumes that the inertial orentation of the asteroid is available.
+In our analyis, we have assumed that the inertial position of both the asteroid and vehicle are available.
+For both bodies we assume that ground based tracking/orbit determination is available prior to arrival.
+This provides the inertial state of both bodies and is a requirement for the orbital rendezvous prior to any surface mapping operation.
+Additional comments have been added to the manuscript and are repeated here.
 
 \end{itemize}
 
@@ -127,48 +132,83 @@ The formulation presented assumes that the inertial orentation of the asteroid i
 
 \comment{    Dear authors,
 This paper is very well written and discusses an important topic in the spacecraft exploration of small bodies - how can we simplify current approaches and proximity operations, and also not rely as much on ground in the loop support? The techniques are well described and the presentation is easy to follow.
-My first concern is the lack of references to recent missions such as Rosetta, Hayabusa2, and Osiris-Rex, and the discussion or comparison to approaches taken in these missions for going from approach to landing. Although the techniques presented in this paper are very interesting and seem to simplify proximity operations at small bodies, it is difficult to clearly see the benefits since there is no comparisons to the recent techniques implemented in the more recent missions than those referenced.
-My second concern is the impact of spacecraft state uncertainties and non-gravitational accelerations on the results presented. Although the authors seem to include this as future work, it would be best to include this discussion in this paper to some extend, as these inputs usually drive uncertainties in determining shape modeling and defining landing areas.  
+My first concern is the lack of references to recent missions such as Rosetta, Hayabusa2, and Osiris-Rex, and the discussion or comparison to approaches taken in these missions for going from approach to landing. 
+Although the techniques presented in this paper are very interesting and seem to simplify proximity operations at small bodies, it is difficult to clearly see the benefits since there is no comparisons to the recent techniques implemented in the more recent missions than those referenced.
+My second concern is the impact of spacecraft state uncertainties and non-gravitational accelerations on the results presented.
+Although the authors seem to include this as future work, it would be best to include this discussion in this paper to some extend, as these inputs usually drive uncertainties in determining shape modeling and defining landing areas.  
 Finally, the authors should augment the paper discussing onboard requirements to allow implementation of the techniques presented, since portability can also be a challenge.
 
 Specific comments:
 }
 
+Thank you for the comments aimed at improving the quality of the manuscript. 
+Additional references and discussion related to more recent missions have been included.
+
+In addition, additional detail concerning spacecraft/state uncertainties and perturbing forces has been added to the manuscript.
+The discussion discusses the current limitations of the presented approach and discuses this as an area of future work.
+The additional discussion is presented here.
+
 \comment{A few possible typos:
 - I would write "dynamical" instead of dynamic at a number of places, but this might be a writing style: Intro line 25 \& 30, page 19 line 31.
 }
 
+Thank you for this comment. 
+We have replaced ''dynamic`` with ''dynamical`` in several locations throughout the manuscript.
+We do not repeat the corrections here for simplicity.
+
 \comment{
-Page 3, line 33-34, the citations of Hayabusa1 and NEAR seem mis-used. Hayabusa stayed 3 months at Itokawa and the mission operations team did not report requiring a polyhedron potential model for landing (if so, a reference would be needed). NEAR did orbit about 1 year from orbit insertion to landing.
+Page 3, line 33-34, the citations of Hayabusa1 and NEAR seem mis-used. Hayabusa stayed 3 months at Itokawa and the mission operations team did not report requiring a polyhedron potential model for landing (if so, a reference would be needed). 
+NEAR did orbit about 1 year from orbit insertion to landing.
 There could be references to more recent missions highlighting the specifics of the proximity operation implementations and their lacks.
 }
 
-\comment{
-Page 3 line 41-42 with reference 13, The asteroid redirect mission has been canceled, and so this reference seems somewhat irrelevant when trying to highlight long delays in implementing operations that would require mapping and a better defined potential. A reference to OREx would be more appropriate. The specifics of how the techniques proposed in the paper could have changed the proximity operations of OREx need to be included and described better.
-}
+Depending on the specific mission objectives the preliminary mapping phase may serve multiple purposes. 
+In this week, we seek to utilize the mapping phase to create a polyhedron potential model and select an appropriate landing site. 
+We added additional discussion related to more recent missions and copied below.
+
+
 
 \comment{
-Page 3, line 48-49, saying "The dependency on expensive ground-based shape reconstruction technique limits the ability of spacecraft to autonomously operate at asteroids." seems misleading. What does "expensive" mean or refer to? The ability of spacecraft to autonomously operate at asteroids is limited by the lack of portable solutions and/or opportunities to test those portable solutions, rather than being able to use ground-based techniques.
+Page 3 line 41-42 with reference 13, The asteroid redirect mission has been canceled, and so this reference seems somewhat irrelevant when trying to highlight long delays in implementing operations that would require mapping and a better defined potential.
+A reference to OREx would be more appropriate.
+The specifics of how the techniques proposed in the paper could have changed the proximity operations of OREx need to be included and described better.
 }
 
-Add additional detail on limitations. 
-Ground based sensors are also limited in number, in disrepair and over taxed (cite a reference on the DSN/Arecibo collapsing)
+The citation to the asteroid redirect mission has been removed and additional discussion related to the OSIRIS-REX mission has been incorporated.
+The additional discussion has been copied below.
+
+\comment{
+Page 3, line 48-49, saying "The dependency on expensive ground-based shape reconstruction technique limits the ability of spacecraft to autonomously operate at asteroids." seems misleading.
+What does "expensive" mean or refer to? The ability of spacecraft to autonomously operate at asteroids is limited by the lack of portable solutions and/or opportunities to test those portable solutions, rather than being able to use ground-based techniques.
+}
+
+This sentence has been removed and replaced with the following:
+
+Onboard shape reconstruction techniques enable autonomous operations which allow for a greater range of spacecraft operations.
+
 
 \comment{
 Page 4 line 7, "onboard" as opposed to "onborad".
 }
+This typo has been corrected and is copied below.
 
 \comment{
 Page 4, line 37, "During this simulation, this update shape model is then used in a nonlinear controller...". The second "this" should not have a capital "T", and should be "used in" as opposed to "used to in" .
 }
+This typo has been corrected and is copied below.
 
 \comment{
 Page 8, line 1-2, the authors should augment the statement made citing reference 7 with one or two sentences for the unfamiliar reader.  
 }
+Additional detail describing the polyhedron potential model is added and copied below.
+
+The polyhedron potential model is based on a triangular faceted shape model of an asteroid.
+In this approach, the shape of the asteroid is used to directly compute the exterior potential.
 
 \comment{
 In 3.1, the authors should discuss range measurements done with recent missions, what was successful and what was not, to distinguish their approach more efficiently. 
-References 17 and 18 seem outdated. References to more recent work or missions are needed.
+References 17 and 18 seem outdated. 
+References to more recent work or missions are needed.
 }
 
 Find more recent references
@@ -177,10 +217,8 @@ Find more recent references
 Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta TOF)/(2c)". I would assume the equation is correct in the code but the authors should check.
 }
 
-Good catch. 
-Don't actually simulate time of flight of a sensor. 
-instead utilizing ray intersection algorithms to determine distance. 
-This equation used to relate distance in simulation to a time of flight as would be measured in reality.
+The equation has been corrected and is copied below.
+
 
 \comment{
 In 3.2, it is unclear how the boundaries of areas being updated are being treated, whereas it seems discontinuity could easily be seen in results but would need to be addressed to some extend? It may be good to add a few sentences about boundary conditions and how these are treated.
