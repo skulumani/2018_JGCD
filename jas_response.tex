@@ -44,6 +44,7 @@
 \newcommand{\g}{\ensuremath{\mathfrak{g}}}
 \newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
 \newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
+\newcommand{\todo}{{\large \textcolor{red}{TODO: }}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -83,6 +84,7 @@ In accordance with the comments and suggestions, the manuscript has been revised
 
 Thanks for the comments. All of the comments have been addressed in the following response letter, and the manuscript has been revised accordingly. 
 The detailed responses to each comment are given in the subsequent pages.  
+As a note, reference numbers to citations or equations may not match the manuscript in this response.
 
 \end{itemize}
 
@@ -106,23 +108,30 @@ Is it because the RHS of equations (4) and (6) will be more complicated for a ri
 Also, equation (12) will be an integral and the shape construction scheme will be more computationally intensive.
 Some comments addressing this point in the article may be useful.}
 
-The use of the dumbbell approximation allows use to avoid having to evaluate the integral over the extended body in the equations of motion.
-The dumbbell model allows us to approximate an extended body with a miminimum of additional complexity.
+The primary benefit of the dumbbell approximation is to avoid the additional integral over the entire body.
+While conceptually and analytically simple the dumbbell model still captures the important rigid body effects on the system, namely the coupling of attitude and translational states through the external forces and moments.
+In addition, this type of spacecraft model is prevelant in the field~\cite{kulumani2017b,lee2006a,lee2007a,elmasri2005}.
 Additional comments have been added to the manuscript explaining this decision and copied here.
 
-The dumbbell is in some sense the simplest approximation of an extended rigid body.
-It allows for simple analytical solution for the moment of inertia and greatly simplifies the equations of motion.
-Dumbell is an approximation for a rigid spacecraft and is used widely 
-Can easily extend from a dumbell, 2 masses to arbitary number of masses to handle more general spacecraft. 
-In the limit an arbitrary number of masses can then approximate a general rigid body.
+\begin{correction}
+The dumbbell model is in some sense the simplest approximation of an extended rigid body.
+This model captures the important dynamics of an extended rigid body with a minmum of additional complexity and is prevelant the literature~\cite{kulumani2017b,lee2006a,lee2007a,elmasri2005}.
+In addition, the developments of the dumbbell model can be trivially extended to include a larger number of discrete masses to better approximate a more complicated spacecraft model.
+\end{correction}
 
 \comment{(2) In addition to range measurements for the asteroid surface, I think that inertial positions of the centers of mass of the asteroid and the spacecraft will be necessary.
 How are these obtained?}
 
-In our analyis, we have assumed that the inertial position of both the asteroid and vehicle are available.
-For both bodies we assume that ground based tracking/orbit determination is available prior to arrival.
-This provides the inertial state of both bodies and is a requirement for the orbital rendezvous prior to any surface mapping operation.
+In our analyis, we have assumed that the inertial position of both the asteroid and vehicle are available prior to the mapping operations.
+This data is typically available as ground based measurements are required to rendezvous with the asteroid prior to mapping.
 Additional comments have been added to the manuscript and are repeated here.
+
+\todo Add to second paragraph of Section 4.3 Numerical example immediately after the sentence: ''In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \hat e_3)\).``
+
+\begin{correction}
+    We assume that the initial intertial state of the vehicle is available. 
+    This data is typically available from a ground based orbit determination scheme which enabled the original orbital rendezvous. 
+\end{correction}
 
 \end{itemize}
 
@@ -148,7 +157,7 @@ Additional references and discussion related to more recent missions have been i
 
 In addition, additional detail concerning spacecraft/state uncertainties and perturbing forces has been added to the manuscript.
 The discussion discusses the current limitations of the presented approach and discuses this as an area of future work.
-The additional discussion is presented here.
+Specific comments related to these comments have been included below.
 
 \comment{A few possible typos:
 - I would write "dynamical" instead of dynamic at a number of places, but this might be a writing style: Intro line 25 \& 30, page 19 line 31.
@@ -158,16 +167,25 @@ Thank you for this comment.
 We have replaced ''dynamic`` with ''dynamical`` in several locations throughout the manuscript.
 We do not repeat the corrections here for simplicity.
 
+\todo Use dynamical throughout manuscript
+
 \comment{
 Page 3, line 33-34, the citations of Hayabusa1 and NEAR seem mis-used. Hayabusa stayed 3 months at Itokawa and the mission operations team did not report requiring a polyhedron potential model for landing (if so, a reference would be needed). 
 NEAR did orbit about 1 year from orbit insertion to landing.
 There could be references to more recent missions highlighting the specifics of the proximity operation implementations and their lacks.
 }
 
-Depending on the specific mission objectives the preliminary mapping phase may serve multiple purposes. 
-In this week, we seek to utilize the mapping phase to create a polyhedron potential model and select an appropriate landing site. 
-We added additional discussion related to more recent missions and copied below.
+Depending on the specific mission objectives the mapping phase may serve multiple purposes, such as landing site selection or shape modelling.
+In this work, we seek to utilize the mapping phase to create a shape model.
+The shape model is then used for multiple purposes including the polyhedron potential model and landing site selection.
+We have added additional discussion related to more recent missions and copied below.
 
+\todo Add to introduction section - replacing the sentence: ''After arrival, a spacecraft will generally spend months or years in a mapping mission phase.``
+\begin{correction}
+After arrival, space will generally spend upwards of several months in a mapping mission phase~\cite{williams2018,kubota2003,cole1998}.
+For example, the recent OSIRIS-REx mission used global imagery to create digital terrain maps over the span of approximately seven months~\cite{williams2018}.
+
+\end{correction}
 
 
 \comment{
@@ -176,8 +194,17 @@ A reference to OREx would be more appropriate.
 The specifics of how the techniques proposed in the paper could have changed the proximity operations of OREx need to be included and described better.
 }
 
-The citation to the asteroid redirect mission has been removed and additional discussion related to the OSIRIS-REX mission has been incorporated.
+\todo Remove citation ''gates2015`` in the introduction. 
+
+\todo add following citations~\cite{williams2018} instead.
+
+The citation to the asteroid redirect mission has been removed and additional discussion related to the OSIRIS-REx mission has been incorporated.
 The additional discussion has been copied below.
+
+\todo Add following after sentence: ''Depending on the mission type, this long period of mapping is curicial to the mission, such as sample collection.``
+\begin{correction}
+For example, the OSIRIS-REx mission spent approximately seven months in mapping phase where digitial terrain maps and a shape model were constructed in support of main sample collection mission.
+\end{correction}
 
 \comment{
 Page 3, line 48-49, saying "The dependency on expensive ground-based shape reconstruction technique limits the ability of spacecraft to autonomously operate at asteroids." seems misleading.
@@ -186,26 +213,40 @@ What does "expensive" mean or refer to? The ability of spacecraft to autonomousl
 
 This sentence has been removed and replaced with the following:
 
+\todo Remove sentence and replace
+
+\begin{correction}
 Onboard shape reconstruction techniques enable autonomous operations which allow for a greater range of spacecraft operations.
+\end{correction}
 
 
 \comment{
 Page 4 line 7, "onboard" as opposed to "onborad".
 }
-This typo has been corrected and is copied below.
+
+This typo has been corrected.
+
+\todo Correct typo.
 
 \comment{
 Page 4, line 37, "During this simulation, this update shape model is then used in a nonlinear controller...". The second "this" should not have a capital "T", and should be "used in" as opposed to "used to in" .
 }
-This typo has been corrected and is copied below.
+
+\todo Correct typo
+This typo has been corrected and the corrected sentence is shown below.
+
+\begin{correction}
+During this simulation, this updated shape model is then used in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+\end{correction}
 
 \comment{
 Page 8, line 1-2, the authors should augment the statement made citing reference 7 with one or two sentences for the unfamiliar reader.  
 }
 Additional detail describing the polyhedron potential model is added and copied below.
 
-The polyhedron potential model is based on a triangular faceted shape model of an asteroid.
-In this approach, the shape of the asteroid is used to directly compute the exterior potential.
+\begin{correction}
+    The sum \( \sum \omega_f \) vanishes when outside the body and equals \( -4 \pi \) inside.
+\end{correction}
 
 \comment{
 In 3.1, the authors should discuss range measurements done with recent missions, what was successful and what was not, to distinguish their approach more efficiently. 
@@ -213,7 +254,14 @@ References 17 and 18 seem outdated.
 References to more recent work or missions are needed.
 }
 
-Find more recent references
+More recent references from the OSIRIS-REx mission have been included and additional discussion is copied below.
+
+\begin{correction}
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+Recent missions such as OSIRIS-REx have featured a scanning LIDAR system which allows for much higher measurement rates compared to previous missions~\cite{lauretta2017,daly2017}.
+In these mission, ranging measurements are combined with imagery to derive a shape model using a ground based method~\cite{gaskell2008}.
+In constrast to previous missions, the scanning LIDAR system on OSIRIS-REx enables for high surface sample rates in spite of the low ground-track velocities~\cite{daly2017}.
+\end{correction}
 
 \comment{
 Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta TOF)/(2c)". I would assume the equation is correct in the code but the authors should check.
@@ -221,6 +269,11 @@ Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta 
 
 The equation has been corrected and is copied below.
 
+\todo Correct the equation
+
+\begin{correction}
+    \(d = \frac{\Delta TOF c}{2} \) 
+\end{correction}
 
 \comment{
 In 3.2, it is unclear how the boundaries of areas being updated are being treated, whereas it seems discontinuity could easily be seen in results but would need to be addressed to some extend? 
@@ -234,6 +287,8 @@ In addition, the correlation based sensor model used in this approach ensures th
 The scaling factor \( c \) and the angular constraint \( \Delta \sigma_{max} \) can also be used to adjust the region of impact of a given measurement. 
 Adjusting these scalars, in addition to the a priori probability of the initial shape model can be utilized to ensure that steep gradients on the surface are not artificially introduced during the mapping process.
 Additional detail has been added to the manuscript and is shown below.
+
+\todo Copy into paper after equation 19.
 
 \begin{correction}
     The parameters \( c \) and \( \Delta \sigma_{max} \) are used to define the region of impact of each measurement. 
@@ -250,6 +305,8 @@ I also noticed this seems to be part of future work. It may be good to mention i
 
 Additional detail regarding the impact of spacecraft state uncertainty and non-gravitational accelerations have been included in the manuscript and are shown below.
 
+\todo Copy into section 4.3. Either the first paragraph or a new second paragraph
+
 \begin{correction}
     In this numerical example we have assumed perfect state knowledge of the spacecraft.
     This is a strong assumption that would not exist in any realistic situation. 
@@ -265,6 +322,8 @@ In 4.3, references should be added for the shape models used for this work.}
 
 A reference for the radar shape models has been added.
 
+\todo Add to paper
+
 \begin{correction}
 We utilize radar shape models of asteroid \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\)~\cite{neese2004}.
 \end{correction}
@@ -275,12 +334,15 @@ In 4.3, line 45 - 47, "asteroids" should have no "s".
 
 The ''s`` has been removed and the corrected sentence is shown in the previous response.
 
+
 \comment{
 Also, mentioning "initially unknown asteroid" is contradicting earlier statements and the following paragraph since a simple shape model is required for this technique.
 }
 
 The sentence has been reworded to more accurately reflect the level of knowledge required.
 It is copied here as:
+
+\todo Correct in paper
 
 \begin{correction}
 These demonstrate the ability of a spacecraft to autonomously explore and maneuver around an initially poorly modeled asteroid while incrementally updating the shape model.
@@ -298,6 +360,8 @@ The user can adjust this parameter to ensure a constant number of vertices are c
 In addition, the refinement process introduced in~\cref{sec:landing_refinement} can be utilized to allow for higher fidelity in a small region.
 An appropriate choice of \( \Delta \sigma_{max} \) is again crucial to maintain constant computational requirements.
 Additional discussion has been added to the manuscript discussing this feature of our approach and is copied below.
+
+\todo Correct in paper
 
 \begin{correction}
     The angular constraint \( \Delta \sigma_{max} \) may be used to adjust the computational requirements of the shape refinement process.
@@ -318,6 +382,8 @@ We do not duplicate the motion of Hayabusa but did utilize the ''home position``
 Our shape refinement approach is not limited to our guidance scheme but rather is an example of combining closed loop control with our shape refinement method.
 We will consider incorporating control effort constraints in our optimal guidance scheme in a future work.
 
+\todo Correct in paper
+
 \comment{
 Fig 7 \& 8, what causes some areas to remain with high uncertainties? This would need to be discussed for both ML14 and Castalia.
 }
@@ -330,6 +396,7 @@ Only after the vehicle has measured the entire surface will the shape model have
 \end{align*}
 An additional comment has been added to the figure captions and is shown below.
 
+\todo Correct in paper
 \begin{correction}
     Areas of high uncertainty are in yellow while areas of low uncertainty are in purple.
     The guidance scheme continually selects regions of high uncertainty until the total shape uncertainty is sufficiently small.
@@ -344,6 +411,7 @@ The approach was chosen as an example to demonstrate how a vehicle can autonomou
 Additional costs such as surface material or location on the body can be added as additional criteria in~\cref{eq:surface_cost}.
 We have added additional discussion concerning the landing site selection approach.
 
+\todo Correct in paper
 \begin{correction}
     The surface cost described here is relatively simple and chosen to be solely a function of the current spacecraft position and shape model.
     Additional scientific criteria such as surface material or location on the body, e.g. equatorial vs. polar regions, can be utilized instead of a random science value as presented here.
@@ -355,6 +423,7 @@ Page 30, line 45, "significant" instead of "signification".
 }
 The typo has been corrected and is shown below.
 
+\todo Correct in paper
 \begin{correction}
 This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require significant computational resources.
 \end{correction}
@@ -368,6 +437,8 @@ Thank you and we look forward to future work in this area.
 \end{itemize}
 
 
+\bibliographystyle{IEEEtran}
+\bibliography{library}
 
 \end{document}
 
