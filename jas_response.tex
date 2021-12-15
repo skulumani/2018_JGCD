@@ -108,10 +108,12 @@ Is it because the RHS of equations (4) and (6) will be more complicated for a ri
 Also, equation (12) will be an integral and the shape construction scheme will be more computationally intensive.
 Some comments addressing this point in the article may be useful.}
 
-The primary benefit of the dumbbell approximation is to avoid the additional integral over the entire body.
+The motivation is to capture the effects of the relative attitude between spacecraft and asteroid on the corresponding gravitational force and moment. 
+The primary benefit of the dumbbell approximation is that the additional integral over the entire body is avoided. 
 While conceptually and analytically simple the dumbbell model still captures the important rigid body effects on the system, namely the coupling of attitude and translational states through the external forces and moments.
 In addition, this type of spacecraft model is prevelant in the field~\cite{kulumani2017b,lee2006a,lee2007a,elmasri2005}.
-Additional comments have been added to the manuscript explaining this decision and copied here.
+To clarify these, additional comments have been added to the manuscript explaining this decision and copied here.
+
 
 \begin{correction}
 The dumbbell model is in some sense the simplest approximation of an extended rigid body.
@@ -149,7 +151,7 @@ My second concern is the impact of spacecraft state uncertainties and non-gravit
 Although the authors seem to include this as future work, it would be best to include this discussion in this paper to some extend, as these inputs usually drive uncertainties in determining shape modeling and defining landing areas.  
 Finally, the authors should augment the paper discussing onboard requirements to allow implementation of the techniques presented, since portability can also be a challenge.
 
-Specific comments:
+%Specific comments:
 }
 
 Thank you for the comments aimed at improving the quality of the manuscript. 
@@ -164,7 +166,7 @@ Specific comments related to these comments have been included below.
 }
 
 Thank you for this comment. 
-We have replaced ''dynamic`` with ''dynamical`` in several locations throughout the manuscript.
+We have replaced ``dynamic'' with ``dynamical'' in several locations throughout the manuscript.
 We do not repeat the corrections here for simplicity.
 
 \todo Use dynamical throughout manuscript
@@ -211,6 +213,7 @@ Page 3, line 48-49, saying "The dependency on expensive ground-based shape recon
 What does "expensive" mean or refer to? The ability of spacecraft to autonomously operate at asteroids is limited by the lack of portable solutions and/or opportunities to test those portable solutions, rather than being able to use ground-based techniques.
 }
 
+Thank you for the comment.
 This sentence has been removed and replaced with the following:
 
 \todo Remove sentence and replace
@@ -242,6 +245,7 @@ During this simulation, this updated shape model is then used in a nonlinear con
 \comment{
 Page 8, line 1-2, the authors should augment the statement made citing reference 7 with one or two sentences for the unfamiliar reader.  
 }
+
 Additional detail describing the polyhedron potential model is added and copied below.
 
 \begin{correction}
@@ -254,7 +258,7 @@ References 17 and 18 seem outdated.
 References to more recent work or missions are needed.
 }
 
-More recent references from the OSIRIS-REx mission have been included and additional discussion is copied below.
+More recent references from the OSIRIS-REx mission have been included and additional discussion is added as copied below.
 
 \begin{correction}
 We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
@@ -268,6 +272,7 @@ Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta 
 }
 
 The equation has been corrected and is copied below.
+The code has been rechecked. 
 
 \todo Correct the equation
 
@@ -308,13 +313,13 @@ Additional detail regarding the impact of spacecraft state uncertainty and non-g
 \todo Copy into section 4.3. Either the first paragraph or a new second paragraph
 
 \begin{correction}
-    In this numerical example we have assumed perfect state knowledge of the spacecraft.
+    In this numerical example we have assumed the perfect knowledge of the spacecraft state. 
     This is a strong assumption that would not exist in any realistic situation. 
     However, the measurement model defined in the previous section may be extended to consider the uncertainty in both the state \( x \) and the range measurement \( d \) rather than combining them into a single random variable \( p \).
     In addition, the dynamics defined by~\crefrange{eq:x_dot}{eq:omega_dot} do not consider any non-gravitational accelerations such as solar radiation pressure on the vehicle.
     In general, these types of external forces will primarily serve to increase state uncertainty and cause large errors in the closed loop control system.
     Adaptive control techniques have been demonstrated in the past to address both fixed and time varying disturbances of this kind~\cite{kulumani2017a}.
-    The authors will relax these assumptions in future work.
+    However, these topics are beyond the scope of this paper focusing on optimal guidance for Bayesian shape reconstruction, and relegated to future works. 
 \end{correction}
 
 \comment{
@@ -378,7 +383,7 @@ How does this translate in terms of fuel consumption? or delta-V imparted to the
 
 The guidance scheme presented in~\cref{sec:explore_asteroid} will drive the vehicle towards states which will best reduce the total uncertainty of the shape model.
 As a result the vehicle in general may take an arbitrary trajectory about the body and utilize much larger control effort compared to utilizing the natural dynamics of the system. 
-We do not duplicate the motion of Hayabusa but did utilize the ''home position`` term to describe the numerical example.
+We do not duplicate the motion of Hayabusa but did utilize the ``home position'' term to describe the numerical example.
 Our shape refinement approach is not limited to our guidance scheme but rather is an example of combining closed loop control with our shape refinement method.
 We will consider incorporating control effort constraints in our optimal guidance scheme in a future work.
 
@@ -406,7 +411,8 @@ An additional comment has been added to the figure captions and is shown below.
 As part of section 5, the authors should discuss impacts of more complex criteria for landing or surface sampling, for instance, types of material on the surface, poles versus equatorial areas, etc. 
 It may be good to look at sampling requirements and criteria of recent missions to see how they would affect the technique described.
 }
-Our landing site selection algorithm is relatively simple as it is a direct function of the shape model.
+
+Our landing site selection algorithm is relatively simple as it is directly evaluated by the shape model.
 The approach was chosen as an example to demonstrate how a vehicle can autonomously model the shape of the asteroid, then utilize that shape model to chose a landing site. 
 Additional costs such as surface material or location on the body can be added as additional criteria in~\cref{eq:surface_cost}.
 We have added additional discussion concerning the landing site selection approach.
