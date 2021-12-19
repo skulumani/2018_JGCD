@@ -128,7 +128,6 @@ In our analyis, we have assumed that the inertial position of both the asteroid 
 This data is typically available as ground based measurements are required to rendezvous with the asteroid prior to mapping.
 Additional comments have been added to the manuscript and are repeated here.
 
-\todo Add to second paragraph of Section 4.3 Numerical example immediately after the sentence: ''In other words the initial orientation is given by \( R_0 = \exp(\frac{\pi}{2} \hat e_3)\).``
 
 \begin{correction}
     We assume that the initial intertial state of the vehicle is available. 
@@ -169,7 +168,6 @@ Thank you for this comment.
 We have replaced ``dynamic'' with ``dynamical'' in several locations throughout the manuscript.
 We do not repeat the corrections here for simplicity.
 
-\todo Use dynamical throughout manuscript
 
 \comment{
 Page 3, line 33-34, the citations of Hayabusa1 and NEAR seem mis-used. Hayabusa stayed 3 months at Itokawa and the mission operations team did not report requiring a polyhedron potential model for landing (if so, a reference would be needed). 
@@ -182,7 +180,6 @@ In this work, we seek to utilize the mapping phase to create a shape model.
 The shape model is then used for multiple purposes including the polyhedron potential model and landing site selection.
 We have added additional discussion related to more recent missions and copied below.
 
-\todo Add to introduction section - replacing the sentence: ''After arrival, a spacecraft will generally spend months or years in a mapping mission phase.``
 \begin{correction}
 After arrival, space will generally spend upwards of several months in a mapping mission phase~\cite{williams2018,kubota2003,cole1998}.
 For example, the recent OSIRIS-REx mission used global imagery to create digital terrain maps over the span of approximately seven months~\cite{williams2018}.
@@ -196,14 +193,11 @@ A reference to OREx would be more appropriate.
 The specifics of how the techniques proposed in the paper could have changed the proximity operations of OREx need to be included and described better.
 }
 
-\todo Remove citation ''gates2015`` in the introduction. 
 
-\todo add following citations~\cite{williams2018} instead.
 
 The citation to the asteroid redirect mission has been removed and additional discussion related to the OSIRIS-REx mission has been incorporated.
 The additional discussion has been copied below.
 
-\todo Add following after sentence: ''Depending on the mission type, this long period of mapping is curicial to the mission, such as sample collection.``
 \begin{correction}
 For example, the OSIRIS-REx mission spent approximately seven months in mapping phase where digitial terrain maps and a shape model were constructed in support of main sample collection mission.
 \end{correction}
@@ -216,7 +210,6 @@ What does "expensive" mean or refer to? The ability of spacecraft to autonomousl
 Thank you for the comment.
 This sentence has been removed and replaced with the following:
 
-\todo Remove sentence and replace
 
 \begin{correction}
 Onboard shape reconstruction techniques enable autonomous operations which allow for a greater range of spacecraft operations.
@@ -229,13 +222,11 @@ Page 4 line 7, "onboard" as opposed to "onborad".
 
 This typo has been corrected.
 
-\todo Correct typo.
 
 \comment{
 Page 4, line 37, "During this simulation, this update shape model is then used in a nonlinear controller...". The second "this" should not have a capital "T", and should be "used in" as opposed to "used to in" .
 }
 
-\todo Correct typo
 This typo has been corrected and the corrected sentence is shown below.
 
 \begin{correction}
@@ -274,7 +265,6 @@ Page 8, line 31, the equation for "d" should be "(Delta TOF * c)/2" not "(Delta 
 The equation has been corrected and is copied below.
 The code has been rechecked. 
 
-\todo Correct the equation
 
 \begin{correction}
     \(d = \frac{\Delta TOF c}{2} \) 
@@ -293,7 +283,6 @@ The scaling factor \( c \) and the angular constraint \( \Delta \sigma_{max} \) 
 Adjusting these scalars, in addition to the a priori probability of the initial shape model can be utilized to ensure that steep gradients on the surface are not artificially introduced during the mapping process.
 Additional detail has been added to the manuscript and is shown below.
 
-\todo Copy into paper after equation 19.
 
 \begin{correction}
     The parameters \( c \) and \( \Delta \sigma_{max} \) are used to define the region of impact of each measurement. 
@@ -310,7 +299,6 @@ I also noticed this seems to be part of future work. It may be good to mention i
 
 Additional detail regarding the impact of spacecraft state uncertainty and non-gravitational accelerations have been included in the manuscript and are shown below.
 
-\todo Copy into section 4.3. Either the first paragraph or a new second paragraph
 
 \begin{correction}
     In this numerical example we have assumed the perfect knowledge of the spacecraft state. 
@@ -327,7 +315,6 @@ In 4.3, references should be added for the shape models used for this work.}
 
 A reference for the radar shape models has been added.
 
-\todo Add to paper
 
 \begin{correction}
 We utilize radar shape models of asteroid \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\)~\cite{neese2004}.
@@ -347,7 +334,6 @@ Also, mentioning "initially unknown asteroid" is contradicting earlier statement
 The sentence has been reworded to more accurately reflect the level of knowledge required.
 It is copied here as:
 
-\todo Correct in paper
 
 \begin{correction}
 These demonstrate the ability of a spacecraft to autonomously explore and maneuver around an initially poorly modeled asteroid while incrementally updating the shape model.
@@ -366,7 +352,6 @@ In addition, the refinement process introduced in~\cref{sec:landing_refinement} 
 An appropriate choice of \( \Delta \sigma_{max} \) is again crucial to maintain constant computational requirements.
 Additional discussion has been added to the manuscript discussing this feature of our approach and is copied below.
 
-\todo Correct in paper
 
 \begin{correction}
     The angular constraint \( \Delta \sigma_{max} \) may be used to adjust the computational requirements of the shape refinement process.
@@ -387,8 +372,6 @@ We do not duplicate the motion of Hayabusa but did utilize the ``home position''
 Our shape refinement approach is not limited to our guidance scheme but rather is an example of combining closed loop control with our shape refinement method.
 We will consider incorporating control effort constraints in our optimal guidance scheme in a future work.
 
-\todo Correct in paper
-
 \comment{
 Fig 7 \& 8, what causes some areas to remain with high uncertainties? This would need to be discussed for both ML14 and Castalia.
 }
@@ -401,7 +384,6 @@ Only after the vehicle has measured the entire surface will the shape model have
 \end{align*}
 An additional comment has been added to the figure captions and is shown below.
 
-\todo Correct in paper
 \begin{correction}
     Areas of high uncertainty are in yellow while areas of low uncertainty are in purple.
     The guidance scheme continually selects regions of high uncertainty until the total shape uncertainty is sufficiently small.
@@ -417,7 +399,6 @@ The approach was chosen as an example to demonstrate how a vehicle can autonomou
 Additional costs such as surface material or location on the body can be added as additional criteria in~\cref{eq:surface_cost}.
 We have added additional discussion concerning the landing site selection approach.
 
-\todo Correct in paper
 \begin{correction}
     The surface cost described here is relatively simple and chosen to be solely a function of the current spacecraft position and shape model.
     Additional scientific criteria such as surface material or location on the body, e.g. equatorial vs. polar regions, can be utilized instead of a random science value as presented here.
@@ -429,7 +410,6 @@ Page 30, line 45, "significant" instead of "signification".
 }
 The typo has been corrected and is shown below.
 
-\todo Correct in paper
 \begin{correction}
 This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require significant computational resources.
 \end{correction}

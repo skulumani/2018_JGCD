@@ -55,7 +55,7 @@
     This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
     Finally, a multi resolution approach is presented to construct a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
     This approach enables for an accurate shape determination around a potential landing site.
-    We demonstrate this approach using several radar shape models of asteroids and provide a full dynamic simulation about asteroid 4769 Castalia.
+    We demonstrate this approach using several radar shape models of asteroids and provide a full dynamical simulation about asteroid 4769 Castalia.
     \keywords{Asteroids \and Shape Construction \and Guidance \and Optimization}
 \end{abstract}
 
@@ -100,16 +100,16 @@ These easily accessible bodies provide attractive targets to support space indus
 In spite of the significant interest, and the extensive research by the community, the operation of spacecraft near small bodies remains a challenging problem.
 
 % dynamics are difficult around asteroids
-The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
+The dynamical environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
 Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
 Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
-As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
+As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamical environment.
 In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
 Due to their small size, frequently with a maximum radius less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
-Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
-As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and remain robust to unmodelled forces.
+Therefore, the dynamical model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
+As a result, any spacecraft mission to an asteroid must include the ability to update the dynamical model given in situ measurements and remain robust to unmodelled forces.
 
-Another key dynamic consideration is the coupling between rotational and translational states around the asteroid.
+Another key dynamical consideration is the coupling between rotational and translational states around the asteroid.
 The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
 The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
 For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
@@ -144,21 +144,23 @@ Therefore, the polyhedron potential model is not appropriate immediately upon ar
 
 % on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
 On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
-After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
+After arrival, space will generally spend upwards of several months in a mapping mission phase~\cite{williams2018,kubota2003,cole1998}.
+For example, the recent OSIRIS-REx mission used global imagery to create digital terrain maps over the span of approximately seven months~\cite{williams2018}.
 During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
 The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
 During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
-Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
+Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{williams2018}. 
+For example, the OSIRIS-REx mission spent approximately seven months in mapping phase where digitial terrain maps and a shape model were constructed in support of main sample collection mission.
 However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
 Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
 Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
-The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
+Onboard shape reconstruction techniques enable autonomous operations which allow for a greater range of spacecraft operations.
 Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
 
 % TODO Reduce some of these paragraphs since they're wordy
 % we want to generate the shape in real time and then use this shape for updated and better control
 This paper presents three techniques to explore an asteroid without need for an extended period of mapping phase or ground based measurements. 
-First, we develop a method to compute the surface shape of an asteroid from onborad range measurements.
+First, we develop a method to compute the surface shape of an asteroid from onboard range measurements.
 Assuming that a meshed model of an initial estimate, such as an ellipsoidal shape, is available, the radius of any vertex in the measured area is adjusted according to the measurements. 
 This is completed in a stochastic fashion where the degree of confidence in the current shape is compared with the level of measurement noise. 
 Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
@@ -176,8 +178,8 @@ Within the low slope region, a landing site is selected to minimize a control co
 Once the landing site is selected, the nearby area is mapped with a higher resolution to create a detailed topological map.  
 The proposed multi resolution mapping yields a high fidelity map without the computational burden of a uniformly high resolution mesh.  
 
-The optimal guidance and multi resolution mapping schemes are illustrated by dynamic simulation of landing on the asteroid Castalia. 
-During this simulation, This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The optimal guidance and multi resolution mapping schemes are illustrated by dynamical simulation of landing on the asteroid Castalia. 
+During this simulation, this updated shape model is then used in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
 The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special Euclidean group.
 This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
 
@@ -200,6 +202,10 @@ The masses are separated by a massless rod of length \( l \) and attached to the
     \input{dumbbell.tikz}
     \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
 \end{figure}
+The dumbbell model is in some sense the simplest approximation of an extended rigid body.
+This model captures the important dynamics of an extended rigid body with a minmum of additional complexity and is prevelant the literature~\cite{kulumani2017b,lee2006a,lee2007a,elmasri2005}.
+In addition, the developments of the dumbbell model can be trivially extended to include a larger number of discrete masses to better approximate a more complicated spacecraft model.
+
 Without loss of generality, we define body fixed frames for both the spacecraft and asteroid, which are aligned with the principle axes of each body and originate at their respective center of mass. 
 The spacecraft body fixed frame is centered at the center of mass of the vehicle.
 The \( b_1 \)  axis is aligned with the connecting rod and directed along the axis of symmetry.
@@ -223,7 +229,7 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from the dynamics of the asteroid, which is assumed to spin at a fixed rate.  
 
-\subsection{Spacecraft Dynamic Model}
+\subsection{Spacecraft Dynamical Model}
 
 Using Hamilton's principle one can derive the inertial equations of motion of the dumbbell spacecraft~\cite{kulumani2017b} as
 \begin{align}
@@ -303,6 +309,7 @@ We define the attraction, gravity gradient matrix, and Laplacian as
     \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1 .\label{eq:laplacian}
 \end{align}
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+The sum \( \sum \omega_f \) vanishes when outside the body and equals \( -4 \pi \) inside.
 These equations are utilized to compute the gravitational potential of  the presented dumbbell spacecraft model.
 
 \section{Bayesian Shape Reconstruction}\label{sec:radius_update}
@@ -317,8 +324,11 @@ In this section, we present a stochastic formulation to update the initial estim
 \subsection{Range Measurements}
 
 We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+Recent missions such as OSIRIS-REx have featured a scanning LIDAR system which allows for much higher measurement rates compared to previous missions~\cite{lauretta2017,daly2017}.
+In these mission, ranging measurements are combined with imagery to derive a shape model using a ground based method~\cite{gaskell2008}.
+In constrast to previous missions, the scanning LIDAR system on OSIRIS-REx enables for high surface sample rates in spite of the low ground-track velocities~\cite{daly2017}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
-Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF }{2} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
 Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \R^{3 \times 3 } \), we can compute a direction from the spacecraft to the measurement location on the surface.
 The output of this sensor is a vector, \( \vc{d}_i\in\Re^3 \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
@@ -341,7 +351,9 @@ These measurements provide a collection of points which lie on the surface of th
 
 Our algorithm applies a probabilistic framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
 In other words, each vertex from the initial estimate of shape is either stretched or shrunk along its radial direction, without any rotation. 
-This framework is reasonable assuming that both of the initial estimate and the actual shape does not have any hole. 
+We assume that the initial intertial state of the vehicle is available. 
+This data is typically available from a ground based orbit determination scheme which enabled the original orbital rendezvous. 
+The approach presented here is reasonable assuming that both the initial estimate and the actual shape of the body does not have any hole. 
 This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
 This implies that the total number of vertices of the shape model is fixed.
 However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which is discussed in the subsequent section for multi resolution mapping.
@@ -394,6 +406,12 @@ From spherical trigonometry~\cite{gade2010}, the central angle between measureme
 \begin{align}\label{eq:geodesic_distance}
     \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
 \end{align}
+The parameters \( c \) and \( \Delta \sigma_{max} \) are used to define the region of impact of each measurement. 
+The angular constraint \( \Delta \sigma_{max} \) may be used to adjust the computational requirements of the shape refinement process.
+Larger values of \( \Delta \sigma_{max} \) result in a greater computational demand as a given measurement ray is used to update a larger number of vertices.
+\Cref{sec:landing_refinement} presents an approach to allow for a higher resolution mesh in certain regions to capture finer surface details without excessive resources. 
+The scalar \( c \) may then be used to adjust the variance \( w_{j,i} \) as a function of the distance between measurement \( j \) and vertex \( i \).
+These two parameters may be used to minimize steep gradients that may occur during the shape reconstruction process.
 
 From Bayes' theorem, the a posterior probability of the vertex radius is given by
 \begin{align}
@@ -428,7 +446,7 @@ Truth shape models for Geographos adn Golevka are computed based on Earth based 
     \caption{Asteroid properties for kinematic only exploration~\label{tab:kinematic_asteroids}}
 \end{table}
 
-The results in this section utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
+The results in this section utilize a kinematics only model of the spacecraft instead of the full dynamical simulation. 
 We ignore the dynamics of the asteroid and spacecraft and instead focus solely on the shape reconstruction, and the spacecraft is assumed to be able to arbitrarily move around the asteroid and collect measurements.
 The spacecraft remains at a fixed orbital radius defined as twice the maximum semi-major axis of the asteroid.
 The simulations begin with an triaxial ellipsoid mesh that is sized to match the semi-major axes of each asteroid.
@@ -661,18 +679,26 @@ A control input, \( u_f \), is derived to ensure asymptotic trajectory tracking 
 
 The control gains are chosen based on the desired closed-loop system response. 
 A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
-We use the control inputs defined in~\cref{eq:translational_control,eqn:nodist_control} and substitute them into the dynamic equations of motion in~\cref{eq:x_dot,eq:v_dot,eq:R_dot,eq:omega_dot}.
+We use the control inputs defined in~\cref{eq:translational_control,eqn:nodist_control} and substitute them into the dynamical equations of motion in~\cref{eq:x_dot,eq:v_dot,eq:R_dot,eq:omega_dot}.
 
 \subsection{Numerical Examples}
 
-We utilize radar shape models of asteroids \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\).
-The examples demonstrate the full dynamic simulation of a rigid spacecraft with an autonomous closed loop control scheme to both reconstruct the asteroid shape.
+We utilize radar shape models of asteroid \num{4769} Castalia and (\num{52760}) \num{1998} \(\text{ML}_{14}\)~\cite{neese2004}.
+The examples demonstrate the full dynamical simulation of a rigid spacecraft with an autonomous closed loop control scheme to both reconstruct the asteroid shape.
 The proposed optimal guidance scheme is executed in the outer-loop to generate the desired trajectory, which is followed by the nonlinear control scheme in the inner-loop. 
 More specifically, the nonlinear controllers described previously are used to control both the translational and rotational states of the vehicle, where the control inputs are computed using the current shape estimate of the asteroid. 
 As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states.
 As such, both the shape model and the gravitational potential available to the controller will be gradually refined. 
 However, throughout the simulation, the actual spacecraft dynamics are computed with the gravity computed by the full shape model unknown to the controller.
-These demonstrate the ability of a spacecraft to autonomously explore and maneuver around an initially-unknown asteroids while incrementally updating the shape model.
+These demonstrate the ability of a spacecraft to autonomously explore and maneuver around an initially poorly modeled asteroid while incrementally updating the shape model.
+
+In this numerical example we have assumed the perfect knowledge of the spacecraft state. 
+This is a strong assumption that would not exist in any realistic situation. 
+However, the measurement model defined in the previous section may be extended to consider the uncertainty in both the state \( x \) and the range measurement \( d \) rather than combining them into a single random variable \( p \).
+In addition, the dynamics defined by~\crefrange{eq:x_dot}{eq:omega_dot} do not consider any non-gravitational accelerations such as solar radiation pressure on the vehicle.
+In general, these types of external forces will primarily serve to increase state uncertainty and cause large errors in the closed loop control system.
+Adaptive control techniques have been demonstrated in the past to address both fixed and time varying disturbances of this kind~\cite{kulumani2017a}.
+However, these topics are beyond the scope of this paper focusing on optimal guidance for Bayesian shape reconstruction, and relegated to future works. 
 
 The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
 Furthermore, the state of the asteroid, namely the rotation matrix \( R_A \), is assumed to be known based on ground measurements or previous data.
@@ -689,7 +715,7 @@ Furthermore, the state of the asteroid, namely the rotation matrix \( R_A \), is
         Faces & \num{4092} & \num{16320} \\
         \bottomrule
     \end{tabular}
-    \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
+    \caption{Asteroid properties for dynamical exploration~\label{tab:dynamic_asteroids}}
 \end{table}
 At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( x_0 = [ x_0,\, 0,\,  0 ]\, \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
@@ -717,7 +743,8 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
     \subcaptionbox{\SI{100}{\percent} of measurements\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{dynamic_exploration_52760_partial_weights_14998.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{mesh_update_52760_truth.jpg}}
-    \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
+    \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.
+    The guidance scheme continually selects regions of high uncertainty until the total shape uncertainty is sufficiently small.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
 
 \paragraph{Asteroid 4769 Castalia Reconstruction}
@@ -740,7 +767,9 @@ Within \SI{50}{\percent} of the simulation span the spacecraft is able to achiev
     \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{dynamic_exploration_castalia_partial_weights_11249.jpg}}%
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{dynamic_exploration_castalia_partial_weights_14998.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.3\textwidth,keepaspectratio]{mesh_update_castalia_truth.jpg}}
-    \caption[Asteroid Castalia shape reconstruction with uncertainty]{Incremental reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
+    \caption[Asteroid Castalia shape reconstruction with uncertainty]{Incremental reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.
+    The guidance scheme continually selects regions of high uncertainty until the total shape uncertainty is sufficiently small.
+    ~\label{fig:castalia_weights_reconstruction}}
 \end{figure}
 
 \Cref{fig:castalia_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
@@ -792,6 +821,8 @@ Utilizing these metrics, a landing site is chosen to minimize the surface cost g
     \min_{v_i} J_l(x, v_i) =  J_{\text{distance}}(x, v_i) - J_{\text{science}}(v_i),
 \end{align}
 subject to a hard inequality constraint requiring that the surface slope is less than a threshold, i.e., \( \phi \leq \phi_m \).
+The surface cost described here is relatively simple and chosen to be solely a function of the current spacecraft position and shape model.
+Additional scientific criteria such as surface material or location on the body, e.g. equatorial vs. polar regions, can be utilized instead of a random science value as presented here.
 
 
 \subsection{High-Resolution Mapping}\label{sec:refinement}
@@ -921,7 +952,7 @@ A number of videos are available at \url{http://bit.ly/shape_reconstruction} whi
 
 This paper developed a Bayesian update scheme to reconstruct the shape of a small body from range measurements. 
 The approach allows for a local update operation that is able to reconstruct the shape in real time. 
-This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require signification computational resources.
+This is in contrast to standard shape reconstruction algorithms which operate over the entire surface and require significant computational resources.
 Next, an optimal guidance scheme is derived which determines the desired state to best update the shape estimate. 
 Finally, a mixed resolution shape representation is presented to allow for an increased fidelity in a specific region of the asteroid.
 This allows for a much greater shape accuracy in a local area while avoiding the computational costs associated with a uniformly high resolution mesh.
