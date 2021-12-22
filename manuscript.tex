@@ -29,8 +29,8 @@
 
 % todo: we may update the affiliation and the address of Shankar 
 \institute{S. Kulumani (corresponding author) \at
-              Mechanical and Aerospace Engineering, The George Washington University, Washington DC, 20052\\
-              \email{shanks.k@gmail.com}           %  \\
+              The Johns Hopkins University, Applied Physics Laboratory, Laurel, MD 20723\\
+              \email{shankar.kulumani@jhuapl.edu}           %  \\
 %             \emph{Present address:} of F. Author  %  if needed
            \and
            T. Lee,  \at
@@ -257,13 +257,13 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
     \end{bmatrix}.
 \end{align}
 \Cref{eq:dumbbell_moment_of_inertia} is consistent with the well-known parallel-axis theorem~\cite{greenwood1988}.
-We utilize a nonstandard moment of inertia in the equations of motion, \( J_d \in \R^{3 \times 3 } \), which is related to the standard moment of inertia by
-\begin{subequations}\label{eq:moi_transformation}
-    \begin{align}
-        J &= \tr{J_d} I_{3\times 3} - J_d, \label{eq:moi_ns2s}\\
-        J_d &= \frac{1}{2} \tr{J} I_{3\times 3} - J.\label{eq:moi_s2ns}
-    \end{align}
-\end{subequations}     
+% We utilize a nonstandard moment of inertia in the equations of motion, \( J_d \in \R^{3 \times 3 } \), which is related to the standard moment of inertia by
+% \begin{subequations}\label{eq:moi_transformation}
+%     \begin{align}
+%         J &= \tr{J_d} I_{3\times 3} - J_d, \label{eq:moi_ns2s}\\
+%         J_d &= \frac{1}{2} \tr{J} I_{3\times 3} - J.\label{eq:moi_s2ns}
+%     \end{align}
+% \end{subequations}     
 The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
 \begin{align}
     \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
@@ -526,20 +526,20 @@ Then, a nonlinear geometric controller is utilized which allows the spacecraft t
 
 We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimate as
 \begin{align}\label{eq:explore_cost}
-    J_i (x, R, R_A) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(x_r) + \alpha_c J_{c_i}(x_r)
+    \mathcal{J}_i (x, R, R_A) = \alpha_w \mathcal{J}_{w_i} + \alpha_d \mathcal{J}_{d_i}(x_r) + \alpha_c \mathcal{J}_{c_i}(x_r)
 \end{align}
 where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
 The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \SO \) of the spacecraft.
 Furthermore, the knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
 
-The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
+The term \( \mathcal{J}_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
 \begin{align}\label{eq:weight_cost}
-    J_{w_i} &= - \frac{w_i}{w_m}
+    \mathcal{J}_{w_i} &= - \frac{w_i}{w_m}
 \end{align}
 where \( w_i \) is the uncertainty of vertex \( i \), which is defined as the variance of the radius in the preceding section, and \( w_m \in\R \) is a maximum uncertainty used to scale the values.
-The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
+The term \( \mathcal{J}_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
 \begin{align}\label{eq:distance_cost}
-    J_{d_i}(\rpos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\rpos \times \vc{v}_i}}{\rpos \cdot \vc{v}_i}}.
+    \mathcal{J}_{d_i}(\rpos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\rpos \times \vc{v}_i}}{\rpos \cdot \vc{v}_i}}.
 \end{align}
 
 Finally, a control component is included in the cost function which penalizes vertices that are difficult to reach.
@@ -564,14 +564,14 @@ We assume $\theta$ varies linearly with respect to $t$, and substitute the desir
 which is computed by the polyhedron potential model given in~\cref{eq:attraction}.
 The control cost is then defined as the integral over the desired trajectory~\cref{eq:spherical_waypoint} between the current state and the desired vertex as
 \begin{align}\label{eq:control_cost}
-    J_{c_i}(\rpos) = \frac{1}{u_m} \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta,
+    \mathcal{J}_{c_i}(\rpos) = \frac{1}{u_m} \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta,
 \end{align}
 where \( u_m \) is used to normalize and scale \( J_{c_i} \).
 \Cref{eq:control_cost} is numerically integrated over the trajectory \( x_d(t) \) and used to penalize vertices which have a larger cost.
 
 The vertex which minimizes~\cref{eq:explore_cost} 
 \begin{align*}
-    \vc{v}_{min} = \argmin_{i} \{J_i(x, R, R_A)\},
+    \vc{v}_{min} = \argmin_{i} \{\mathcal{J}_i(x, R, R_A)\},
 \end{align*}
 is determined.
 This vertex is then used to determine the desired trajectory of the spacecraft in order to collect a measurement as in~\Cref{eq:spherical_waypoint}.
@@ -817,7 +817,7 @@ This can be modified depending on the specific objective of the mission.
 
 Utilizing these metrics, a landing site is chosen to minimize the surface cost given as
 \begin{align}\label{eq:surface_cost}
-    \min_{v_i} J_l(x, v_i) =  J_{\text{distance}}(x, v_i) - J_{\text{science}}(v_i),
+    \min_{v_i} \mathcal{J}_l(x, v_i) =  \mathcal{J}_{\text{distance}}(x, v_i) - \mathcal{J}_{\text{science}}(v_i),
 \end{align}
 subject to a hard inequality constraint requiring that the surface slope is less than a threshold, i.e., \( \phi \leq \phi_m \).
 The surface cost described here is relatively simple and chosen to be solely a function of the current spacecraft position and shape model.
