@@ -44,13 +44,13 @@
 \maketitle
 
 \begin{abstract}
-    Constructing of the precise shape of an asteroid is critical for spacecraft operations, as the gravitational potential is determined by spatial mass distribution.
+    Construction of the precise shape of an asteroid is critical for spacecraft operations as the gravitational potential is determined by spatial mass distribution.
     %For example, the standard method of determining the gravitational potential of an asteroid, through the use of a polyhedron potential model, is directly dependent on the shape model.
     %Furthermore, safe landing or close-proximity operations requires accurate knowledge of the surface topology. 
     The typical approach to shape determination requires a prolonged ``mapping'' phase of the mission over which extensive measurements are collected and transmitted for Earth-based processing.
     This paper presents a set of approaches to explore an unknown asteroid with onboard calculations, and to land on its surface area selected in an optimal fashion. 
-    The main motivation is to avoid the extended period of mapping phase or preliminary ground observations that are commonly required in spacecraft mission around asteroids. 
-    First, range measurements from spacecraft to the surface are used to incrementally correct an initial shape estimate according to the Bayesian framework. 
+    The main motivation is to avoid the extended period of mapping or preliminary ground observations that are commonly required in spacecraft missions around asteroids. 
+    First, range measurements from the spacecraft to the surface are used to incrementally correct an initial shape estimate according to the Bayesian framework. 
     Then, an optimal guidance scheme is proposed to control the vantage point of the range sensor to construct a complete 3D model of the asteroid shape. 
     This shape model is then used in a nonlinear controller to track a desired trajectory about the asteroid.
     Finally, a multi resolution approach is presented to construct a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
@@ -144,13 +144,13 @@ Therefore, the polyhedron potential model is not appropriate immediately upon ar
 
 % on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
 On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
-After arrival, space will generally spend upwards of several months in a mapping mission phase~\cite{williams2018,kubota2003,cole1998}.
+After arrival, spacecraft will generally spend upwards of several months in a mapping mission phase~\cite{williams2018,kubota2003,cole1998}.
 For example, the recent OSIRIS-REx mission used global imagery to create digital terrain maps over the span of approximately seven months~\cite{williams2018}.
 During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
 The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
 During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
 Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{williams2018}. 
-For example, the OSIRIS-REx mission spent approximately seven months in mapping phase where digitial terrain maps and a shape model were constructed in support of main sample collection mission.
+For example, the OSIRIS-REx mission spent approximately seven months in mapping phase where digitial terrain maps and a shape model were constructed in support of the main sample collection mission.
 However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
 Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
 Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
@@ -159,7 +159,7 @@ Mitigation of this ground based surface modeling will greatly expand the range o
 
 % TODO Reduce some of these paragraphs since they're wordy
 % we want to generate the shape in real time and then use this shape for updated and better control
-This paper presents three techniques to explore an asteroid without need for an extended period of mapping phase or ground based measurements. 
+This paper presents three techniques to explore an asteroid without need for an extended period of mapping or reliance on ground based measurements. 
 First, we develop a method to compute the surface shape of an asteroid from onboard range measurements.
 Assuming that a meshed model of an initial estimate, such as an ellipsoidal shape, is available, the radius of any vertex in the measured area is adjusted according to the measurements. 
 This is completed in a stochastic fashion where the degree of confidence in the current shape is compared with the level of measurement noise. 
@@ -220,9 +220,9 @@ We also define the inertial frame, whose axes are denoted by $\{e_1,e_2,e_3\}$.
 
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
-    \item \( \vc{x}\in\Re^3 \) - the position of the center of mass of the  spacecraft represented in the inertial frame, \( \vc{e}_i\),
+    \item \( \vc{x}\in\R^3 \) - the position of the center of mass of the  spacecraft represented in the inertial frame, \( \vc{e}_i\),
     \item \( R\in\SO \) - the rotation matrix which transforms the representation of vectors defined in the spacecraft fixed frame, \( \vc{b}_i \), to the inertial frame, \( \vc{e}_i \),
-    \item \( \vc{\Omega}\in\Re^3 \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
+    \item \( \vc{\Omega}\in\R^3 \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame, \( \vc{b}_i \), and
     \item \( R_A\in \SO \) - the rotation matrix which transforms the representation of vectors defined in the asteroid fixed frame, \( \vc{f}_i \), to the inertial frame, \( \vc{e}_i \).
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
@@ -237,13 +237,13 @@ Using Hamilton's principle one can derive the inertial equations of motion of th
     \dot{R} &= R S(\vc{\Omega}) , \label{eq:R_dot}\\
     J \dot{\vc{\Omega}} + \vc{\Omega} \times J \vc{\Omega} &= \vc{M}_1 + \vc{M}_2 + u_m. \label{eq:omega_dot}
 \end{align}
-The vectors \( \vc{z}_1 \) and \( \vc{z}_2\in\Re^3\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
+The vectors \( \vc{z}_1 \) and \( \vc{z}_2\in\R^3\) define the position of the dumbbell masses in the asteroid fixed frame and are defined as
 \begin{align}
     \vc{z}_1 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_1} , \\
     \vc{z}_2 &= R_A^T \parenth{\vc{x} + R \vc{\rho}_2},
 \end{align}
-where \( \rho_i \in\Re^3 \) defines the position of each mass in the spacecraft fixed body frame.
-The control inputs to the spacecraft are defined by \( u_f, u_m \in \Re^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively.
+where \( \rho_i \in\R^3 \) defines the position of each mass in the spacecraft fixed body frame.
+The control inputs to the spacecraft are defined by \( u_f, u_m \in \R^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively.
 The standard moment of inertia of the dumbbell model is 
 \begin{align}\label{eq:dumbbell_moment_of_inertia}
     J_I = \sum_i^n J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I_{3\times 3} - \vc{\zeta}_i \vc{\zeta}_i^T} , 
@@ -268,7 +268,7 @@ The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
 \begin{align}
     \vc{M}_i = m_i \parenth{S(R_A^T \vc{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
-In the above equations, the gravitational potential is denoted by $U\in\Re$, which is computed by a polyhedron model as described in the subsequent section. 
+In the above equations, the gravitational potential is denoted by $U\in\R$, which is computed by a polyhedron model as described in the subsequent section. 
 
 %where the polyhedron potential is defined as 
 %\begin{align}
@@ -300,7 +300,7 @@ The polyhedron potential is defined as
 \begin{align}
     U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f,
 \end{align}
-and \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\in\Re\) is the universal gravitational constant, and \( \sigma\in\Re \) is the constant density of the asteroid.
+and \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\in\R\) is the universal gravitational constant, and \( \sigma\in\R \) is the constant density of the asteroid.
 We define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vc{E}_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vc{F}_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
@@ -328,8 +328,8 @@ In these mission, ranging measurements are combined with imagery to derive a sha
 In constrast to previous missions, the scanning LIDAR system on OSIRIS-REx enables for high surface sample rates in spite of the low ground-track velocities~\cite{daly2017}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
 Given the time total time of flight ($\Delta TOF$) the distance can be accurately computed using \( d = \frac{c \Delta TOF }{2} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
-Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \R^{3 \times 3 } \), we can compute a direction from the spacecraft to the measurement location on the surface.
-The output of this sensor is a vector, \( \vc{d}_i\in\Re^3 \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
+Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \SO \), we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vc{d}_i\in\R^3 \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
 \begin{align*}
     \vc{p}_i = R_A^T (x+R \vc{d}_i), 
@@ -362,16 +362,16 @@ More specifically, the radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\
 \begin{align*}
     v_i \sim \mathcal{N}(r_i, w_i^2)
 \end{align*}
-where \( r_i\in\Re \) is the initial estimate of the radial distance of the $i$-th vertex \( \vc{v}_i\in\Re\), and \( w_i\in\Re \) is the initial variance, or confidence, in the radial distance.
+where \( r_i \in \R \) is the initial estimate of the radial distance of the $i$-th vertex \( \vc{v}_i\in\R\), and \( w_i\in\R \) is the initial variance, or confidence, in the radial distance.
 
 In order to reduce the computational demands, which are typical in point cloud applications, we do not update the complete shape model for each measurement.
-Instead we define an area of interest, \( \Delta S\in\Re \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+Instead we define an area of interest, \( \Delta S\in\R \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
 We relate \( \Delta S \) to an equivalent angular constraint using
 \begin{align}\label{eq:region_of_interest}
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
 % shankar: brillouin is correct. https://arc.aiaa.org/doi/10.2514/6.2014-4302
-where \( r_b \in \Re \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+where \( r_b \in \R \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update defined as follows.
 
 Each measurement is defined by the index \( j \) while the associated vertex satisfying \cref{eq:region_of_interest} is defined by \( i \). 
@@ -380,7 +380,7 @@ The radial distance of each measurement, \( p_{j,i} = \norm{\vc{p}_j}\), is also
 \begin{align*}
     p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
 \end{align*}
-where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i} \in\Re\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
+where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i} \in\R\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
 
 The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
 Here, we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
@@ -431,7 +431,7 @@ A sequential process can be used to iteratively update the shape estimate given 
 
 In this section, we demonstrate the use of the incremental shape reconstruction algorithm with asteroids 1620 Geographos and 6489 Golevka.
 Their properties are listed at \Cref{tab:kinematic_asteroids}.
-Truth shape models for Geographos adn Golevka are computed based on Earth based radar measurements~\cite{neese2004}.
+Truth shape models for Geographos and Golevka are computed based on Earth based radar measurements~\cite{neese2004}.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lccc}
@@ -529,14 +529,14 @@ We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimat
     J_i (x, R, R_A) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(x_r) + \alpha_c J_{c_i}(x_r)
 \end{align}
 where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
-The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \R^{3\times3}\) of the spacecraft.
+The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \SO \) of the spacecraft.
 Furthermore, the knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
 
 The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
 \begin{align}\label{eq:weight_cost}
     J_{w_i} &= - \frac{w_i}{w_m}
 \end{align}
-where \( w_i \) is the uncertainty of vertex \( i \), which is defined as the variance of the radius in the preceding section, and \( w_m \in\Re \) is a maximum uncertainty used to scale the values.
+where \( w_i \) is the uncertainty of vertex \( i \), which is defined as the variance of the radius in the preceding section, and \( w_m \in\R \) is a maximum uncertainty used to scale the values.
 The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
 \begin{align}\label{eq:distance_cost}
     J_{d_i}(\rpos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\rpos \times \vc{v}_i}}{\rpos \cdot \vc{v}_i}}.
@@ -586,7 +586,7 @@ The desired attitude command is defined as
     \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
     R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
 \end{align}
-This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, and can be modified for a different camera orientation.
+This form of \( R_d \) will direct the \( b_1 \) axis towards the small body, and can be modified for a different camera orientations~\cite{kulumani2017a}.
 
 \subsection{Geometric Tracking Control}
 
@@ -625,7 +625,7 @@ Then the following properties hold:
         h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
 	\end{align*}
 \end{enumerate}
-The proof of these properties is available~\cite{kulumani2017a}.
+The proof of these properties is available in Reference~\cite{kulumani2017a}.
 
 With the appropriate attitude configuration error we now present the error dynamics, which are used in the subsequent development of the nonlinear control system.
 The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
@@ -646,7 +646,7 @@ Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive 
     u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}. \label{eqn:nodist_control}
 \end{gather}
 Then the zero equilibrium of the attitude error is asymptotically stable.
-The proof is show in~\cite{kulumani2017a}.
+The proof is show in Reference~\cite{kulumani2017a}.
 
 The required translational control are defined in terms of the position and velocity tracking errors.
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
@@ -833,7 +833,7 @@ As a result, a uniformly high resolution shape would quickly become intractable 
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
 
 Once a suitable landing site is selected, the surrounding area is isolated and refined by adding new vertices and faces in the specified area.
-The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
+The goal of refinement, or more generally remeshing, is given a mesh (or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
 In this work, we utilize the isotropic remeshing algorithm implemented in the Computational Geometry and Algorithms Library (CGAL)~\cite{cgalproject2018}.
 This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
 % TODO Think about adding PMP 6.12 image here
