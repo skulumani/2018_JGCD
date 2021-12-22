@@ -193,7 +193,6 @@ This type of approach allows for the spacecraft to maneuver and land on the aste
 \section{Problem Formulation}\label{sec:problem}
 
 In this paper, we consider the motion of a dumbbell model of spacecraft around an asteroid.
-The dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics.
 The dumbbell is defined by two spherical masses of radius \( r_1, r_2 \in \R \) with masses \( m_1, m_2 \in  \R\).
 The masses are separated by a massless rod of length \( l \) and attached to the centers of each mass.
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
@@ -247,7 +246,7 @@ where \( \rho_i \in\Re^3 \) defines the position of each mass in the spacecraft 
 The control inputs to the spacecraft are defined by \( u_f, u_m \in \Re^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively.
 The standard moment of inertia of the dumbbell model is 
 \begin{align}\label{eq:dumbbell_moment_of_inertia}
-    J_I = \sum_i^n J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
+    J_I = \sum_i^n J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I_{3\times 3} - \vc{\zeta}_i \vc{\zeta}_i^T} , 
 \end{align}
 where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed frame and the moment of inertia of each sphere is
 \begin{align}\label{eq:sphere_moment_of_inertia}
@@ -261,8 +260,8 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
 We utilize a nonstandard moment of inertia in the equations of motion, \( J_d \in \R^{3 \times 3 } \), which is related to the standard moment of inertia by
 \begin{subequations}\label{eq:moi_transformation}
     \begin{align}
-        J &= \tr{J_d} I - J_d, \label{eq:moi_ns2s}\\
-        J_d &= \frac{1}{2} \tr{J} I - J.\label{eq:moi_s2ns}
+        J &= \tr{J_d} I_{3\times 3} - J_d, \label{eq:moi_ns2s}\\
+        J_d &= \frac{1}{2} \tr{J} I_{3\times 3} - J.\label{eq:moi_s2ns}
     \end{align}
 \end{subequations}     
 The gravitational moment on the dumbbell \( \vc{M}_i\) is defined as
@@ -317,7 +316,7 @@ These equations are utilized to compute the gravitational potential of  the pres
 One of the first tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid.
-Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
+Additionally, we assume that the shape estimate is a triangular faceted, closed surface mesh, emulating those used in practice to represent asteroids.
 Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
 In this section, we present a stochastic formulation to update the initial estimate of the shape incrementally based on range measurements from spacecraft in real time. 
 
@@ -328,7 +327,7 @@ Recent missions such as OSIRIS-REx have featured a scanning LIDAR system which a
 In these mission, ranging measurements are combined with imagery to derive a shape model using a ground based method~\cite{gaskell2008}.
 In constrast to previous missions, the scanning LIDAR system on OSIRIS-REx enables for high surface sample rates in spite of the low ground-track velocities~\cite{daly2017}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
-Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF }{2} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
+Given the time total time of flight ($\Delta TOF$) the distance can be accurately computed using \( d = \frac{c \Delta TOF }{2} \) where \( c = \SI{2.998e8}{\meter\per\second}\) is the constant speed of light.
 Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \( R \in \R^{3 \times 3 } \), we can compute a direction from the spacecraft to the measurement location on the surface.
 The output of this sensor is a vector, \( \vc{d}_i\in\Re^3 \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
@@ -340,7 +339,7 @@ which is the vector from the origin of the asteroid fixed frame to the surface p
 Given many measurements, \( \vc{p}_i \in \R^3 \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
 The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
-These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called \textit{point cloud}, allows us to reconstruct the shape.
+These measurements provide a collection of points to form so called \textit{point cloud}, which allows us to reconstruct the shape.
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{castalia_raycasting_plot.jpg}
@@ -372,7 +371,7 @@ We relate \( \Delta S \) to an equivalent angular constraint using
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
 % shankar: brillouin is correct. https://arc.aiaa.org/doi/10.2514/6.2014-4302
-where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+where \( r_b \in \Re \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update defined as follows.
 
 Each measurement is defined by the index \( j \) while the associated vertex satisfying \cref{eq:region_of_interest} is defined by \( i \). 
@@ -381,7 +380,7 @@ The radial distance of each measurement, \( p_{j,i} = \norm{\vc{p}_j}\), is also
 \begin{align*}
     p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
 \end{align*}
-where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
+where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i} \in\Re\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
 
 The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
 Here, we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
@@ -413,7 +412,7 @@ Larger values of \( \Delta \sigma_{max} \) result in a greater computational dem
 The scalar \( c \) may then be used to adjust the variance \( w_{j,i} \) as a function of the distance between measurement \( j \) and vertex \( i \).
 These two parameters may be used to minimize steep gradients that may occur during the shape reconstruction process.
 
-From Bayes' theorem, the a posterior probability of the vertex radius is given by
+From Bayes' theorem, the a posteriori probability of the vertex radius is given by
 \begin{align}
     p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
 \end{align}
@@ -458,7 +457,7 @@ LIDAR measurements are generated until the total uncertainty of the model
 is sufficiently small.
 This uncertainty metric is the summation of the uncertainty of each vertex of the shape estimate.
 As a result, a small total uncertainty is used to indicate that additional measurements would not substantially modify the shape.
-In addition, we compute the volume of the estimated shape and compare against the volume of the truth shape model~\cite{neese2004}.
+In addition, we compute the volume of the estimated shape and compare it against the volume of the truth shape model~\cite{neese2004}.
 
 \begin{figure}[htbp]
     \centering
@@ -475,7 +474,7 @@ In addition, we compute the volume of the estimated shape and compare against th
 
 \paragraph{Asteroid \num{1620} Geographos Reconstruction} 
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
-Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth.
 \Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
 Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
 In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
@@ -489,7 +488,7 @@ The plots show that the reconstruction achieves an accurate shape estimate with 
 
 \paragraph{Asteroid \num{6489} Golevka Reconstruction} 
 Next, \num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
-Discovered in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+Discovered in \num{1995}, Golevka is another potentially hazardous asteroid which passes close to the Earth.
 \Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
 \begin{figure}[htbp]
     \centering
@@ -529,9 +528,9 @@ We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimat
 \begin{align}\label{eq:explore_cost}
     J_i (x, R, R_A) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(x_r) + \alpha_c J_{c_i}(x_r)
 \end{align}
-where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
+where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
 The cost function is defined as a function of the current inertial position, \( x \in \R^3 \), and the attitude, \( R \in \R^{3\times3}\) of the spacecraft.
-Furthermore, knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
+Furthermore, the knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( x_r = R_A^T x\).
 
 The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
 \begin{align}\label{eq:weight_cost}
@@ -553,7 +552,7 @@ Then a desired trajectory \( x_d(\theta) \) as
 \begin{align}\label{eq:spherical_waypoint}
     x_d(\theta) = r_d \exp{\parenth{\theta \hat{\vc{n}_i}} } \frac{\rpos}{\norm{\rpos}},
 \end{align}
-where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
+where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R\) parameterizes the desired trajectory.
 \Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}, with a desired radius $r_d$.
 The radius of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characteristics of safety concerns.
 For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
@@ -796,7 +795,7 @@ In this section, we extend the previous shape update approach to enable a much h
 
 The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
 In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
-This approach allows for a spacecraft to autonomously select and land on small body.
+This approach allows for a spacecraft to autonomously select and to land on small body.
 
 The surface slope is computed according to the method developed in Reference~\cite{scheeres1996}.
 Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
@@ -809,7 +808,7 @@ Then the surface slope can be computed from
 \begin{align}\label{eq:surface_slope}
     \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
 \end{align}
-where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
+where \( \phi \in \R \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
 If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
 
 Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
