@@ -4,7 +4,9 @@
 \def\cl@chapter{}
 \makeatother
 %%
-\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+\documentclass[]{article}       % onecolumn (second format)
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
 \usepackage{AAS_packages}
 %\usepackage[numbers]{natbib}
 % \usepackage[utf8]{inputenc}
@@ -12,6 +14,13 @@
 % \usepackage[version=4]{mhchem}
 % \usepackage{longtable,tabularx}
 % \setlength\LTleft{0pt} 
+
+\setlength{\headheight}{17pt}
+\pagestyle{fancyplain}
+\lhead[]{}
+\chead[]{}
+\rhead[]{}
+\fancyhf[C]{\color{red}{Please use citation: Kulumani, S., Lee, T. Bayesian Shape Reconstruction and Optimal Guidance for Autonomous Landing on Asteroids. J Astronaut Sci (2022). \url{https://doi.org/10.1007/s40295-022-00310-6}}}
 
 \newcommand{\todo}[1]{\vspace{5 mm}\par \noindent
 \marginpar{\textsc{ToDo}} \framebox{\begin{minipage}[c]{0.95
@@ -21,22 +30,23 @@
 
 \title{Bayesian Shape Reconstruction and Optimal Guidance for Autonomous Landing on Asteroids}
 
-\author{Shankar Kulumani         \and
-        Taeyoung Lee %etc.
+\author{
+    Shankar Kulumani \and Taeyoung Lee
 }
+
 
 %\authorrunning{Short form of author list} % if too long for running head
 
-% todo: we may update the affiliation and the address of Shankar 
-\institute{S. Kulumani (corresponding author) \at
-              The Johns Hopkins University, Applied Physics Laboratory, Laurel, MD 20723\\
-              \email{shankar.kulumani@jhuapl.edu}           %  \\
-%             \emph{Present address:} of F. Author  %  if needed
-           \and
-           T. Lee,  \at
-              Mechanical and Aerospace Engineering, The George Washington University, Washington DC, 20052\\
-              \email{tylee@gwu.edu}
-}
+% % todo: we may update the affiliation and the address of Shankar 
+% \institute{S. Kulumani (corresponding author) \at
+%               The Johns Hopkins University, Applied Physics Laboratory, Laurel, MD 20723\\
+%               \email{shankar.kulumani@jhuapl.edu}           %  \\
+% %             \emph{Present address:} of F. Author  %  if needed
+%            \and
+%            T. Lee,  \at
+%               Mechanical and Aerospace Engineering, The George Washington University, Washington DC, 20052\\
+%               \email{tylee@gwu.edu}
+% }
 
 
 \begin{document}
@@ -56,7 +66,7 @@
     Finally, a multi resolution approach is presented to construct a higher fidelity shape representation in a specified location while avoiding the inherent burdens of a uniformly high resolution mesh. 
     This approach enables for an accurate shape determination around a potential landing site.
     We demonstrate this approach using several radar shape models of asteroids and provide a full dynamical simulation about asteroid 4769 Castalia.
-    \keywords{Asteroids \and Shape Construction \and Guidance \and Optimization}
+    % \keywords{Asteroids \and Shape Construction \and Guidance \and Optimization}
 \end{abstract}
 
 % \section*{Nomenclature}
