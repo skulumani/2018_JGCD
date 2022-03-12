@@ -12,7 +12,7 @@ language: bash
 #   timeout: 3600
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y texlive-base texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+  - sudo apt-get install -y texlive-full
 # - travis_wait 45 bash ./utilities/travis_setup.sh
 # - export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
 script:
