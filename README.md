@@ -15,7 +15,7 @@
 [github_last_commit]: https://github.com/skulumani/2018_JGCD/commits/master
 [github_activity]: https://github.com/skulumani/2018_JGCD/graphs/commit-activity
 
-## JGCD 
+## Bayesian Shape Reconstruction and Optimal Guidance for Autonomous Landing on Asteroids 
 
 This paper is an extension of the asteroid landing work from:
 

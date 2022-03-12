@@ -1,16 +1,20 @@
-sudo: false
-language: generic
-matrix:
-  include:
-  - os: linux
-cache:
-  directories:
-  - "/tmp/texlive"
-  - "$HOME/.texlive"
-  timeout: 3600
+sudo: require
+dist: focal
+language: bash
+# language: generic
+# matrix:
+#   include:
+#   - os: linux
+# cache:
+#   directories:
+#   - "/tmp/texlive"
+#   - "$HOME/.texlive"
+#   timeout: 3600
 before_install:
-- travis_wait 45 bash ./utilities/travis_setup.sh
-- export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
+  - sudo apt-get -qq update
+  - sudo apt-get install -y texlive-base texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra
+# - travis_wait 45 bash ./utilities/travis_setup.sh
+# - export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
 script:
 - latexmk -pdf -interaction=nonstopmode -halt-on-error manuscript.tex
 after_success: 
